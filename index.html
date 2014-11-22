@@ -1,0 +1,20 @@
+<style>
+    h2{text-align: center;}
+    a{line-height: 30px; height: 30px; display: block; width: 500px; margin: 0 auto; text-align: center;}
+</style>
+<h2>wfQuery </h2>
+<%
+    return function(){
+        var fs = require("fs");
+        fs.readdir(request.util.conf.root+"/demo/",function(error,files){ 
+            if(error){
+                response.end(  __p );
+            }else{
+                files.map(function(file){
+                  __p += '<a href="demo/'+file+'">'+file+'</a>';
+                });
+                response.end(  __p );
+            }
+        });
+    };
+%>

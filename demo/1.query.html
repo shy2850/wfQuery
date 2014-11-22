@@ -1,0 +1,20 @@
+$belong[layout.html]
+<h2>wfQuery入口方法与jQuery不同的地方</h2>
+<ul id="list">
+    <li>原型对象基于Array对象扩展</li>
+    <li>直接使用querySelectorAll, 不兼容</li>
+    <li>context参数只支持原生单个dom对象，而不支持选择器字符串或者wfQuery对象</li>
+    <li>function参数将直接运行方法</li>
+    <li>em标签 <em>1</em></li>
+    <li>a标签 <a href="">233</a></li>
+</ul>
+
+
+<script class="code">
+console.log( $() instanceof Array );
+console.log( $('ul') );
+console.log( $('ul em') );
+console.log( $('ul > li') );
+console.log( $('ul , a') );
+console.log( $('.code') );
+</script>

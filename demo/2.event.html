@@ -1,0 +1,19 @@
+$belong[layout.html]
+<h2>事件绑定支持</h2>
+<ul id="list">
+    <li>只提供一个方法 on 进行事件绑定</li>
+    <li>trigger 触发自定义以及浏览器原生事件</li>
+    <li>支持代理绑定事件, 【同jQuery】</li>
+    <li><strong>代理绑定事件增加了 多一个参数 类型为function, 当点击到代理标签内且不符合target标准时触发</strong></li>
+    <li>off 删除事件只支持按照事件类型全部删除 <em class="new-in">new-in-test</em></li>
+</ul>
+
+<script class="code">
+$('#list li').on('click',function(){
+    $(this).append( '<em class="new-in"> 我是新来的,</em>' );
+});
+
+$('#list').on('click','.new-in',function(e){
+    alert( '不管是不是延迟添加的dom, 都可以用代理绑定事件' );
+});
+</script>

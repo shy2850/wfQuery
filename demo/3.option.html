@@ -1,0 +1,41 @@
+$belong[layout.html]
+<h2>支持的方法</h2>
+<ul id="list">
+   <li>测试0 html &amp; text </li> 
+   <li>测试1 </li> 
+   <li>测试2 </li> 
+   <li>测试3 </li> 
+   <li>测试4 <a href="">a标签 </a> <input type="button" value="button"> <span style="background:#06f">span</span> </li> 
+   <li>测试5 </li> 
+</ul>
+<button class="html">html()</button>
+<button class="text">text()</button>
+<button class="eq">eq(2)</button>
+<button class="append">append()</button>
+<button class="prepend">prepend()</button>
+<button class="before">before()</button>
+<button class="after">after()</button>
+<button class="empty">empty()</button>
+<button class="html-in">html(input)</button>
+<button class="text-in">text(input)</button>
+
+<script class="code">
+var list = $("#list"), 
+    first = list.children().first(),
+    bef_aft = list.children().eq(3),
+    emp = list.children().eq(4);
+
+$('.html').on('click',function(){ alert( first.html() ); });   
+$('.text').on('click',function(){ alert( first.text() ); });   
+$('.eq').on('click',function(){ alert( list.children().eq(2).text() ); });   
+$('.after').on('click',function(){ bef_aft.append( '<li>new appender <a href="javascript:;" class="del">删除</a></li>' ) });   
+$('.before').on('click',function(){ bef_aft.before( '<li>new appender <a href="javascript:;" class="del">删除</a></li>' ) });   
+$('.append').on('click',function(){ list.append( '<li>new appender <a href="javascript:;" class="del">删除</a></li>' ) });   
+$('.prepend').on('click',function(){ list.prepend( '<li>new appender <a href="javascript:;" class="del">删除</a></li>' ) });   
+$(document).on('click','.del',function(){ $(this).parent().remove() });
+
+$('.empty').on('click',function(){ emp.empty(); });
+$('.html-in').on('click',function(){ emp.html( prompt('html 输入: ') ); });   
+$('.text-in').on('click',function(){ emp.text( prompt('text 输入: ') ); });
+
+</script>
