@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>//demo/1.query.html</title>
+    <script src="../js/wfQuery.js"></script>
+	<!-- <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script> -->
+    <style>
+    pre.code{background: #d2d2d2;padding: 4px;}
+    </style>
+</head>
+<body>
+<a href="../index.html">返回首页</a>
+
+<h2>wfQuery入口方法与jQuery不同的地方</h2>
+<ul id="list">
+    <li>原型对象基于Array对象扩展</li>
+    <li>直接使用querySelectorAll, 不兼容</li>
+    <li>context参数只支持原生单个dom对象，而不支持选择器字符串或者wfQuery对象</li>
+    <li>function参数将直接运行方法</li>
+    <li>em标签 <em>1</em></li>
+    <li>a标签 <a href="">233</a></li>
+</ul>
+
+
+<style>/*
+
+Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org>
+
+*/
+
+pre code {
+  display: block; padding: 0.5em;
+  background: #F0F0F0;
+}
+
+pre code,
+pre .ruby .subst,
+pre .tag .title,
+pre .lisp .title {
+  color: black;
+}
+
+pre .string,
+pre .title,
+pre .constant,
+pre .parent,
+pre .tag .value,
+pre .rules .value,
+pre .rules .value .number,
+pre .preprocessor,
+pre .ruby .symbol,
+pre .ruby .symbol .string,
+pre .ruby .symbol .keyword,
+pre .ruby .symbol .keymethods,
+pre .instancevar,
+pre .aggregate,
+pre .template_tag,
+pre .django .variable,
+pre .smalltalk .class,
+pre .addition,
+pre .flow,
+pre .stream,
+pre .bash .variable,
+pre .apache .tag,
+pre .apache .cbracket,
+pre .tex .command,
+pre .tex .special,
+pre .erlang_repl .function_or_atom {
+  color: #800;
+}
+
+pre .comment,
+pre .annotation,
+pre .template_comment,
+pre .diff .header,
+pre .chunk {
+  color: #888;
+}
+
+pre .number,
+pre .date,
+pre .regexp,
+pre .literal,
+pre .smalltalk .symbol,
+pre .smalltalk .char,
+pre .go .constant,
+pre .change {
+  color: #080;
+}
+
+pre .label,
+pre .javadoc,
+pre .ruby .string,
+pre .decorator,
+pre .filter .argument,
+pre .localvars,
+pre .array,
+pre .attr_selector,
+pre .important,
+pre .pseudo,
+pre .pi,
+pre .doctype,
+pre .deletion,
+pre .envvar,
+pre .shebang,
+pre .apache .sqbracket,
+pre .nginx .built_in,
+pre .tex .formula,
+pre .erlang_repl .reserved,
+pre .input_number {
+  color: #88F
+}
+
+pre .css .tag,
+pre .javadoctag,
+pre .phpdoc,
+pre .yardoctag {
+  font-weight: bold;
+}
+
+pre .keyword,
+pre .id,
+pre .phpdoc,
+pre .title,
+pre .built_in,
+pre .aggregate,
+pre .smalltalk .class,
+pre .winutils,
+pre .bash .variable,
+pre .apache .tag,
+pre .go .typename,
+pre .tex .command {
+  font-weight: bold;
+}
+
+pre .nginx .built_in {
+  font-weight: normal;
+}
+
+pre .xml .css,
+pre .xml .javascript,
+pre .xml .vbscript,
+pre .tex .formula {
+  opacity: 0.5;
+}
+</style><pre class="code">
+console.log( $() instanceof <span class="keyword">Array</span> );
+console.log( $(<span class="string">'ul'</span>) );
+console.log( $(<span class="string">'ul em'</span>) );
+console.log( $(<span class="string">'ul > li'</span>) );
+console.log( $(<span class="string">'ul , a'</span>) );
+console.log( $(<span class="string">'.code'</span>) );
+</pre><script class="code">
+console.log( $() instanceof Array );
+console.log( $('ul') );
+console.log( $('ul em') );
+console.log( $('ul > li') );
+console.log( $('ul , a') );
+console.log( $('.code') );
+</script>
+</body>
+</html>

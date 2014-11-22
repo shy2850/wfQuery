@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>//demo/4.require.html</title>
+    <script src="http://apps.bdimg.com/libs/require.js/2.1.11/require.min.js"></script>
+    <style>
+    pre.code{background: #d2d2d2;padding: 4px;}
+    </style>
+</head>
+<body>
+<a href="../index.html">返回首页</a>
+<style>
+    .select-holder{
+        display: inline-block;
+        overflow: hidden;
+        height: 24px;
+        line-height: 24px;
+    }
+    .select-holder.expended{
+        height: auto;
+    }
+    .select-holder span{
+        display: block;
+    }
+</style>
+<h2>一个模拟下拉框【使用requirejs加载】</h2>
+<select name="favi" id="favi">
+    <option value="">--请选择--</option>
+    <option value="1" selected>篮球</option>
+    <option value="2">足球</option>
+    <option value="3">排球</option>
+</select>
+<button id="exec">模拟</button>
+
+<style>/*
+
+Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org>
+
+*/
+
+pre code {
+  display: block; padding: 0.5em;
+  background: #F0F0F0;
+}
+
+pre code,
+pre .ruby .subst,
+pre .tag .title,
+pre .lisp .title {
+  color: black;
+}
+
+pre .string,
+pre .title,
+pre .constant,
+pre .parent,
+pre .tag .value,
+pre .rules .value,
+pre .rules .value .number,
+pre .preprocessor,
+pre .ruby .symbol,
+pre .ruby .symbol .string,
+pre .ruby .symbol .keyword,
+pre .ruby .symbol .keymethods,
+pre .instancevar,
+pre .aggregate,
+pre .template_tag,
+pre .django .variable,
+pre .smalltalk .class,
+pre .addition,
+pre .flow,
+pre .stream,
+pre .bash .variable,
+pre .apache .tag,
+pre .apache .cbracket,
+pre .tex .command,
+pre .tex .special,
+pre .erlang_repl .function_or_atom {
+  color: #800;
+}
+
+pre .comment,
+pre .annotation,
+pre .template_comment,
+pre .diff .header,
+pre .chunk {
+  color: #888;
+}
+
+pre .number,
+pre .date,
+pre .regexp,
+pre .literal,
+pre .smalltalk .symbol,
+pre .smalltalk .char,
+pre .go .constant,
+pre .change {
+  color: #080;
+}
+
+pre .label,
+pre .javadoc,
+pre .ruby .string,
+pre .decorator,
+pre .filter .argument,
+pre .localvars,
+pre .array,
+pre .attr_selector,
+pre .important,
+pre .pseudo,
+pre .pi,
+pre .doctype,
+pre .deletion,
+pre .envvar,
+pre .shebang,
+pre .apache .sqbracket,
+pre .nginx .built_in,
+pre .tex .formula,
+pre .erlang_repl .reserved,
+pre .input_number {
+  color: #88F
+}
+
+pre .css .tag,
+pre .javadoctag,
+pre .phpdoc,
+pre .yardoctag {
+  font-weight: bold;
+}
+
+pre .keyword,
+pre .id,
+pre .phpdoc,
+pre .title,
+pre .built_in,
+pre .aggregate,
+pre .smalltalk .class,
+pre .winutils,
+pre .bash .variable,
+pre .apache .tag,
+pre .go .typename,
+pre .tex .command {
+  font-weight: bold;
+}
+
+pre .nginx .built_in {
+  font-weight: normal;
+}
+
+pre .xml .css,
+pre .xml .javascript,
+pre .xml .vbscript,
+pre .tex .formula {
+  opacity: 0.5;
+}
+</style><pre class="code">
+<span class="keyword">require</span>([<span class="string">'../js/wfQuery'</span>],<span class="keyword">function</span>($){
+    $.fn.Select = <span class="keyword">function</span>(){
+        <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>(select){
+            <span class="keyword">var</span> index = select.children[select.selectedIndex];
+            <span class="keyword">var</span> sel = $( <span class="string">'&lt;a class="select-holder">'</span>+<span class="string">'&lt;strong>'</span>+index.innerHTML+<span class="string">'&lt;/strong>'</span> + select.innerHTML.replace(/(\&lt;[\/]?)option/ig,<span class="string">'$1span'</span>)+<span class="string">'&lt;/a>'</span> );
+            $(select).before(sel).hide();
+            $(document).on(<span class="string">'click'</span>,<span class="string">'.select-holder'</span>,<span class="keyword">function</span>(e){
+                $(<span class="keyword">this</span>).toggleClass( <span class="string">'expended'</span> );
+                <span class="keyword">var</span> tar = $(e.target), show = $(<span class="keyword">this</span>).children(<span class="string">'strong'</span>);
+                    value = tar.attr(<span class="string">'value'</span>), 
+                    _sel = $(<span class="keyword">this</span>).next();
+                <span class="keyword">if</span>( value ){
+                    _sel.val( value );
+                    show.html( tar.html() )
+                }
+            },<span class="keyword">function</span>(e){
+                $(<span class="string">'.select-holder'</span>).removeClass( <span class="string">'expended'</span> );
+            });
+        });
+    };
+    <span class="keyword">var</span> selected = <span class="keyword">false</span>;
+    $(<span class="string">'#exec'</span>).on(<span class="string">'click'</span>,<span class="keyword">function</span>(){
+        <span class="keyword">if</span>( selected ){
+            $(<span class="string">'#favi, .select-holder'</span>).toggle();
+        }<span class="keyword">else</span>{
+            selected = !selected;
+            $(<span class="string">'#favi'</span>).Select();
+        }
+        $(<span class="keyword">this</span>).html( $(<span class="keyword">this</span>).html() === <span class="string">"模拟"</span> ? <span class="string">'重置'</span> : <span class="string">"模拟"</span> ); 
+    });
+});
+</pre><script class="code">
+require(['../js/wfQuery'],function($){
+    $.fn.Select = function(){
+        return this.each(function(select){
+            var index = select.children[select.selectedIndex];
+            var sel = $( '<a class="select-holder">'+'<strong>'+index.innerHTML+'</strong>' + select.innerHTML.replace(/(\<[\/]?)option/ig,'$1span')+'</a>' );
+            $(select).before(sel).hide();
+            $(document).on('click','.select-holder',function(e){
+                $(this).toggleClass( 'expended' );
+                var tar = $(e.target), show = $(this).children('strong');
+                    value = tar.attr('value'), 
+                    _sel = $(this).next();
+                if( value ){
+                    _sel.val( value );
+                    show.html( tar.html() )
+                }
+            },function(e){
+                $('.select-holder').removeClass( 'expended' );
+            });
+        });
+    };
+    var selected = false;
+    $('#exec').on('click',function(){
+        if( selected ){
+            $('#favi, .select-holder').toggle();
+        }else{
+            selected = !selected;
+            $('#favi').Select();
+        }
+        $(this).html( $(this).html() === "模拟" ? '重置' : "模拟" ); 
+    });
+});
+</script>
+</body>
+</html>
+
