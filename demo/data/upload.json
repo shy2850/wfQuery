@@ -1,0 +1,1 @@
+<%=JSON.stringify({"fileds":request.post,"files":request.files})%>

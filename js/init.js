@@ -18,7 +18,7 @@
             }else{
                 return new init( context.querySelectorAll(selector) );              
             }
-        }else if( /\[object\sHTML/.test(type) && selector.nodeType || type === "[object global]" ){
+        }else if( /\[object\s(HTML|XML)/.test(type) && selector.nodeType || type === "[object global]" ){
             this.length = 1; 
             this[0] = selector;
             return this;

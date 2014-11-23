@@ -38,5 +38,8 @@
     /*事件操作相关方法*/
     $include[js/event.js]
 
+    /*ajax*/
+    $include[js/ajax.js]
+
     return wfQuery;
 }));

@@ -11,7 +11,9 @@
                 response.end(  __p );
             }else{
                 files.map(function(file){
-                  __p += '<a href="demo/'+file+'">'+file+'</a>';
+                    if( file.match(/\.html$/) ){
+                        __p += '<a href="demo/'+file+'">'+file+'</a>';
+                    }
                 });
                 response.end(  __p );
             }

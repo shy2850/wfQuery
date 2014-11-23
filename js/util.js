@@ -9,22 +9,73 @@
             if ( typeof obj !== "object" || obj.nodeType || obj === obj.window ) {
                 return false;
             }
-            if ( obj.constructor &&
-                    !Object.prototype.call( obj.constructor.prototype, "isPrototypeOf" ) ) {
+            if ( obj.constructor && !Object.prototype.call( obj.constructor.prototype, "isPrototypeOf" ) ) {
                 return false;
             }
             return true;
         },
-        /**
-        * @description 交叉循环, 将 ele转化成wfQuery对象后, 做笛卡尔积循环 
-        * @param {wfQuery} ele
-        * @param {Function} fn( dom, el )
-        */
-        cross_each: function(base, ele, fn){
-            return base.map(function(dom){
-                ele.forEach(function(el){
-                    fn( dom, el );
+        obj2array: function(o){
+            var res = [];
+            for(var k in o){
+                if( wfQuery.isArray(o[k]) ){
+                    o[k].forEach( function(el){
+                        res.push({
+                            name: k,
+                            value: el
+                        });
+                    } );
+                }else{
+                    res.push({
+                        name: k,
+                        value: o[k]
+                    });
+                }
+            }
+            return res;
+        },
+        param: function(a){
+            var arr;
+            if( wfQuery.isArray(a) ){
+                arr = a;
+            }else if( typeof a === "object" ){
+                arr = wfQuery.obj2array( a );
+            }else{
+                return a;
+            }
+            return arr.map(function(item){
+                if( typeof item.value === "undefined" ){ 
+                    return ""; 
+                }else{
+                    return encodeURIComponent( item.name ) + "=" + encodeURIComponent( item.value );
+                }
+            }).join("&").replace(/%20/g,"+");
+        }
+    });
+
+    wfQuery.fn.extend({
+        serializeArray: function(){
+            var form = this[0], res = [];
+            if( form && form.tagName.toUpperCase() === "FORM" ){
+                [].map.call( form.elements ,function( inp ){
+                    if( !inp.name || inp.disabled ){
+                        return ;
+                    }
+                    switch( inp.type ){
+                        case "radio":
+                        case "checkbox":
+                            if( !inp.checked ) return;
+                        case "input":
+                        default:
+                            res.push({
+                                name: inp.name,
+                                value: inp.value
+                            });
+                    }
                 });
-            });
+            }
+            return res;
+        },
+        serialize: function(){
+            return wfQuery.param( this.serializeArray() );
         }
     });

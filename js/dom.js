@@ -1,7 +1,7 @@
     
     wfQuery.fn.extend({
         /*根据创建时是否为字符串创建判断: dom操作时候是否使用复制操作*/
-        _appender: function(){
+        _appender: function(ele){
             return this.length && this[0].parentNode && this[0].parentNode.tagName === "WF" ? this.clone() : this;
         },
         append: function(ele){
@@ -27,6 +27,11 @@
         empty: function(){
             return this.each(function(dom){
                 dom.textContent = "";
+            });
+        },
+        remove: function(){
+            return this.each(function(dom){
+                dom.remove();
             });
         },
         clone: function(){

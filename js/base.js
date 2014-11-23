@@ -16,6 +16,22 @@
                     fn( dom, el );
                 });
             });
+        },
+        /**
+        * @description 例如 html/text/val 等类似方法的公用方法
+        * @param {String} name 
+        * @param {String} value
+        */
+        _get_set: function(name,value){
+            if( !this.length ){
+            }else if(typeof value === "undefined"){
+                return this[0][name];
+            }else{
+                return this.each(function(dom){
+                    dom[name] = value;
+                });
+            } 
         }
+
     });
 

@@ -1,34 +1,5 @@
     
     wfQuery.fn.extend({
-        text: function(txt){
-            if( typeof txt !== "undefined" ){
-                return this.each(function(dom){
-                    dom.textContent = txt;
-                });
-            }else{
-                return this[0].textContent;
-            }
-        },
-        html: function(html){
-            if( typeof html !== "undefined" ){
-                return this.each(function(dom){
-                    dom.innerHTML = html;
-                });
-            }else{
-                return this[0].innerHTML;
-            }
-        },
-        val: function(value){
-            if( !this.length ){
-                return null;
-            }else if(typeof value === "undefined"){
-                return this[0].value;
-            }else{
-                return this.each(function(dom){
-                    dom.value = value;
-                });
-            } 
-        },
         attr: function(name, value){
             var _this = this;
             if( !name || !this.length ){
@@ -50,6 +21,15 @@
                 return this[0].getAttribute(name);
             }
         },
+        text: function(txt){
+            return this._get_set( "textContent", txt );
+        },
+        html: function(html){
+            return this._get_set( "innerHTML", html );
+        },
+        val: function(value){
+            return this._get_set( "value", value );
+        },
         addClass: function(className){
             return this.each(function(dom){
                 dom.classList.add(className);
@@ -62,7 +42,8 @@
         },
         toggleClass: function(className){
             return this.each(function(dom){
-                dom.classList.contains(className) ? dom.classList.remove(className) : dom.classList.add(className);
+                var list = dom.classList;
+                list.contains(className) ? list.remove(className) : list.add(className);
             });
         }
     });

@@ -1,0 +1,109 @@
+$belong[layout.html]
+<h2>ajax支持</h2>
+<style>
+#form0 .inner{width: 720px;margin: 0 auto;}
+#form0 .center{text-align: center;}
+#form0 .rt{text-align: right;}
+#form0 .tip{display: inline-block; padding-left: 10px; width: 240px;font-size: 12px;}
+#form0 .tip-error{color: red;}
+</style>
+
+<form action="#" id="form0">
+    <div class="inner">
+        <table>
+            <tr>
+                <td class="center" colspan="2">
+                    <h3>会员注册</h3> 
+                </td>
+            </tr>
+            <tr>
+                <th class="rt">登录昵称：</th>
+                <td><input type="text" id="name" name="name" value="shy2850"><span class="tip">*</span></td>
+            </tr>
+            <tr>
+                <th class="rt">姓名：</th>
+                <td><input type="text" id="user_name" name="user_name" value="云香水识"><span class="tip">*</span></td>
+            </tr>
+            <tr>
+                <th class="rt">密码：</th>
+                <td><input type="password" id="pass0" name="pass0"><span class="tip">*</span></td>
+            </tr>
+            <tr>
+                <th class="rt">确认密码：</th>
+                <td><input type="password" id="pass1" name="pass1"><span class="tip">*</span></td>
+            </tr>
+            <tr>
+                <th class="rt">Email：</th>
+                <td><input type="email" id="email" value="" name="email" disabled ><span class="tip">*</span></td>
+            </tr>
+            <tr>
+                <th class="rt">QQ：</th>
+                <td><input type="text" id="qq" name="qq"  value="80704186"><span class="tip">*</span></td>
+            </tr>
+            <tr>
+                <th class="rt">性别：</th>
+                <td>
+                    <input type="radio" name="sex" id="sex1" value="1"><label for="sex1">男</label>
+                     
+                    <input type="radio" name="sex" id="sex2" value="2"><label for="sex2">女</label>
+                    <span class="tip">*</span>
+                </td>
+            </tr>
+            <tr>
+                <th class="rt">照片：</th>
+                <td>
+                    <input type="file" name="img" id="img">
+                    <span class="tip">*</span>
+                </td>
+            </tr>
+            <tr>
+                <th class="rt">个人简介：</th>
+                <td>
+                    <textarea name="info" id="info" cols="30" rows="5" placeholder="快来介绍一下自己吧！"></textarea><span class="tip">*</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="center" colspan="2">
+                    <input type="submit" value="注册">
+                     
+                    <input type="reset" value="重置">
+                </td>
+            </tr>
+        </table>
+    </div>  
+</form>
+
+<script class="code">
+/*该方法执行f2e-server指定服务器支持*/
+$.jsonp('data/jsonp.js',{a:3},function(d){
+    console.log(d);
+});
+
+$.ajax({
+    url: "data/note.xml",
+    dataType: "xml",
+    cache: false,
+    success: function(xml){
+        console.log( $( xml ).children().children() );
+    }
+});
+
+$("#form0").on("submit",function(e){
+    /*该方法执行需要f2e-server服务器支持*/
+    $.ajax({
+        url: "/upload?target=demo/data/upload.json&uploadUrl=demo/data/",
+        type: "post",
+        form: this,
+        success: function( json ){
+            console.log( json );
+        },
+        error: function(xhr){
+            alert( 'wrong' )
+        }
+    });
+    e.preventDefault();
+});
+
+
+
+</script>
