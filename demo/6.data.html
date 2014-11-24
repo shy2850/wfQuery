@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>//demo/1.query.html</title>
-    <script src="../js/wfQuery.js?debug=&_t=1416845332915"></script>
+	<title>//demo/6.data.html</title>
+    <script src="../js/wfQuery.js?debug=&_t=1416845333027"></script>
 	<!-- <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script> -->
     <style>
     pre.code{background: #d2d2d2;padding: 4px;}
@@ -12,16 +12,11 @@
 <body>
 <a href="../index.html">返回首页</a>
 
-<h2>wfQuery入口方法与jQuery不同的地方</h2>
-<ul id="list">
-    <li>原型对象基于Array对象扩展</li>
-    <li>直接使用querySelectorAll, 不兼容</li>
-    <li>context参数只支持原生单个dom对象，而不支持选择器字符串或者wfQuery对象</li>
-    <li>function参数将直接运行方法</li>
-    <li>em标签 <em>1</em></li>
-    <li>a标签 <a href="">233</a></li>
-</ul>
+<h2>数据绑定支持</h2>
 
+<ul id="list">
+    <li><input type="text" id="email" class="first" data-url="http://github.com" data-valid="{required:true,type:'email'}"></li>
+</ul>
 
 <style>/*
 
@@ -145,19 +140,21 @@ pre .tex .formula {
   opacity: 0.5;
 }
 </style><pre class="code">
-console.log( $() instanceof <span class="keyword">Array</span> );
-console.log( $(<span class="string">'ul'</span>) );
-console.log( $(<span class="string">'ul em'</span>) );
-console.log( $(<span class="string">'ul > li'</span>) );
-console.log( $(<span class="string">'ul , a'</span>) );
-console.log( $(<span class="string">'.code'</span>) );
+
+console.log( $(<span class="string">"#list > li > input"</span>).first().data(<span class="string">"valid"</span>) );
+
+$(<span class="string">"#email"</span>).data(<span class="string">"valid"</span>,{date: +<span class="keyword">new</span> Date});
+
+console.log( $(<span class="string">".first"</span>).data(<span class="string">"valid"</span>) );
+
 </pre><script class="code">
-console.log( $() instanceof Array );
-console.log( $('ul') );
-console.log( $('ul em') );
-console.log( $('ul > li') );
-console.log( $('ul , a') );
-console.log( $('.code') );
+
+console.log( $("#list > li > input").first().data("valid") );
+
+$("#email").data("valid",{date: +new Date});
+
+console.log( $(".first").data("valid") );
+
 </script>
 <a href="https://github.com/shy2850/wfQuery.git" target="_"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>
 </body>
