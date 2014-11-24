@@ -1,25 +1,41 @@
-    
+    var cache = {}, __n = 0;
     wfQuery.fn.extend({
         attr: function(name, value){
-            var _this = this;
-            if( !name || !this.length ){
-                return null;
-            }else if( typeof name === "string" && typeof value !== "undefined" ){
-                var o = {};
-                o[name] = value;
-                return this.attr(o);
-            }else if( typeof name === "object" ){
-                for(var i in name){
-                    (function(n,v){
-                        _this.each(function(dom){
-                            dom.setAttribute( n, v );
-                        });
-                    })(i,name[i]);
+            return this._attr(name, value, function(name){
+                return name ? this.getAttribute(name) : this.attributes;
+            },function(n, v){
+                typeof v === "undefined" ? this.removeAttribute(n) : this.setAttribute(n, v);
+            });
+        },
+        data: function(name, value){
+            return this._attr(name, value, function(name){
+                var key = this.wfQueryCacheKey, o;
+                if( key ){
+                    o = cache[key];
+                }else{
+                    this.wfQueryCacheKey = key = "wf_" + (__n++);
+                    o = cache[key] = wfQuery.array2obj( 
+                        [].filter.call(this.attributes,function(item){
+                            return !!item.name.match(/data-/);
+                        }).map(function(i){ 
+                            var value = i.value;
+                            try{
+                                value = new Function( "return " + value )();
+                            }catch(e){
+                            }
+                            return {name: i.name.split("-")[1], value: value}; 
+                        })
+                    );
                 }
-                return this;
-            }else{
-                return this[0].getAttribute(name);
-            }
+                return name ? o[name] : o;
+            },function(n, v){
+                var key = this.wfQueryCacheKey, o = cache[key] || {};
+                if( v === "undefined" ){
+                    delete o[n];
+                }else{
+                    o[n] = v;
+                };
+            });
         },
         text: function(txt){
             return this._get_set( "textContent", txt );

@@ -1,0 +1,16 @@
+$belong[layout.html]
+<h2>数据绑定支持</h2>
+
+<ul id="list">
+    <li><input type="text" id="email" class="first" data-url="http://github.com" data-valid="{required:true,type:'email'}"></li>
+</ul>
+
+<script class="code">
+
+console.log( $("#list > li > input").first().data("valid") );
+
+$("#email").data("valid",{date: +new Date});
+
+console.log( $(".first").data("valid") );
+
+</script>

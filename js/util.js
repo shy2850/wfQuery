@@ -33,6 +33,19 @@
             }
             return res;
         },
+        array2obj: function(a){
+            var res = {};
+            a.forEach(function(i){
+                if( wfQuery.isArray( res[i.name] ) ){
+                    res[i.name].push( i.value );
+                }else if( typeof res[i.name] === "string" ){
+                    res[i.name] = [ res[i.name], i.value ];
+                }else{
+                    res[i.name] = i.value;
+                }
+            });
+            return res;
+        },
         param: function(a){
             var arr;
             if( wfQuery.isArray(a) ){
