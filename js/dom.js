@@ -31,7 +31,7 @@
         },
         remove: function(){
             return this.each(function(dom){
-                dom.remove();
+                dom.parentNode.removeChild(dom);
             });
         },
         clone: function(){

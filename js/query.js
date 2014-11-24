@@ -1,4 +1,6 @@
-    
+    var p = document.createElement('p'), w3cMatches = ["matchesSelector","webkitMatchesSelector","msMatchesSelector","mozMatchesSelector","oMatchesSelector"].filter(function(i){
+        return p[i];
+    })[0];
     wfQuery.fn.extend({
         /**
          * @description  quick-get functions
@@ -31,7 +33,7 @@
             root = root || document;
 
             while( tmp && (tmp = tmp.parentNode) ){
-                if( filter && tmp.matches && tmp.matches(filter) || !filter ){
+                if( filter && tmp[w3cMatches] && tmp[w3cMatches](filter) || !filter ){
                     _parents.push( tmp )
                 }
                 if( tmp === root ){
@@ -48,7 +50,7 @@
         filter: function(match){
             var tar = [];
             this.each( function(dom){
-                if( dom.matches && dom.matches(match) ){
+                if( dom[w3cMatches] && dom[w3cMatches](match) ){
                     tar.push( dom );
                 }
             } );
@@ -71,10 +73,14 @@
         children: function(filter){
             var _children = [];
             this.each(function(dom){
-                _children = [].concat.apply(_children, wfQuery(dom.children) );
+                var children = dom.children;
+                if( !children ){
+                    children = [].filter.apply(dom.childNodes, function(el){return !!el.tagName});
+                }
+                _children = [].concat.apply(_children, wfQuery(children) );
             });
             return wfQuery( _children.filter(function(el){
-                return !filter || el.matches(filter)
+                return !filter || el[w3cMatches](filter)
             }) );
         }
     });
