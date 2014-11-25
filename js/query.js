@@ -75,7 +75,7 @@
             this.each(function(dom){
                 var children = dom.children;
                 if( !children ){
-                    children = [].filter.apply(dom.childNodes, function(el){return !!el.tagName});
+                    children = [].filter.call(dom.childNodes, function(el){return !!el.tagName});
                 }
                 _children = [].concat.apply(_children, wfQuery(children) );
             });
