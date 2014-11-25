@@ -9,7 +9,7 @@
             return wfQuery( this[0] );
         },
         eq: function(i){
-            return wfQuery( this[i] );
+            return wfQuery( this[ (this.length+i) % this.length ] );
         },
         last: function(){
             return wfQuery( this[this.length-1] );
@@ -23,6 +23,7 @@
         parent: function(){
             return wfQuery( !this[0] ? null : this[0].parentNode );
         },
+
         /**
          * @description parents 处理第一个元素的的父标签列表
          * @param {String} filter 
@@ -42,19 +43,36 @@
             }
             return wfQuery(_parents);
         },
-
-
         /**
          * @description  with muti-selectors
         **/
         filter: function(match){
             var tar = [];
-            this.each( function(dom){
-                if( dom[w3cMatches] && dom[w3cMatches](match) ){
-                    tar.push( dom );
-                }
-            } );
+            if( typeof match === "function"){   /*原生filter保留*/
+                tar = [].filter.call(this);
+            }else{
+                this.each( function(dom){
+                    if( dom[w3cMatches] && dom[w3cMatches](match) ){
+                        tar.push( dom );
+                    }
+                } );
+            }
             return wfQuery( tar );
+        },
+        not: function(no){
+            var _this = this;
+            return wfQuery( [].filter.call(_this,function(dom){
+                var flag;
+                try{
+                    flag = dom[w3cMatches] && dom[w3cMatches](no);
+                }catch(e){
+                    flag = dom === wfQuery(no)[0];
+                }
+                return !flag;
+            }) );
+        },
+        siblings: function(filter){
+            return this.parent().children(filter).not(this);
         },
         find: function(filter){
             var _children = [];
@@ -62,13 +80,6 @@
                 _children = [].concat.apply(_children, wfQuery( dom.querySelectorAll(filter) ) );
             });
             return wfQuery( _children );
-        },
-
-        has: function( ele ){
-            ele = wfQuery(ele);
-            return ele[0] && !!this.filter(function(dom){
-                return dom === ele[0];
-            }).length;
         },
         children: function(filter){
             var _children = [];
