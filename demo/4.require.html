@@ -36,8 +36,8 @@
 <script class="code">
 require(['../js/wfQuery'],function($){
     $.fn.Select = function(){
-        return this.each(function(select){
-            var index = select.children[select.selectedIndex];
+        return this.each(function(){
+            var select = this, index = select.children[select.selectedIndex];
             var sel = $( '<a class="select-holder">'+'<strong>'+index.innerHTML+'</strong>' + select.innerHTML.replace(/(\<[\/]?)option/ig,'$1span')+'</a>' );
             $(select).before(sel).hide();
             $(document).on('click','.select-holder',function(e){

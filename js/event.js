@@ -31,20 +31,20 @@
          * @description removeEventListener 
         **/
         off: function(eventType){
-            return this.each(function(dom){
-                delete dom["wf_"+eventType];
-                dom.removeEventListener( eventType );
+            return this.each(function(){
+                delete this["wf_"+eventType];
+                this.removeEventListener( eventType );
             });
         },
         trigger: function(eventType){
-            var agu = arguments;
-            return this.each(function(dom){
-                var cbks = dom["wf_"+eventType] || [];
-                if( dom[eventType] ){
-                    dom[eventType]();
+            var agu = arguments; 
+            return this.each(function(){
+                var _t = this, cbks = _t["wf_"+eventType] || [];
+                if( _t[eventType] ){
+                    _t[eventType]();
                 }else{
                     cbks.forEach(function(fn){
-                        fn.apply(dom,agu);
+                        fn.apply(_t,agu);
                     });
                 }
             });

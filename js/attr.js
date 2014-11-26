@@ -47,18 +47,18 @@
             return this._get_set( "value", value );
         },
         addClass: function(className){
-            return this.each(function(dom){
-                dom.classList.add(className);
+            return this.each(function(){
+                this.classList.add(className);
             });
         },
         removeClass: function(className){
-            return this.each(function(dom){
-                dom.classList.remove(className);
+            return this.each(function(){
+                this.classList.remove(className);
             });
         },
         toggleClass: function(className){
-            return this.each(function(dom){
-                var list = dom.classList;
+            return this.each(function(){
+                var list = this.classList;
                 list.contains(className) ? list.remove(className) : list.add(className);
             });
         }

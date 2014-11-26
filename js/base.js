@@ -1,7 +1,9 @@
     
     wfQuery.fn.extend({
         each: function(fn){
-            this.forEach(fn);
+            this.forEach(function(el,i){
+                fn.call(el,i);
+            });
             return this;
         },
         /**
@@ -11,9 +13,10 @@
         */
         cross_each: function(ele, fn){
             var ele = wfQuery(ele);
-            return this.each(function(dom){
+            return this.each(function(){
+                var _t = this;
                 ele.forEach(function(el){
-                    fn( dom, el );
+                    fn( _t, el );
                 });
             });
         },
@@ -35,8 +38,8 @@
             }else if( typeof name === "object" ){
                 for(var i in name){
                     (function(n,v){
-                        _this.each(function(dom){
-                            set.call(dom, n, v );
+                        _this.each(function(){
+                            set.call(this, n, v );
                         });
                     })(i,name[i]);
                 }
@@ -55,8 +58,8 @@
             }else if(typeof value === "undefined"){
                 return this[0][name];
             }else{
-                return this.each(function(dom){
-                    dom[name] = value;
+                return this.each(function(){
+                    this[name] = value;
                 });
             } 
         }

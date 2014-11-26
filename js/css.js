@@ -17,8 +17,9 @@
             return this.css({display:"none"});
         },
         toggle: function(){
-            return this.each(function(dom){
-                window.getComputedStyle( dom ).display === "none" ? dom.style.display = "" : dom.style.display = "none";
+            return this.each(function(){
+                var _t = this;
+                window.getComputedStyle( _t ).display === "none" ? _t.style.display = "" : _t.style.display = "none";
             });
         }
     });

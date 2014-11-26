@@ -32,10 +32,9 @@
         parents: function(filter, root){
             var _parents = [], tmp = this[0];
             root = root || document;
-
             while( tmp && (tmp = tmp.parentNode) ){
                 if( filter && tmp[w3cMatches] && tmp[w3cMatches](filter) || !filter ){
-                    _parents.push( tmp )
+                    _parents.push( tmp );
                 }
                 if( tmp === root ){
                     break;
@@ -51,9 +50,10 @@
             if( typeof match === "function"){   /*原生filter保留*/
                 tar = [].filter.call(this);
             }else{
-                this.each( function(dom){
-                    if( dom[w3cMatches] && dom[w3cMatches](match) ){
-                        tar.push( dom );
+                this.each( function(){
+                    var _t = this;
+                    if( _t[w3cMatches] && _t[w3cMatches](match) ){
+                        tar.push( _t );
                     }
                 } );
             }
@@ -76,17 +76,17 @@
         },
         find: function(filter){
             var _children = [];
-            this.each(function(dom){
-                _children = [].concat.apply(_children, wfQuery( dom.querySelectorAll(filter) ) );
+            this.each(function(){
+                _children = [].concat.apply(_children, wfQuery( this.querySelectorAll(filter) ) );
             });
             return wfQuery( _children );
         },
         children: function(filter){
             var _children = [];
-            this.each(function(dom){
-                var children = dom.children;
+            this.each(function(){
+                var _t = this, children = _t.children;
                 if( !children ){
-                    children = [].filter.call(dom.childNodes, function(el){return !!el.tagName});
+                    children = [].filter.call(_t.childNodes, function(el){return !!el.tagName});
                 }
                 _children = [].concat.apply(_children, wfQuery(children) );
             });

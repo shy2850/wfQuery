@@ -25,13 +25,13 @@
             });
         },
         empty: function(){
-            return this.each(function(dom){
-                dom.textContent = "";
+            return this.each(function(){
+                this.textContent = "";
             });
         },
         remove: function(){
-            return this.each(function(dom){
-                dom.parentNode.removeChild(dom);
+            return this.each(function(){
+                this.parentNode.removeChild(this);
             });
         },
         clone: function(){
