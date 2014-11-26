@@ -157,8 +157,8 @@ pre .tex .formula {
 </style><pre class="code">
 <span class="keyword">require</span>([<span class="string">'../js/wfQuery'</span>],<span class="keyword">function</span>($){
     $.fn.Select = <span class="keyword">function</span>(){
-        <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>(select){
-            <span class="keyword">var</span> index = select.children[select.selectedIndex];
+        <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>(){
+            <span class="keyword">var</span> select = <span class="keyword">this</span>, index = select.children[select.selectedIndex];
             <span class="keyword">var</span> sel = $( <span class="string">'&lt;a class="select-holder">'</span>+<span class="string">'&lt;strong>'</span>+index.innerHTML+<span class="string">'&lt;/strong>'</span> + select.innerHTML.replace(/(\&lt;[\/]?)option/ig,<span class="string">'$1span'</span>)+<span class="string">'&lt;/a>'</span> );
             $(select).before(sel).hide();
             $(document).on(<span class="string">'click'</span>,<span class="string">'.select-holder'</span>,<span class="keyword">function</span>(e){
@@ -189,8 +189,8 @@ pre .tex .formula {
 </pre><script class="code">
 require(['../js/wfQuery'],function($){
     $.fn.Select = function(){
-        return this.each(function(select){
-            var index = select.children[select.selectedIndex];
+        return this.each(function(){
+            var select = this, index = select.children[select.selectedIndex];
             var sel = $( '<a class="select-holder">'+'<strong>'+index.innerHTML+'</strong>' + select.innerHTML.replace(/(\<[\/]?)option/ig,'$1span')+'</a>' );
             $(select).before(sel).hide();
             $(document).on('click','.select-holder',function(e){
