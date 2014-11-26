@@ -56,6 +56,9 @@
                 this.classList.remove(className);
             });
         },
+        hasClass: function(className){
+            return !!this.filter("."+className).length;
+        },
         toggleClass: function(className){
             return this.each(function(){
                 var list = this.classList;

@@ -87,7 +87,7 @@
         }
     });
 
-    ( [ "get", "post" ] ).forEach( function( i, method ) {
+    ( [ "get", "post" ] ).forEach( function( method ) {
         wfQuery[ method ] = function( url, data, callback, type ) {
             if ( wfQuery.isFunction( data ) ) {
                 type = type || callback;
@@ -100,7 +100,7 @@
                 type: method,
                 dataType: type,
                 data: data,
-                success: _callback
+                success: callback
             });
         };
     });

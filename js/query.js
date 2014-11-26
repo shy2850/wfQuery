@@ -32,23 +32,20 @@
         parents: function(filter, root){
             var _parents = [], tmp = this[0];
             root = root || document;
-            while( tmp && (tmp = tmp.parentNode) ){
-                if( filter && tmp[w3cMatches] && tmp[w3cMatches](filter) || !filter ){
-                    _parents.push( tmp );
-                }
-                if( tmp === root ){
-                    break;
-                }
+            while( tmp && tmp != root && (tmp = tmp.parentNode) ){
+                _parents.push( tmp );
             }
-            return wfQuery(_parents);
+            return wfQuery(_parents).filter(filter);
         },
         /**
          * @description  with muti-selectors
         **/
         filter: function(match){
             var tar = [];
-            if( typeof match === "function"){   /*原生filter保留*/
-                tar = [].filter.call(this);
+            if( !match ){
+                return this;
+            }else if( typeof match === "function"){   /*原生filter保留*/
+                tar = [].filter.call(this, match);
             }else{
                 this.each( function(){
                     var _t = this;
@@ -74,6 +71,14 @@
         siblings: function(filter){
             return this.parent().children(filter).not(this);
         },
+        nextAll: function(filter){
+            var all = []
+            this.each(function(){
+                var children = $(this).parent().children(), i = children.indexOf(this);
+                all = all.concat( children.slice(i+1) );
+            });
+            return wfQuery( all ).filter(filter);
+        },
         find: function(filter){
             var _children = [];
             this.each(function(){
@@ -90,8 +95,6 @@
                 }
                 _children = [].concat.apply(_children, wfQuery(children) );
             });
-            return wfQuery( _children.filter(function(el){
-                return !filter || el[w3cMatches](filter)
-            }) );
+            return wfQuery( _children ).filter(filter);
         }
     });
