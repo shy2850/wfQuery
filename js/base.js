@@ -2,7 +2,7 @@
     wfQuery.fn.extend({
         each: function(fn){
             this.forEach(function(el,i){
-                fn.call(el,i);
+                fn.call(el,i,el);
             });
             return this;
         },
@@ -29,9 +29,7 @@
         */
         _attr: function(name, value, get, set){
             var _this = this;
-            if( !this.length ){
-                return null;
-            }else if( typeof name === "string" && typeof value !== "undefined" ){
+            if( typeof name === "string" && typeof value !== "undefined" ){
                 var o = {};
                 o[name] = value;
                 return this._attr(o, null, get, set);
@@ -45,7 +43,7 @@
                 }
                 return this;
             }else{
-                return get.call(this[0], name);
+                return this.length ? get.call(this[0], name) : null;
             }
         },
         /**

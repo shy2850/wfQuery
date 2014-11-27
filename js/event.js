@@ -25,6 +25,10 @@
                         fn2.call( this, e );
                     }
                 } : fn ,false);
+                if( dom.cloneNode && dom.cloneNode.list instanceof Array && dom.cloneNode.list.length ){
+                    console.log( dom.cloneNode.list );
+                    dom.cloneNode.list.on( options, selector, fn, fn2 );
+                }
             });
         },
         /**

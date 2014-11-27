@@ -11,6 +11,9 @@
         eq: function(i){
             return wfQuery( this[ (this.length+i) % this.length ] );
         },
+        index: function(){
+            return this.parent().children().indexOf(this[0]);
+        },
         last: function(){
             return wfQuery( this[this.length-1] );
         },

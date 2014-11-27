@@ -1,5 +1,8 @@
     
     wfQuery.extend({
+        trim: function(str){
+            return (str || "").replace(/^\s*(.*?)\s*$/,"$1");
+        },
         isFunction: function( obj ) {
             return typeof obj === "function";
         },

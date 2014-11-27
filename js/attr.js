@@ -29,7 +29,8 @@
                 }
                 return name ? o[name] : o;
             },function(n, v){
-                var key = this.wfQueryCacheKey, o = cache[key] || {};
+                var o = $(this).data();
+                var key = this.wfQueryCacheKey;
                 if( v === "undefined" ){
                     delete o[n];
                 }else{
