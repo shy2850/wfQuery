@@ -1,3 +1,1 @@
-callback({
-    date: +new Date
-});
+callback({date:+new Date});
