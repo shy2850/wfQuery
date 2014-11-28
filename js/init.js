@@ -1,1 +1,36 @@
-wfQuery.fn=wfQuery.prototype=new Array,wfQuery.fn.constructor=wfQuery;var init=wfQuery.fn.init=function(t,e){e=e||doc;var r=Object.prototype.toString.call(t);if(!t)return this;if(t.constructor===wfQuery)return t;if("[object String]"===r){var n=document.createElement("WF");return/^\s*[\<]/.test(t)?(n.innerHTML=t,new init(n.children)):new init(e.querySelectorAll(t))}if(/\[object\s(HTML|XML)/.test(r)&&t.nodeType||"[object global]"===r)return this.length=1,this[0]=t,this;if("[object HTMLCollection]"===r||"[object NodeList]"===r||"[object Array]"===r){this.length=t.length;for(var i=0;i<t.length;i++)this[i]=t[i];return this}wfQuery.isFunction(t)&&t(wfQuery)};init.prototype=wfQuery.fn;
+
+    wfQuery.fn = wfQuery.prototype = new Array();   
+    wfQuery.fn.constructor = wfQuery;
+    var init = wfQuery.fn.init = function( selector, context ) {
+        context = context || doc;
+
+        var type = Object.prototype.toString.call( selector) ;
+
+        if(!selector){
+            return this;
+        }else if( selector.constructor === wfQuery ){
+            return selector;
+        }else if( type === "[object String]" ){
+            var holder = document.createElement("WF");
+            if( /^\s*[\<]/.test(selector) ){
+                holder.innerHTML = selector;
+                return new init( holder.children );
+            }else{
+                return new init( context.querySelectorAll(selector) );              
+            }
+        }else if( /\[object\s(HTML|XML)/.test(type) && selector.nodeType || type === "[object global]" ){
+            this.length = 1; 
+            this[0] = selector;
+            return this;
+        }else if( "[object HTMLCollection]" === type || "[object NodeList]" === type || "[object Array]" === type ){
+            this.length = selector.length;
+            for (var i = 0; i < selector.length; i++) {
+                this[i] = selector[i];
+            };
+            return this;
+        }else if( wfQuery.isFunction( selector ) ){
+            selector(wfQuery);
+        }
+
+    };
+    init.prototype = wfQuery.fn;

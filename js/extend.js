@@ -1,1 +1,48 @@
-wfQuery.extend=wfQuery.fn.extend=function(){var e,r,n,t,u,f,i=arguments[0]||{},y=1,a=arguments.length,o=!1;for("boolean"==typeof i&&(o=i,i=arguments[y]||{},y++),"object"==typeof i||wfQuery.isFunction(i)||(i={}),y===a&&(i=this,y--);a>y;y++)if(null!=(e=arguments[y]))for(r in e)n=i[r],t=e[r],i!==t&&(o&&t&&(wfQuery.isPlainObject(t)||(u=wfQuery.isArray(t)))?(u?(u=!1,f=n&&wfQuery.isArray(n)?n:[]):f=n&&wfQuery.isPlainObject(n)?n:{},i[r]=wfQuery.extend(o,f,t)):void 0!==t&&(i[r]=t));return i};
+
+    wfQuery.extend = wfQuery.fn.extend = function() {
+        var options, name, src, copy, copyIsArray, clone,
+            target = arguments[0] || {},
+            i = 1,
+            length = arguments.length,
+            deep = false;
+
+        if ( typeof target === "boolean" ) {
+            deep = target;
+            target = arguments[ i ] || {};
+            i++;
+        }
+
+        if ( typeof target !== "object" && !wfQuery.isFunction(target) ) {
+            target = {};
+        }
+
+        if ( i === length ) {
+            target = this;
+            i--;
+        }
+
+        for ( ; i < length; i++ ) {
+            if ( (options = arguments[ i ]) != null ) {
+                for ( name in options ) {
+                    src = target[ name ];
+                    copy = options[ name ];
+                    if ( target === copy ) {
+                        continue;
+                    }
+                    if ( deep && copy && ( wfQuery.isPlainObject(copy) || (copyIsArray = wfQuery.isArray(copy)) ) ) {
+                        if ( copyIsArray ) {
+                            copyIsArray = false;
+                            clone = src && wfQuery.isArray(src) ? src : [];
+
+                        } else {
+                            clone = src && wfQuery.isPlainObject(src) ? src : {};
+                        }
+                        target[ name ] = wfQuery.extend( deep, clone, copy );
+                    } else if ( copy !== undefined ) {
+                        target[ name ] = copy;
+                    }
+                }
+            }
+        }
+        return target;
+    };

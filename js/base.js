@@ -1,1 +1,66 @@
-wfQuery.fn.extend({each:function(t){return this.forEach(function(n,i){t.call(n,i,n)}),this},cross_each:function(t,n){var t=wfQuery(t);return this.each(function(){var i=this;t.forEach(function(t){n(i,t)})})},_attr:function(t,n,i,e){var r=this;if("string"==typeof t&&"undefined"!=typeof n){var f={};return f[t]=n,this._attr(f,null,i,e)}if("object"==typeof t){for(var h in t)!function(t,n){r.each(function(){e.call(this,t,n)})}(h,t[h]);return this}return this.length?i.call(this[0],t):null},_get_set:function(t,n){return this.length?"undefined"==typeof n?this[0][t]:this.each(function(){this[t]=n}):void 0}});
+    
+    wfQuery.fn.extend({
+        each: function(fn){
+            this.forEach(function(el,i){
+                fn.call(el,i,el);
+            });
+            return this;
+        },
+        /**
+        * @description 交叉循环, 将 ele转化成wfQuery对象后, 做笛卡尔积循环 
+        * @param {wfQuery} ele
+        * @param {Function} fn( dom, el )
+        */
+        cross_each: function(ele, fn){
+            var ele = wfQuery(ele);
+            return this.each(function(){
+                var _t = this;
+                ele.forEach(function(el){
+                    fn( _t, el );
+                });
+            });
+        },
+        /**
+        * @description 例如 attr/data/css 等类似方法的公用方法
+        * @param {String} name 
+        * @param {String} value
+        * @param {Function} get
+        * @param {Function} set
+        */
+        _attr: function(name, value, get, set){
+            var _this = this;
+            if( typeof name === "string" && typeof value !== "undefined" ){
+                var o = {};
+                o[name] = value;
+                return this._attr(o, null, get, set);
+            }else if( typeof name === "object" ){
+                for(var i in name){
+                    (function(n,v){
+                        _this.each(function(){
+                            set.call(this, n, v );
+                        });
+                    })(i,name[i]);
+                }
+                return this;
+            }else{
+                return this.length ? get.call(this[0], name) : null;
+            }
+        },
+        /**
+        * @description 例如 html/text/val 等类似方法的公用方法
+        * @param {String} name 
+        * @param {String} value
+        */
+        _get_set: function(name,value){
+            if( !this.length ){
+            }else if(typeof value === "undefined"){
+                return this[0][name];
+            }else{
+                return this.each(function(){
+                    this[name] = value;
+                });
+            } 
+        }
+
+    });
+

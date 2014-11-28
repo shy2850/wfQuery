@@ -1,1 +1,103 @@
-var p=document.createElement("p"),w3cMatches=["matchesSelector","webkitMatchesSelector","msMatchesSelector","mozMatchesSelector","oMatchesSelector"].filter(function(t){return p[t]})[0];wfQuery.fn.extend({first:function(){return wfQuery(this[0])},eq:function(t){return wfQuery(this[(this.length+t)%this.length])},index:function(){return this.parent().children().indexOf(this[0])},last:function(){return wfQuery(this[this.length-1])},next:function(){return wfQuery(this[0]?this[0].nextElementSibling:null)},prev:function(){return wfQuery(this[0]?this[0].previousElementSibling:null)},parent:function(){return wfQuery(this[0]?this[0].parentNode:null)},parents:function(t,e){var n=[],r=this[0];for(e=e||document;r&&r!=e&&(r=r.parentNode);)n.push(r);return wfQuery(n).filter(t)},filter:function(t){var e=[];return t?("function"==typeof t?e=[].filter.call(this,t):this.each(function(){var n=this;n[w3cMatches]&&n[w3cMatches](t)&&e.push(n)}),wfQuery(e)):this},not:function(t){var e=this;return wfQuery([].filter.call(e,function(e){var n;try{n=e[w3cMatches]&&e[w3cMatches](t)}catch(r){n=e===wfQuery(t)[0]}return!n}))},siblings:function(t){return this.parent().children(t).not(this)},nextAll:function(t){var e=[];return this.each(function(){var t=$(this).parent().children(),n=t.indexOf(this);e=e.concat(t.slice(n+1))}),wfQuery(e).filter(t)},find:function(t){var e=[];return this.each(function(){e=[].concat.apply(e,wfQuery(this.querySelectorAll(t)))}),wfQuery(e)},children:function(t){var e=[];return this.each(function(){var t=this,n=t.children;n||(n=[].filter.call(t.childNodes,function(t){return!!t.tagName})),e=[].concat.apply(e,wfQuery(n))}),wfQuery(e).filter(t)}});
+    var p = document.createElement('p'), w3cMatches = ["matchesSelector","webkitMatchesSelector","msMatchesSelector","mozMatchesSelector","oMatchesSelector"].filter(function(i){
+        return p[i];
+    })[0];
+    wfQuery.fn.extend({
+        /**
+         * @description  quick-get functions
+        **/
+        first: function(){
+            return wfQuery( this[0] );
+        },
+        eq: function(i){
+            return wfQuery( this[ (this.length+i) % this.length ] );
+        },
+        index: function(){
+            return this.parent().children().indexOf(this[0]);
+        },
+        last: function(){
+            return wfQuery( this[this.length-1] );
+        },
+        next: function(){
+            return wfQuery( !this[0] ? null : this[0].nextElementSibling );
+        },
+        prev: function(){
+            return wfQuery( !this[0] ? null : this[0].previousElementSibling );
+        },
+        parent: function(){
+            return wfQuery( !this[0] ? null : this[0].parentNode );
+        },
+
+        /**
+         * @description parents 处理第一个元素的的父标签列表
+         * @param {String} filter 
+         * @param {HTMLElement} root 
+        **/
+        parents: function(filter, root){
+            var _parents = [], tmp = this[0];
+            root = root || document;
+            while( tmp && tmp != root && (tmp = tmp.parentNode) ){
+                _parents.push( tmp );
+            }
+            return wfQuery(_parents).filter(filter);
+        },
+        /**
+         * @description  with muti-selectors
+        **/
+        filter: function(match){
+            var tar = [];
+            if( !match ){
+                return this;
+            }else if( typeof match === "function"){   /*原生filter保留*/
+                tar = [].filter.call(this, match);
+            }else{
+                this.each( function(){
+                    var _t = this;
+                    if( _t[w3cMatches] && _t[w3cMatches](match) ){
+                        tar.push( _t );
+                    }
+                } );
+            }
+            return wfQuery( tar );
+        },
+        not: function(no){
+            var _this = this;
+            return wfQuery( [].filter.call(_this,function(dom){
+                var flag;
+                try{
+                    flag = dom[w3cMatches] && dom[w3cMatches](no);
+                }catch(e){
+                    flag = dom === wfQuery(no)[0];
+                }
+                return !flag;
+            }) );
+        },
+        siblings: function(filter){
+            return this.parent().children(filter).not(this);
+        },
+        nextAll: function(filter){
+            var all = []
+            this.each(function(){
+                var children = $(this).parent().children(), i = children.indexOf(this);
+                all = all.concat( children.slice(i+1) );
+            });
+            return wfQuery( all ).filter(filter);
+        },
+        find: function(filter){
+            var _children = [];
+            this.each(function(){
+                _children = [].concat.apply(_children, wfQuery( this.querySelectorAll(filter) ) );
+            });
+            return wfQuery( _children );
+        },
+        children: function(filter){
+            var _children = [];
+            this.each(function(){
+                var _t = this, children = _t.children;
+                if( !children ){
+                    children = [].filter.call(_t.childNodes, function(el){return !!el.tagName});
+                }
+                _children = [].concat.apply(_children, wfQuery(children) );
+            });
+            return wfQuery( _children ).filter(filter);
+        }
+    });

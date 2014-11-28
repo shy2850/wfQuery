@@ -1,1 +1,56 @@
-wfQuery.fn.extend({on:function(n,t,e,o){var i=(n+"").match(/\w+/g)||[];return i.length?("function"==typeof t&&(e=t,t=null),this.cross_each(i,function(i,c){i["wf_"+c]=i["wf_"+c]||[],i["wf_"+c].push(e),i.addEventListener(c,t?function(n){var i=wfQuery(n.target),c=i.parents(t);i.filter(t).length?e.call(i,n):c.length?e.call(c,n):"function"==typeof o&&o.call(this,n)}:e,!1),i.cloneNode&&i.cloneNode.list instanceof Array&&i.cloneNode.list.length&&(console.log(i.cloneNode.list),i.cloneNode.list.on(n,t,e,o))})):this},off:function(n){return this.each(function(){delete this["wf_"+n],this.removeEventListener(n)})},trigger:function(n){var t=arguments;return this.each(function(){var e=this,o=e["wf_"+n]||[];e[n]?e[n]():o.forEach(function(n){n.apply(e,t)})})}});
+    
+    wfQuery.fn.extend({
+        on: function(options, selector, fn, fn2){
+            var eventTypes = (options + "").match(/\w+/g) || [];
+            
+            if( !eventTypes.length ){
+                return this;
+            }
+
+            if( typeof selector === "function" ){
+                fn = selector;
+                selector = null;
+            }
+
+            return this.cross_each(eventTypes, function(dom, eventType){
+                dom["wf_"+eventType] = dom["wf_"+eventType] || [];
+                dom["wf_"+eventType].push(fn);
+                dom.addEventListener(eventType, selector ? function(e){
+                    var tar = wfQuery( e.target ), par = tar.parents(selector);
+                    if( tar.filter(selector).length ){
+                        fn.call( tar, e );
+                    }else if( par.length ){
+                        fn.call( par, e );
+                    }else if(typeof fn2 === "function"){
+                        fn2.call( this, e );
+                    }
+                } : fn ,false);
+                if( dom.cloneNode && dom.cloneNode.list instanceof Array && dom.cloneNode.list.length ){
+                    console.log( dom.cloneNode.list );
+                    dom.cloneNode.list.on( options, selector, fn, fn2 );
+                }
+            });
+        },
+        /**
+         * @description removeEventListener 
+        **/
+        off: function(eventType){
+            return this.each(function(){
+                delete this["wf_"+eventType];
+                this.removeEventListener( eventType );
+            });
+        },
+        trigger: function(eventType){
+            var agu = arguments; 
+            return this.each(function(){
+                var _t = this, cbks = _t["wf_"+eventType] || [];
+                if( _t[eventType] ){
+                    _t[eventType]();
+                }else{
+                    cbks.forEach(function(fn){
+                        fn.apply(_t,agu);
+                    });
+                }
+            });
+        }
+    });

@@ -1,1 +1,97 @@
-wfQuery.extend({trim:function(e){return(e||"").replace(/^\s*(.*?)\s*$/,"$1")},isFunction:function(e){return"function"==typeof e},isArray:Array.isArray,isPlainObject:function(e){return"object"!=typeof e||e.nodeType||e===e.window?!1:e.constructor&&!Object.prototype.call(e.constructor.prototype,"isPrototypeOf")?!1:!0},obj2array:function(e){var r=[];for(var n in e)wfQuery.isArray(e[n])?e[n].forEach(function(e){r.push({name:n,value:e})}):r.push({name:n,value:e[n]});return r},array2obj:function(e){var r={};return e.forEach(function(e){wfQuery.isArray(r[e.name])?r[e.name].push(e.value):r[e.name]="string"==typeof r[e.name]?[r[e.name],e.value]:e.value}),r},param:function(e){var r;if(wfQuery.isArray(e))r=e;else{if("object"!=typeof e)return e;r=wfQuery.obj2array(e)}return r.map(function(e){return"undefined"==typeof e.value?"":encodeURIComponent(e.name)+"="+encodeURIComponent(e.value)}).join("&").replace(/%20/g,"+")}}),wfQuery.fn.extend({serializeArray:function(){var e=this[0],r=[];return e&&"FORM"===e.tagName.toUpperCase()&&[].map.call(e.elements,function(e){if(e.name&&!e.disabled)switch(e.type){case"radio":case"checkbox":if(!e.checked)return;case"input":default:r.push({name:e.name,value:e.value})}}),r},serialize:function(){return wfQuery.param(this.serializeArray())}});
+    
+    wfQuery.extend({
+        trim: function(str){
+            return (str || "").replace(/^\s*(.*?)\s*$/,"$1");
+        },
+        isFunction: function( obj ) {
+            return typeof obj === "function";
+        },
+        isArray: Array.isArray,
+
+        isPlainObject: function( obj ) {
+            if ( typeof obj !== "object" || obj.nodeType || obj === obj.window ) {
+                return false;
+            }
+            if ( obj.constructor && !Object.prototype.call( obj.constructor.prototype, "isPrototypeOf" ) ) {
+                return false;
+            }
+            return true;
+        },
+        obj2array: function(o){
+            var res = [];
+            for(var k in o){
+                if( wfQuery.isArray(o[k]) ){
+                    o[k].forEach( function(el){
+                        res.push({
+                            name: k,
+                            value: el
+                        });
+                    } );
+                }else{
+                    res.push({
+                        name: k,
+                        value: o[k]
+                    });
+                }
+            }
+            return res;
+        },
+        array2obj: function(a){
+            var res = {};
+            a.forEach(function(i){
+                if( wfQuery.isArray( res[i.name] ) ){
+                    res[i.name].push( i.value );
+                }else if( typeof res[i.name] === "string" ){
+                    res[i.name] = [ res[i.name], i.value ];
+                }else{
+                    res[i.name] = i.value;
+                }
+            });
+            return res;
+        },
+        param: function(a){
+            var arr;
+            if( wfQuery.isArray(a) ){
+                arr = a;
+            }else if( typeof a === "object" ){
+                arr = wfQuery.obj2array( a );
+            }else{
+                return a;
+            }
+            return arr.map(function(item){
+                if( typeof item.value === "undefined" ){ 
+                    return ""; 
+                }else{
+                    return encodeURIComponent( item.name ) + "=" + encodeURIComponent( item.value );
+                }
+            }).join("&").replace(/%20/g,"+");
+        }
+    });
+
+    wfQuery.fn.extend({
+        serializeArray: function(){
+            var form = this[0], res = [];
+            if( form && form.tagName.toUpperCase() === "FORM" ){
+                [].map.call( form.elements ,function( inp ){
+                    if( !inp.name || inp.disabled ){
+                        return ;
+                    }
+                    switch( inp.type ){
+                        case "radio":
+                        case "checkbox":
+                            if( !inp.checked ) return;
+                        case "input":
+                        default:
+                            res.push({
+                                name: inp.name,
+                                value: inp.value
+                            });
+                    }
+                });
+            }
+            return res;
+        },
+        serialize: function(){
+            return wfQuery.param( this.serializeArray() );
+        }
+    });
