@@ -7,39 +7,39 @@ $belong[layout.html]
 	<fieldset >
 		<legend>输入面板</legend>
 		<form action="#" id="form">
-			<textarea name="msg" id="msg" style="width:300px;margin-right:20px;" placeholder="输入信息"></textarea>
-			我的名字：<input type="text" name="name" id="name" value="小小兵"> <br>
+			<input type="text" name="msg" id="msg" style="width:300px;margin-right:20px;" placeholder="输入信息" required >
+			我的名字：<input type="text" name="name" id="name" placeholder="[昵称]" required > <br><br>
 			<input type="submit" value="发送">
 		</form>
 	</fieldset>
 </div>
 <script>
 (function($) {
-	var time = +new Date;
+	var root = "http://182.92.234.110:8973";
+	var time = "", chat = $("#chat");
 
 	$("#form").on("submit",function(e){
 		e.preventDefault();
-		$.jsonp("http://localhost:8973",{
+		$.jsonp(root,{
 			name: $("#name").val(),
 			method:"push",
 			msg: $("#msg").val()
 		},function(d){
-			console.log(d);
+			console.log( '发送成功！' );
 		});
 	});
 
 	window.get = function(){
-		$.jsonp("http://localhost:8973",{
+		$.jsonp(root,{
 			name:$("#name").val(),
 			method:"pop",
 			time: time
 		},function(d){
 			time = d.time
-			var list = d.msgList.map(function(m){
-				return '<li>'+m.msg+'</li>';
+			d.msgList.forEach(function(m){
+				chat.append( $('<li></li>').text(m.name+":"+m.msg) );
 			});
-			$("#chat").append( $(list) );
-			setTimeout(window.get,300000)
+			window.get();
 		});
 	}
 

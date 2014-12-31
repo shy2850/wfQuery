@@ -12,14 +12,16 @@ http.createServer(function (req, resp){
 	var repeat = 0,
 		res = querystring.parse( url.parse(req.url).query );
 		resp.writeHead(200, {"Content-Type": 'application/javascript'});
+	
+	res.name = res.name || "(匿名)";
 	if(req.url.toString() === "/favicon.ico"){
 		var expires = new Date();
         expires.setFullYear( expires.getFullYear() + 1 );
 		resp.writeHead(200, {"Content-Type": 'image/x-icon',"Expires": expires});
 		resp.end("");
-	}else if( !res.name || req.method === "POST" || !res.method ){ //不接收POST请求
-		res.name = "小小兵";
-		res.msg = "小小兵加入聊天室";
+	}else if( !res.time || req.method === "POST" || !res.method ){ //不接收POST请求
+		res.msg = res.msg || "加入聊天室";
+		res.msgList = [];
 		saveMsg(res);
 		out(res,resp);
 	}else if( "push" === res.method ){
@@ -29,13 +31,13 @@ http.createServer(function (req, resp){
 		getMsg();
 	}
 	function getMsg(){
-		if( res.time !== mtime){
+		if( res.time != mtime){
 			res.msgList = list.filter(function(m){
 				return m.time > res.time;
 			});
 			res.time = mtime;
 			out(res,resp);
-		}else if(repeat > 60){
+		}else if(repeat >= 60){
 			res.msgList = [];
 			out(res,resp);
 		}else{
@@ -51,7 +53,11 @@ function out(res, resp){
 
 function saveMsg(msg){
 	mtime = msg.time = +new Date;
-	list.push(msg);
+	list.push({
+		name: msg.name,
+		msg: msg.msg,
+		time: mtime
+	});
 }
 
 function saveList(){
