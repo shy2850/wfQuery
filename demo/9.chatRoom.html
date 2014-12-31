@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>//demo/9.chatRoom.html</title>
+    <script src="../js/wfQuery.js?debug=&_t=1420037965758"></script>
+	<!-- <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script> -->
+    <style>
+    pre.code{background: #d2d2d2;padding: 4px;}
+    </style>
+</head>
+<body>
+<a href="../index.html">返回首页</a>
+
+<link rel="stylesheet" href="css/chat.style.css">
+<div id="convo" data-from="shy2850">  
+	<ul class="chat-thread" id="chat">
+		
+	</ul>
+	<fieldset >
+		<legend>输入面板</legend>
+		<form action="#" id="form">
+			<input type="text" name="msg" id="msg" style="width:300px;margin-right:20px;" placeholder="输入信息" required >
+			我的名字：<input type="text" name="name" id="name" placeholder="[昵称]" required > <br><br>
+			<input type="submit" value="发送">
+		</form>
+	</fieldset>
+</div>
+<script>
+(function($) {
+	var root = "http://182.92.234.110:8973";
+	var time = "", chat = $("#chat");
+
+	$("#form").on("submit",function(e){
+		e.preventDefault();
+		$.jsonp(root,{
+			name: $("#name").val(),
+			method:"push",
+			msg: $("#msg").val()
+		},function(d){
+			console.log( '发送成功！' );
+		});
+	});
+
+	window.get = function(){
+		$.jsonp(root,{
+			name:$("#name").val(),
+			method:"pop",
+			time: time
+		},function(d){
+			time = d.time
+			d.msgList.forEach(function(m){
+				chat.append( $('<li></li>').text(m.name+":"+m.msg) );
+			});
+			window.get();
+		});
+	}
+
+	window.get();
+})(wfQuery)
+</script>
+<a href="https://github.com/shy2850/wfQuery.git" target="_"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>
+</body>
+</html>
