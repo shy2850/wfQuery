@@ -1,0 +1,48 @@
+$belong[layout.html]
+<link rel="stylesheet" href="css/chat.style.css">
+<div id="convo" data-from="shy2850">  
+	<ul class="chat-thread" id="chat">
+		
+	</ul>
+	<fieldset >
+		<legend>输入面板</legend>
+		<form action="#" id="form">
+			<textarea name="msg" id="msg" style="width:300px;margin-right:20px;" placeholder="输入信息"></textarea>
+			我的名字：<input type="text" name="name" id="name" value="小小兵"> <br>
+			<input type="submit" value="发送">
+		</form>
+	</fieldset>
+</div>
+<script>
+(function($) {
+	var time = +new Date;
+
+	$("#form").on("submit",function(e){
+		e.preventDefault();
+		$.jsonp("http://localhost:8973",{
+			name: $("#name").val(),
+			method:"push",
+			msg: $("#msg").val()
+		},function(d){
+			console.log(d);
+		});
+	});
+
+	window.get = function(){
+		$.jsonp("http://localhost:8973",{
+			name:$("#name").val(),
+			method:"pop",
+			time: time
+		},function(d){
+			time = d.time
+			var list = d.msgList.map(function(m){
+				return '<li>'+m.msg+'</li>';
+			});
+			$("#chat").append( $(list) );
+			setTimeout(window.get,300000)
+		});
+	}
+
+	window.get();
+})(wfQuery)
+</script>
