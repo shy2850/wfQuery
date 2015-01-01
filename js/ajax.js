@@ -53,7 +53,7 @@
             };
 
             var data, form, type = opt.type.toUpperCase();
-            if( opt.form && (form = $( opt.form )[0]) && form.tagName.toUpperCase() === "FORM" ){
+            if( opt.form && (form = wfQuery( opt.form )[0]) && form.tagName.toUpperCase() === "FORM" ){
                 /*文件上传事件*/
                 if( type === "POST" ){
                     xhr.upload.addEventListener("progress",opt.onprocess);
