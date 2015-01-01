@@ -1,0 +1,68 @@
+@border-color: #ea0;
+@panel-color: #d2d2d2;
+.phone{
+    margin: 0 auto;
+    border: 2px solid @border-color;
+    &:focus{
+        box-shadow: 0 0 20px @border-color;
+        outline: none;
+    }
+    &.iphone{
+        border-radius: 25px;
+        background: #fff;
+        width: 320px;
+        .header{
+            height: 48px;
+            position: relative;
+            &:before{
+                display: block;
+                background: @panel-color;
+                width: 48px;
+                height: 6px;
+                border-radius: 3px;
+                content: " ";
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                margin: -3px -24px;
+            }
+        }
+        .screen{
+            height: 486px;
+            position: relative;
+            background: @panel-color;
+        }
+        .footer{
+            height: 40px;
+        }   
+    }
+}
+
+.screen{
+    ul,li{
+        margin: 0;
+        padding: 0;
+    }
+    ul{
+        width: 100%;
+        height: 100%;
+    }
+    li{
+        width: percentage( 1 / 3 );
+        position: relative;
+        overflow: hidden;
+        float: left;
+        img{
+            height: 100%;
+            position: absolute;
+        }
+    }
+}
+
+@media screen and (min-width:320px) {
+    .screen{
+        li{
+            height: 160px;
+        }
+    }
+}
