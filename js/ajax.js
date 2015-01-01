@@ -60,7 +60,14 @@
                 }
                 data = new FormData( form );
                 for(var t in opt.data){
-                    data.append(t,opt.data[t]);
+                    var dt = opt.data[t];
+                    if( ({}).toString.call( dt ) === "[object FileList]" ){
+                        [].forEach.call( dt, function(file){
+                            data.append(t, file);
+                        });
+                    }else{
+                        data.append(t, dt);
+                    }
                 }
             }else{
                 data = wfQuery.param( opt.data );
