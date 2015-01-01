@@ -59,6 +59,9 @@
                     xhr.upload.addEventListener("progress",opt.onprocess);
                 }
                 data = new FormData( form );
+                for(var t in opt.data){
+                    data.append(t,opt.data[t]);
+                }
             }else{
                 data = wfQuery.param( opt.data );
             }
