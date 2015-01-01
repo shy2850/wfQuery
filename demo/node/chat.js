@@ -68,7 +68,7 @@ function saveList(){
 		var n = 0, tmp;
 		while(list.length > 100){
 			tmp = list.splice(0,100);
-			fs.writeFile( "data/"+d+"-"+(n++)+".json", JSON.stringify(tmp,null,4) );
+			fs.writeFile( "data/"+stime+"-"+(n++)+".json", JSON.stringify(tmp,null,4) );
 		}
 		fs.writeFile( "data.json", JSON.stringify(list,null,4) );
 	}
