@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>//demo/9.chatRoom.html</title>
-    <script src="../js/wfQuery.js?debug=&_t=1420037965758"></script>
+    <script src="../js/wfQuery.js?debug=&_t=1420074735992"></script>
 	<!-- <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script> -->
     <style>
     pre.code{background: #d2d2d2;padding: 4px;}
@@ -33,12 +33,15 @@
 
 	$("#form").on("submit",function(e){
 		e.preventDefault();
-		$.jsonp(root,{
+		var data = {
 			name: $("#name").val(),
 			method:"push",
 			msg: $("#msg").val()
-		},function(d){
+		};
+		$("#msg").val("");
+		$.jsonp(root,data,function(d){
 			console.log( '发送成功！' );
+			$("#msg").focus();
 		});
 	});
 
