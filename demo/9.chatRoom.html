@@ -15,17 +15,24 @@ $belong[layout.html]
 </div>
 <script>
 (function($) {
-	var root = "http://182.92.234.110:8973";
-	var time = "", chat = $("#chat");
+	//var root = "http://182.92.234.110:8973";
+	var root = "http://localhost:8973";
+	var time = "", chat = $("#chat"), name;
+
+	while( !(name = window.prompt("请输入你的昵称进入聊天室!")) || name.match(/\s+/) );
+	$("#name").val(name);
 
 	$("#form").on("submit",function(e){
 		e.preventDefault();
-		$.jsonp(root,{
+		var data = {
 			name: $("#name").val(),
 			method:"push",
 			msg: $("#msg").val()
-		},function(d){
+		};
+		$("#msg").val("");
+		$.jsonp(root,data,function(d){
 			console.log( '发送成功！' );
+			$("#msg").focus();
 		});
 	});
 
@@ -44,5 +51,13 @@ $belong[layout.html]
 	}
 
 	window.get();
+
+	window.onbeforeunload = function(){
+		$.jsonp(root,{
+			name:$("#name").val(),
+			method:"exit",
+			time: time
+		});
+	};
 })(wfQuery)
 </script>

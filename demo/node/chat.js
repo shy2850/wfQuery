@@ -13,7 +13,7 @@ http.createServer(function (req, resp){
 		res = querystring.parse( url.parse(req.url).query );
 		resp.writeHead(200, {"Content-Type": 'application/javascript'});
 	
-	res.name = res.name || "(匿名)";
+	res.name = res.name ? res.name.trim() : "(匿名)";
 	if(req.url.toString() === "/favicon.ico"){
 		var expires = new Date();
         expires.setFullYear( expires.getFullYear() + 1 );
@@ -25,6 +25,10 @@ http.createServer(function (req, resp){
 		saveMsg(res);
 		out(res,resp);
 	}else if( "push" === res.method ){
+		saveMsg(res);
+		out(res,resp);
+	}else if( "exit" === res.method ){
+		res.msg = "离开聊天室";
 		saveMsg(res);
 		out(res,resp);
 	}else{
