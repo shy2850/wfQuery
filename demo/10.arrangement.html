@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>图片排列</title>
-    <link rel="stylesheet" href="phone.less">
+    <link rel="stylesheet" href="arrangement/phone.css">
     <style>
         body{
             background: #272822;
@@ -21,11 +21,11 @@
 <body>
     <h2> 
         <input type="file" name="files" id="files" placeholder="点击上传文件" multiple accept="images/*">
-        或 拖拽文件到手机屏幕
+        或 拖拽文件到屏幕
     </h2>
-    <div class="phone iphone" tabindex="1">
+    <div class="phone iphone" tabindex="1" style="width:900px;">
         <div class="header"></div>
-        <div class="screen">
+        <div class="screen" style="height:600px;">
             <ul id="main-screen">
                 
             </ul>
@@ -33,6 +33,8 @@
         <div class="footer"></div>
     </div>
 
-<script src="//apps.bdimg.com/libs/require.js/2.1.11/require.min.js" data-main="main.js"></script>
+
+
+<script src="//apps.bdimg.com/libs/require.js/2.1.11/require.min.js" data-main="arrangement/main.js?debug=true"></script>
 </body>
 </html>

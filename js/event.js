@@ -18,9 +18,9 @@
                 dom.addEventListener(eventType, selector ? function(e){
                     var tar = wfQuery( e.target ), par = tar.parents(selector);
                     if( tar.filter(selector).length ){
-                        fn.call( tar, e );
+                        fn.call( tar[0], e );
                     }else if( par.length ){
-                        fn.call( par, e );
+                        fn.call( par[0], e );
                     }else if(typeof fn2 === "function"){
                         fn2.call( this, e );
                     }
