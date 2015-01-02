@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>//demo/02.event.html</title>
+    <script src="../js/wfQuery.js?debug=&_t=1420203676007"></script>
+	<!-- <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script> -->
+    <style>
+    pre.code{background: #d2d2d2;padding: 4px;}
+    </style>
+</head>
+<body>
+<a href="../index.html">返回首页</a>
+
+<h2>事件绑定支持</h2>
+<ul id="list">
+    <li>只提供一个方法 on 进行事件绑定</li>
+    <li>trigger 触发自定义以及浏览器原生事件</li>
+    <li>支持代理绑定事件, 【同jQuery】</li>
+    <li><strong>代理绑定事件增加了 多一个参数 类型为function, 当点击到代理标签内且不符合target标准时触发</strong></li>
+    <li>off 删除事件只支持按照事件类型全部删除 <em class="new-in">new-in-test</em></li>
+</ul>
+
+<style>/*
+
+Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org>
+
+*/
+
+pre code {
+  display: block; padding: 0.5em;
+  background: #F0F0F0;
+}
+
+pre code,
+pre .ruby .subst,
+pre .tag .title,
+pre .lisp .title {
+  color: black;
+}
+
+pre .string,
+pre .title,
+pre .constant,
+pre .parent,
+pre .tag .value,
+pre .rules .value,
+pre .rules .value .number,
+pre .preprocessor,
+pre .ruby .symbol,
+pre .ruby .symbol .string,
+pre .ruby .symbol .keyword,
+pre .ruby .symbol .keymethods,
+pre .instancevar,
+pre .aggregate,
+pre .template_tag,
+pre .django .variable,
+pre .smalltalk .class,
+pre .addition,
+pre .flow,
+pre .stream,
+pre .bash .variable,
+pre .apache .tag,
+pre .apache .cbracket,
+pre .tex .command,
+pre .tex .special,
+pre .erlang_repl .function_or_atom {
+  color: #800;
+}
+
+pre .comment,
+pre .annotation,
+pre .template_comment,
+pre .diff .header,
+pre .chunk {
+  color: #888;
+}
+
+pre .number,
+pre .date,
+pre .regexp,
+pre .literal,
+pre .smalltalk .symbol,
+pre .smalltalk .char,
+pre .go .constant,
+pre .change {
+  color: #080;
+}
+
+pre .label,
+pre .javadoc,
+pre .ruby .string,
+pre .decorator,
+pre .filter .argument,
+pre .localvars,
+pre .array,
+pre .attr_selector,
+pre .important,
+pre .pseudo,
+pre .pi,
+pre .doctype,
+pre .deletion,
+pre .envvar,
+pre .shebang,
+pre .apache .sqbracket,
+pre .nginx .built_in,
+pre .tex .formula,
+pre .erlang_repl .reserved,
+pre .input_number {
+  color: #88F
+}
+
+pre .css .tag,
+pre .javadoctag,
+pre .phpdoc,
+pre .yardoctag {
+  font-weight: bold;
+}
+
+pre .keyword,
+pre .id,
+pre .phpdoc,
+pre .title,
+pre .built_in,
+pre .aggregate,
+pre .smalltalk .class,
+pre .winutils,
+pre .bash .variable,
+pre .apache .tag,
+pre .go .typename,
+pre .tex .command {
+  font-weight: bold;
+}
+
+pre .nginx .built_in {
+  font-weight: normal;
+}
+
+pre .xml .css,
+pre .xml .javascript,
+pre .xml .vbscript,
+pre .tex .formula {
+  opacity: 0.5;
+}
+</style><pre class="code">
+$(<span class="string">'#list li'</span>).on(<span class="string">'click'</span>,<span class="keyword">function</span>(){
+    $(<span class="keyword">this</span>).append( <span class="string">'&lt;em class="new-in"> 我是新来的,&lt;/em>'</span> );
+});
+
+$(<span class="string">'#list'</span>).on(<span class="string">'click'</span>,<span class="string">'.new-in'</span>,<span class="keyword">function</span>(e){
+    alert( <span class="string">'不管是不是延迟添加的dom, 都可以用代理绑定事件'</span> );
+});
+</pre><script class="code">
+$('#list li').on('click',function(){
+    $(this).append( '<em class="new-in"> 我是新来的,</em>' );
+});
+
+$('#list').on('click','.new-in',function(e){
+    alert( '不管是不是延迟添加的dom, 都可以用代理绑定事件' );
+});
+</script>
+
+<a href="https://github.com/shy2850/wfQuery.git" target="_"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>
+</body>
+</html>

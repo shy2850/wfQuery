@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>//demo/07.formValid.html</title>
+    <script src="../js/wfQuery.js?debug=&_t=1420203676025"></script>
+	<!-- <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script> -->
+    <style>
+    pre.code{background: #d2d2d2;padding: 4px;}
+    </style>
+</head>
+<body>
+<a href="../index.html">返回首页</a>
+
+<script>
+	$.fn.extend({
+		removeAttr: function(att){
+			return this.each(function(){
+				this.removeAttribute( att );
+			});
+		}
+	});
+	["change","select","focus","blur"].forEach(function(opt){
+		$.fn[opt] = function(){
+			return this.trigger(opt);
+		};
+	});
+</script>
+<script src="data/area.js"></script>
+<script src="js/selectors.js"></script>
+<script src="js/form-valid.js"></script>
+<script src="js/number-util.js"></script>
+<style>
+	body { font: 12px/1.5 Tahoma,Helvetica,Arial,'宋体',sans-serif; }
+	html, legend { color: #333; }
+	body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td {
+	    margin: 0;
+	    padding: 0;
+	}
+
+	#doc{
+	    width: 900px;
+	    margin: 20px auto;
+	}
+
+	/* 表单 */
+	.fm-input {
+	    padding: 0;
+	    color:#6d6d6d
+	}
+	.fm-item {
+	    padding:4px 0 4px 100px;
+	    line-height:26px;
+	    overflow:hidden;
+	    zoom:1
+	}
+	.fm-item-notop {
+	    padding-top:0
+	}
+	.fm-item-btn {padding-top:30px}
+	.fm-label {
+	    float: left;
+	    font-size: 12px;
+	    margin-left: -100px;
+	    text-align: right;
+	    width: 100px;
+	}
+
+	.fm-label-strong {
+	    color:#2d2d2d
+	}
+	.fm-selectbox label{
+	    vertical-align:2px;
+	}
+	.fm-selectbox select{
+	    vertical-align:middle;
+	    margin-top:3px;
+	}
+	.fm-selectbox .i-radio{
+	    margin-top:3px;
+	    *height:16px;
+	    zoom:1;
+	}
+	.fm-selectbox input.i-text{
+	    *margin-top:2px;
+	    *vertical-align:-6px;
+	}
+	.fm-selectbox .fm-link{
+	    vertical-align:2px;
+	}
+	.fm-item .sub-label {
+	    padding-right:25px;
+	}
+	.fm-item span, .fm-item input,.fm-item label,.fm-item select{
+	  vertical-align:middle;
+	}
+	.fm-item select {
+	    padding:2px;
+	    border:1px solid #7f9db9;
+	}
+	.i-text {
+	    background:#fff;
+	    height:24px;
+	    line-height:24px;
+	    padding:0 5px;
+	    border:1px solid #7f9db9;
+	    width:175px;
+	    outline:0 none
+	}
+	.i-text-ime {
+	    ime-mode:disabled;
+	}
+	.i-text-date {
+	    width:75px;
+	}
+	.i-text-num {
+	    width:25px;
+	}
+	.fm-link {
+	    display:inline-block;
+	    vertical-align:middle;
+	    line-height:26px;
+	    padding-left:3px;
+	    width:25px
+	}
+	.fm-link-left {
+	    padding-left:20px;
+	}
+	.fm-tip {
+	    display:inline-block;
+	    vertical-align:middle;
+	    line-height:22px;
+	    padding-left:10px;
+	    color:#999
+	}
+	.fm-item-focus {
+	    background:#fff0e4
+	}
+	.fm-item-focus .fm-tip {
+	    color:#666;
+	}
+	.fm-item-focus .i-text {
+	    border-color:#A6DBFF
+	}
+	.fm-item-focus select {
+	    border:1px solid #A6DBFF;
+	}
+	.fm-item-error .fm-tip {
+	    background: url(https://static.aliloan.com//aliloan/img/icon-err.png) no-repeat 2px center;
+	    padding-left:20px;
+	}
+	.fm-item-error .i-text {
+	    border-color:red
+	}
+	.fm-item-error select {
+	    border:1px solid red;
+	}
+	.fm-title {
+	    color:#fff;
+	    height:24px;
+	    background:#36baff;
+	    padding-left:5px;
+	}
+	.fm-title h2 {
+	    float: left;
+	    font-size:14px;
+	    font-weight:bold;
+	    line-height:24px;
+	    padding-right:15px;
+	}
+	.fm-title span {
+	    font-size:12px;
+	    line-height:24px;
+	    float: left;
+	}
+	.full-form .fm-input {
+	    background: #f7f6f6;
+	    padding: 20px 0;
+	    border-radius: 15px;
+	    box-shadow: 3px 3px 3px #f93;
+	}
+	.full-form .fm-item {
+	    padding: 3px 0 3px 246px
+	}
+	.full-form .fm-item .fm-label {
+	    width:240px;
+	    margin-left:-246px;
+	}
+	.full-form .terms {
+	    padding:20px 0 10px 360px
+	}
+	.full-form .terms input {
+	    vertical-align: middle;
+	    margin-right:5px;
+	    margin-top:-1px
+	}
+	.full-form .terms a {
+	    color:#0066FF
+	}
+	.full-form .btn-col {
+	    padding: 20px 0 35px;
+	    text-align:center;
+	}
+	.full-form .btn-col a {
+	    margin:0 15px;
+	    color:#0066FF
+	}
+
+
+	/* ---------- clearfix hack ---------- */
+	.clearfix:after { content: "."; display: block; clear: both; height: 0; visibility: hidden; }
+	.clearfix { display: inline-block; }
+	/* exlude MacIE5 \*/
+	* html .clearfix { height: 1% }
+	.clearfix {display:block;}
+	/* end MacIE5 */
+
+	#submit{
+	    width: 100px;
+	    height: 30px;
+	    cursor: pointer;
+	    color: #f93;
+	    border: 1px solid #aaa;
+	    background: none;
+	    background-color: #1b303c;
+	    background: -moz-linear-gradient(rgba(40, 71, 89, .9),
+	        rgba(20, 40, 50, .9) );
+	    background: -webkit-linear-gradient(rgba(40, 71, 89, .9),
+	        rgba(20, 40, 50, .9) );
+	    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,
+	        startColorstr=#284759, endColorstr=#1b303c ); /*IE<9>*/
+	    -ms-filter:
+	        "progid:DXImageTransform.Microsoft.gradient (GradientType=0, startColorstr=#284759, endColorstr=#1b303c)";
+	    _background-color: #1b303c;
+	    opacity:.8;
+	}
+	#submit:hover{
+	    opacity:1;
+	}
+	.num{
+		color: #c00;
+	}
+</style>
+<h2>表单验证插件支持</h2>
+
+	<div id="doc">
+        <div id="bd" class="clearfix">
+            <div class="full-form">
+                <form method="post" action="#" id="myForm">
+                    <div class="fm-input">
+                        <div class="fm-item">
+	                        <label class="fm-label" for="loanAmount">申请额度：</label>
+	                        <input type="text" class="i-text i-text-ime" id="loanAmount" name="_fm.a._0.a" value="">
+	                        <span class="fm-link">万元</span>
+	                        <span class="num"></span>
+	                        <span class="fm-tip"></span>
+	                    </div>
+	                    <div id="companyNameDiv" class="fm-item">
+	                        <label class="fm-label">公司名称：</label>
+	                        <input   autocomplete="off"  class="i-text inputBlur" id="CompanyName" type="text"   name="_fm.a._0.c" value=""  >
+	                        <span style="display: inline-block;" class="fm-tip"></span>
+	                    </div>
+	                    <div class="fm-item" >
+	                        <label class="fm-label">企业工商注册时间： </label>
+	                        <input  name="_fm.a._0.reg"  value="2004-4-2" type="text" class="i-text hidden-selector" id="regDate">
+	                        <span class="fm-tip"> </span>
+	                    </div>
+
+	                    <div class="fm-item" >
+	                        <label  class="fm-label">企业工商注册地：</label>
+	                        <input type="text " class="i-text hidden-selector" id="regArea"  value="110102">
+	                        <!--<input  name="_fm.a._0.r" type="text" class="i-text" id="regProvinceId"  value="3478">-->
+	                        <span class="fm-tip"> </span>
+	                    </div>
+
+	                    <div class="fm-item" >
+	                        <label class="fm-label">企业工商注册号：</label>
+	                        <input name="_fm.a._0.regc" type="text" class="i-text" id="regNo"  value="152444454547581">
+	                        <span class="fm-tip"> </span>
+	                    </div>
+
+						<div class="fm-item" id="personNameDive">
+								<label class="fm-label" for="LegalName">法定代表人姓名：</label>
+								<input class="i-text inputBlur" id="LegalName" type="text"  autocomplete="off"   name="_fm.a._0.p"    value="测试" >
+								<span class="fm-tip"></span>
+						</div>
+						<div class="fm-item" id="personMobileDiv">
+								<label class="fm-label" for="LegalPhone">法定代表人手机号：</label>
+								<input autocomplete="off"  class="i-text i-text-ime inputBlur" id="LegalPhone" type="text"  name="_fm.a._0.bi"  >
+								<span class="fm-tip"></span>
+						</div>
+						<div class="fm-item" id="persionEmailDiv">
+								<label class="fm-label" for="LegalEmail">法定代表人电子邮箱：</label>
+								<input class="i-text inputBlur" id="LegalEmail" type="text"  name="_fm.a._0.e"    autocomplete="off"  >
+								<span class="fm-tip"></span>
+						</div>
+
+
+	                    <div class="fm-item fm-selectbox">
+	                        <label class="fm-label" for="LegalEducation">企业实际控制人学历：</label>
+	                        <input autocomplete="off"  tabindex="1" id="LegalEducation1" value="1"   name="_fm.a._0.bosse" class="i-radio inputClick" type="radio">
+	                        <label for="LegalEducation1" class="sub-label">初中及以下</label>
+	                        <input autocomplete="off"  tabindex="2" id="LegalEducation2" value="2"    name="_fm.a._0.bosse" class="i-radio inputClick" type="radio">
+	                        <label for="LegalEducation2" class="sub-label">高中</label>
+	                        <input autocomplete="off"  tabindex="3" id="LegalEducation3" value="3"    name="_fm.a._0.bosse" class="i-radio inputClick" type="radio">
+	                        <label for="LegalEducation3" class="sub-label">大专</label>
+	                        <input autocomplete="off"  tabindex="4" id="LegalEducation4" value="4"     name="_fm.a._0.bosse" class="i-radio inputClick" type="radio">
+	                        <label for="LegalEducation4" class="sub-label">本科</label>
+	                        <input autocomplete="off"  tabindex="5" id="LegalEducation5" value="5"    name="_fm.a._0.bosse" class="i-radio inputClick" type="radio">
+	                        <label for="LegalEducation5" class="sub-label">硕士及以上</label>
+	                        <span class="fm-tip"></span>
+	                    </div>
+	                    
+	                    <div class="fm-item fm-selectbox">
+	                        <label class="fm-label" for="ControlMarriage">企业实际控制人婚姻状况：</label>
+	                        <input autocomplete="off"  tabindex="1" id="ControlMarriage1" value="1"      name="_fm.a._0.bossm" class="i-radio inputClick" type="radio">
+	                        <label for="ControlMarriage1" class="sub-label">未婚</label>
+	                        <input autocomplete="off"  tabindex="2" id="ControlMarriage2" value="2"    name="_fm.a._0.bossm" class="i-radio inputClick" type="radio">
+	                        <label for="ControlMarriage2" class="sub-label">已婚</label>
+	                        <input autocomplete="off"  tabindex="3" id="ControlMarriage3" value="7"    name="_fm.a._0.bossm" class="i-radio inputClick" type="radio">
+	                        <label for="ControlMarriage3" class="sub-label">离异</label>
+	                        <input autocomplete="off"  tabindex="4" id="ControlMarriage4" value="6"    name="_fm.a._0.bossm" class="i-radio inputClick" type="radio">
+	                        <label for="ControlMarriage4" class="sub-label">其他</label>
+	                        <span class="fm-tip"></span>
+	                    </div>
+	                    <div class="fm-item">
+	                        <label class="fm-label" for="Sales">企业近1年的销售总额约为： </label>
+	                        <input autocomplete="off"  class="i-text i-text-ime" id="Sales" type="text"   name="_fm.a._0.l" value="200.0" >
+	                        <span class="fm-link">万元</span>
+	                        <span class="num"></span>
+	                        <span class="fm-tip"></span>
+	                    </div>
+	                    <div class="fm-item">
+	                        <label class="fm-label" for="Sales">  </label>
+	                        <input type="submit" id="submit" value="确认提交">
+	                    </div>
+	                </div>
+                </form>
+            </div>
+        </div>    
+    </div>
+
+<style>/*
+
+Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org>
+
+*/
+
+pre code {
+  display: block; padding: 0.5em;
+  background: #F0F0F0;
+}
+
+pre code,
+pre .ruby .subst,
+pre .tag .title,
+pre .lisp .title {
+  color: black;
+}
+
+pre .string,
+pre .title,
+pre .constant,
+pre .parent,
+pre .tag .value,
+pre .rules .value,
+pre .rules .value .number,
+pre .preprocessor,
+pre .ruby .symbol,
+pre .ruby .symbol .string,
+pre .ruby .symbol .keyword,
+pre .ruby .symbol .keymethods,
+pre .instancevar,
+pre .aggregate,
+pre .template_tag,
+pre .django .variable,
+pre .smalltalk .class,
+pre .addition,
+pre .flow,
+pre .stream,
+pre .bash .variable,
+pre .apache .tag,
+pre .apache .cbracket,
+pre .tex .command,
+pre .tex .special,
+pre .erlang_repl .function_or_atom {
+  color: #800;
+}
+
+pre .comment,
+pre .annotation,
+pre .template_comment,
+pre .diff .header,
+pre .chunk {
+  color: #888;
+}
+
+pre .number,
+pre .date,
+pre .regexp,
+pre .literal,
+pre .smalltalk .symbol,
+pre .smalltalk .char,
+pre .go .constant,
+pre .change {
+  color: #080;
+}
+
+pre .label,
+pre .javadoc,
+pre .ruby .string,
+pre .decorator,
+pre .filter .argument,
+pre .localvars,
+pre .array,
+pre .attr_selector,
+pre .important,
+pre .pseudo,
+pre .pi,
+pre .doctype,
+pre .deletion,
+pre .envvar,
+pre .shebang,
+pre .apache .sqbracket,
+pre .nginx .built_in,
+pre .tex .formula,
+pre .erlang_repl .reserved,
+pre .input_number {
+  color: #88F
+}
+
+pre .css .tag,
+pre .javadoctag,
+pre .phpdoc,
+pre .yardoctag {
+  font-weight: bold;
+}
+
+pre .keyword,
+pre .id,
+pre .phpdoc,
+pre .title,
+pre .built_in,
+pre .aggregate,
+pre .smalltalk .class,
+pre .winutils,
+pre .bash .variable,
+pre .apache .tag,
+pre .go .typename,
+pre .tex .command {
+  font-weight: bold;
+}
+
+pre .nginx .built_in {
+  font-weight: normal;
+}
+
+pre .xml .css,
+pre .xml .javascript,
+pre .xml .vbscript,
+pre .tex .formula {
+  opacity: 0.5;
+}
+</style><pre class="code">
+    $(<span class="string">"#regDate"</span>).selectors({
+        beginDate: <span class="keyword">new</span> Date(<span class="string">"1990/1/1"</span>),
+        brancheValue: <span class="keyword">false</span>
+    });
+    $(<span class="string">"#regArea"</span>).selectors({
+        o:window.Area[<span class="string">"亚洲_1"</span>][<span class="string">"中国_156"</span>],
+        selectors:[
+            {name:<span class="string">"province"</span>,id:<span class="string">'china-province'</span>},
+            {name:<span class="string">"capital"</span>},
+            {name:<span class="string">"city"</span>}
+        ],
+        brancheValue: <span class="keyword">true</span>
+    });
+
+    
+
+    $.form.settings = {
+        
+        <span class="comment">/**需要提示的标签后面追加提示标签*/</span>
+        initTip:<span class="keyword">function</span>(input,defaultTip){
+            input.nextAll(<span class="string">'.fm-tip'</span>).text(defaultTip || <span class="string">""</span>);
+        },
+        
+        <span class="comment">/**默认的出错提示方案*/</span>
+        validTip : <span class="keyword">function</span>(input,errorInfo, defaultTip){
+            <span class="keyword">if</span>(errorInfo){
+                input.<span class="keyword">parent</span>().removeClass(<span class="string">'fm-item-focus'</span>).addClass(<span class="string">'fm-item-error'</span>);
+                input.nextAll(<span class="string">'.fm-tip'</span>).text(errorInfo);
+                <span class="comment">//alert(errorInfo);</span>
+            }<span class="keyword">else</span>{
+                input.<span class="keyword">parent</span>().removeClass(<span class="string">'fm-item-focus'</span>).removeClass(<span class="string">'fm-item-error'</span>);
+                input.nextAll(<span class="string">'.fm-tip'</span>).text(defaultTip || <span class="string">""</span>);
+            }
+        }
+    };
+
+
+    $.form.render({
+            <span class="string">"#loanAmount"</span> : {		<span class="comment">//贷款额度</span>
+                option: <span class="string">"blur keyup"</span>,
+                defaultTip : <span class="string">'申贷额度5-100万'</span>,
+                regexp : /^<span class="number">100</span>$|^([<span class="number">1</span>-<span class="number">9</span>][<span class="number">0</span>-<span class="number">9</span>])$|^([<span class="number">0</span>]?[<span class="number">5</span>-<span class="number">9</span>])$/,
+                errorTip : <span class="string">"请输入整数,申贷额度5-100万"</span>,
+                success : <span class="keyword">function</span>(input){
+                    <span class="keyword">var</span> value = input.val(),num = NumberUtil.toRMB(value*<span class="number">10000</span>);
+                    input.nextAll(<span class="string">'.num'</span>).text(num);
+                },
+                failed : <span class="keyword">function</span>(input){
+                    input.nextAll(<span class="string">'.num'</span>).text(<span class="string">""</span>);
+                }
+            },
+            <span class="string">"#CompanyName"</span> : {
+                errorTip : <span class="string">"请保证与营业执照上的一致"</span>,
+                minlen : <span class="number">2</span>,
+                maxlen : <span class="number">100</span>,
+                lenTip : <span class="string">"企业名称为2-100个字"</span>,
+                regexp : /^[ a-zA-Z0-<span class="number">9</span>-;:\<span class="string">"\'\(\),\.；：“”〔〕（），。、&amp; \u4e00-\u9fa5]+$/,
+                validFun : function(v){
+                    var validReturn = {
+                            errorInfo : ''
+                        };
+                    if(/^[0-9]+$/.test(v)){
+                        validReturn.errorInfo = "</span>不能全为数字<span class="string">";
+                    }else if(/^[a-zA-Z]+$/.test(v)){
+                        validReturn.errorInfo = "</span>不能全为字母<span class="string">";
+                    }else{
+                        //DO Nothing
+                    }
+                    return validReturn;
+                }
+            },
+            "</span><span class="comment">#LegalName" : {		//法人|实际控制人姓名</span>
+                type : <span class="string">"chinese"</span>,
+                minlen : <span class="number">2</span>,
+                maxlen : <span class="number">20</span>,
+                errorTip : <span class="string">"请正确填写, 如:金熙 "</span>
+            },
+            <span class="string">"#LegalPhone"</span> : {	<span class="comment">//法人|实际控制人手机号</span>
+                requiredTip : <span class="string">"这里必填哦！以便我们把贷款信息同步给您"</span>,
+                type : <span class="string">"mobile"</span>,
+                errorTip : <span class="string">"请填写11位英文状态下的数字"</span>
+            },
+            <span class="string">"#LegalEmail"</span> : {		<span class="comment">//法人|实际控制人邮箱</span>
+                requiredTip : <span class="string">"这里必填哦！以便我们把贷款信息同步给您"</span>,
+                type : <span class="string">"email"</span>,
+                errorTip : <span class="string">"请正确填写，如jinxi@aliloan.com"</span>
+            },
+            <span class="string">"#LegalEducation1,#LegalEducation2,#LegalEducation3,#LegalEducation4,#LegalEducation5"</span> : {		<span class="comment">//实际控制人学历状况</span>
+                option : <span class="string">"click"</span>,
+                begin : <span class="keyword">function</span>(input){
+                    <span class="keyword">return</span> input.<span class="keyword">parent</span>().children(<span class="string">':checked'</span>).val();
+                }
+            },
+            <span class="string">"#ControlMarriage1,#ControlMarriage2,#ControlMarriage3,#ControlMarriage4"</span> : {			<span class="comment">//实际控制人婚姻状况</span>
+                option : <span class="string">"click"</span>,
+                begin : <span class="keyword">function</span>(input){
+                    <span class="keyword">return</span> input.<span class="keyword">parent</span>().children(<span class="string">':checked'</span>).val();
+                }
+            },
+            <span class="string">"#Sales"</span> : {					<span class="comment">//企业近1年的销售总额：</span>
+                option : <span class="string">"blur keyup"</span>,
+                defaultTip : <span class="string">'包括开票和不开票，网站和线下的销售总和'</span>,
+                errorTip   : <span class="string">'请正确填写1000000以内（不含）的任一数字，例如销售额500万，填写“500”即可'</span>,
+                regexp : /^([<span class="number">0</span>-<span class="number">9</span>]{<span class="number">0</span>,<span class="number">6</span>}?)(\.[<span class="number">0</span>-<span class="number">9</span>]{<span class="number">1</span>,<span class="number">2</span>})?$/,
+                validFun: <span class="keyword">function</span>(v){
+                    <span class="keyword">return</span> { errorInfo : Number(v) ? <span class="string">''</span> : <span class="string">'企业近1年的销售总额不得为0'</span> };
+                },
+                success : <span class="keyword">function</span>(input){
+                    <span class="keyword">var</span> value = input.val(),num = NumberUtil.toRMB(value*<span class="number">10000</span>);
+                    input.nextAll(<span class="string">'.num'</span>).text(num);
+                },
+                failed : <span class="keyword">function</span>(input){
+                    input.nextAll(<span class="string">'.num'</span>).text(<span class="string">""</span>);
+                }
+            },
+            <span class="string">"#regDate"</span> : {
+            option : <span class="string">"blur change"</span>,
+            defaultTip : <span class="string">"营业执照上的成立日期，需满两年，如遇营业执照变更的可按老成立日期填写。"</span>,
+            requiredTip: <span class="string">"这里必填哦！请填写营业执照上的成立日期。"</span>
+        },
+        <span class="string">"#regArea"</span> : {
+            option : <span class="string">"blur change"</span>,
+            defaultTip : <span class="string">"需在阿里信用贷款开放区域内：浙江、江苏、上海。"</span>,
+            requiredTip:<span class="string">"这里必填哦！请填写营业执照注册地。"</span>,
+                    validFun: <span class="keyword">function</span>(){
+                        <span class="keyword">var</span> p = {<span class="string">'330000'</span>:<span class="string">'浙江'</span>,<span class="string">'320000'</span>:<span class="string">'江苏'</span>,<span class="string">'310000'</span>:<span class="string">'上海'</span>};
+                        <span class="keyword">var</span> v = $(<span class="string">"#china-province"</span>).val();
+                        console.log( v );
+                        <span class="keyword">return</span> {errorInfo: ( p[v] ? <span class="string">""</span> : <span class="string">"需在阿里信用贷款开放区域内：浙江、江苏、上海。"</span> )};
+                    }
+        },
+        <span class="string">"#regNo"</span> : {
+            focusTip : <span class="string">"请填写营业执照上的注册号。"</span>,
+            requiredTip:<span class="string">"这里必填哦！请填写营业执照上的注册号。"</span>,
+            maxlen: <span class="number">20</span>,
+            lenTip: <span class="string">"请填写营业执照上的工商注册号。"</span>
+    
+        }
+        },{
+            option : <span class="string">'blur'</span>,
+            stringCtoh : <span class="keyword">true</span>,
+            required : <span class="keyword">true</span>,
+            requiredTip : <span class="string">"这里必填哦！"</span>
+        });
+    
+    $(<span class="string">"#myForm input[type='text']"</span>).on(<span class="string">'focus'</span>,<span class="keyword">function</span>(){
+        <span class="keyword">var</span> v = $(<span class="keyword">this</span>).validAttr() || {};
+        $(<span class="string">".fm-item-focus"</span>).removeClass(<span class="string">"fm-item-focus"</span>);
+        $(<span class="keyword">this</span>).nextAll(<span class="string">'.fm-tip'</span>).text(v.focusTip || <span class="string">""</span>).<span class="keyword">parent</span>().addClass(<span class="string">'fm-item-focus'</span>).removeClass(<span class="string">'fm-item-error'</span>);
+    });
+    
+    $(<span class="string">"#myForm"</span>).on(<span class="string">"submit"</span>,<span class="keyword">function</span>(e){
+        e.preventDefault();
+        <span class="keyword">if</span>( $(<span class="keyword">this</span>).formValid() ){
+            alert(<span class="string">'恭喜！验证通过！'</span>);
+        }
+    });
+</pre><script class="code">
+	$("#regDate").selectors({
+		beginDate: new Date("1990/1/1"),
+		brancheValue: false
+	});
+	$("#regArea").selectors({
+		o:window.Area["亚洲_1"]["中国_156"],
+		selectors:[
+			{name:"province",id:'china-province'},
+			{name:"capital"},
+			{name:"city"}
+		],
+		brancheValue: true
+	});
+
+	
+
+	$.form.settings = {
+		
+		/**需要提示的标签后面追加提示标签*/
+		initTip:function(input,defaultTip){
+			input.nextAll('.fm-tip').text(defaultTip || "");
+		},
+		
+		/**默认的出错提示方案*/
+		validTip : function(input,errorInfo, defaultTip){
+			if(errorInfo){
+				input.parent().removeClass('fm-item-focus').addClass('fm-item-error');
+				input.nextAll('.fm-tip').text(errorInfo);
+				//alert(errorInfo);
+			}else{
+				input.parent().removeClass('fm-item-focus').removeClass('fm-item-error');
+				input.nextAll('.fm-tip').text(defaultTip || "");
+			}
+		}
+	};
+
+
+	$.form.render({
+			"#loanAmount" : {		//贷款额度
+				option: "blur keyup",
+				defaultTip : '申贷额度5-100万',
+				regexp : /^100$|^([1-9][0-9])$|^([0]?[5-9])$/,
+				errorTip : "请输入整数,申贷额度5-100万",
+				success : function(input){
+					var value = input.val(),num = NumberUtil.toRMB(value*10000);
+					input.nextAll('.num').text(num);
+				},
+				failed : function(input){
+					input.nextAll('.num').text("");
+				}
+			},
+			"#CompanyName" : {
+				errorTip : "请保证与营业执照上的一致",
+				minlen : 2,
+				maxlen : 100,
+				lenTip : "企业名称为2-100个字",
+				regexp : /^[ a-zA-Z0-9-;:\"\'\(\),\.；：“”〔〕（），。、& \u4e00-\u9fa5]+$/,
+				validFun : function(v){
+					var validReturn = {
+							errorInfo : ''
+						};
+					if(/^[0-9]+$/.test(v)){
+						validReturn.errorInfo = "不能全为数字";
+					}else if(/^[a-zA-Z]+$/.test(v)){
+						validReturn.errorInfo = "不能全为字母";
+					}else{
+						//DO Nothing
+					}
+					return validReturn;
+				}
+			},
+			"#LegalName" : {		//法人|实际控制人姓名
+				type : "chinese",
+				minlen : 2,
+				maxlen : 20,
+				errorTip : "请正确填写, 如:金熙 "
+			},
+			"#LegalPhone" : {	//法人|实际控制人手机号
+				requiredTip : "这里必填哦！以便我们把贷款信息同步给您",
+				type : "mobile",
+				errorTip : "请填写11位英文状态下的数字"
+			},
+			"#LegalEmail" : {		//法人|实际控制人邮箱
+				requiredTip : "这里必填哦！以便我们把贷款信息同步给您",
+				type : "email",
+				errorTip : "请正确填写，如jinxi@aliloan.com"
+			},
+			"#LegalEducation1,#LegalEducation2,#LegalEducation3,#LegalEducation4,#LegalEducation5" : {		//实际控制人学历状况
+				option : "click",
+				begin : function(input){
+					return input.parent().children(':checked').val();
+				}
+			},
+			"#ControlMarriage1,#ControlMarriage2,#ControlMarriage3,#ControlMarriage4" : {			//实际控制人婚姻状况
+				option : "click",
+				begin : function(input){
+					return input.parent().children(':checked').val();
+				}
+			},
+			"#Sales" : {					//企业近1年的销售总额：
+				option : "blur keyup",
+				defaultTip : '包括开票和不开票，网站和线下的销售总和',
+				errorTip   : '请正确填写1000000以内（不含）的任一数字，例如销售额500万，填写“500”即可',
+				regexp : /^([0-9]{0,6}?)(\.[0-9]{1,2})?$/,
+				validFun: function(v){
+					return { errorInfo : Number(v) ? '' : '企业近1年的销售总额不得为0' };
+				},
+				success : function(input){
+					var value = input.val(),num = NumberUtil.toRMB(value*10000);
+					input.nextAll('.num').text(num);
+				},
+				failed : function(input){
+					input.nextAll('.num').text("");
+				}
+			},
+			"#regDate" : {
+	        option : "blur change",
+	        defaultTip : "营业执照上的成立日期，需满两年，如遇营业执照变更的可按老成立日期填写。",
+	        requiredTip: "这里必填哦！请填写营业执照上的成立日期。"
+	    },
+	    "#regArea" : {
+	        option : "blur change",
+	        defaultTip : "需在阿里信用贷款开放区域内：浙江、江苏、上海。",
+	        requiredTip:"这里必填哦！请填写营业执照注册地。",
+					validFun: function(){
+						var p = {'330000':'浙江','320000':'江苏','310000':'上海'};
+						var v = $("#china-province").val();
+						console.log( v );
+						return {errorInfo: ( p[v] ? "" : "需在阿里信用贷款开放区域内：浙江、江苏、上海。" )};
+					}
+	    },
+	    "#regNo" : {
+	        focusTip : "请填写营业执照上的注册号。",
+	        requiredTip:"这里必填哦！请填写营业执照上的注册号。",
+	        maxlen: 20,
+	        lenTip: "请填写营业执照上的工商注册号。"
+	
+	    }
+		},{
+			option : 'blur',
+			stringCtoh : true,
+			required : true,
+			requiredTip : "这里必填哦！"
+		});
+	
+	$("#myForm input[type='text']").on('focus',function(){
+		var v = $(this).validAttr() || {};
+		$(".fm-item-focus").removeClass("fm-item-focus");
+		$(this).nextAll('.fm-tip').text(v.focusTip || "").parent().addClass('fm-item-focus').removeClass('fm-item-error');
+	});
+	
+	$("#myForm").on("submit",function(e){
+		e.preventDefault();
+		if( $(this).formValid() ){
+			alert('恭喜！验证通过！');
+		}
+	});
+</script>
+<a href="https://github.com/shy2850/wfQuery.git" target="_"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>
+</body>
+</html>

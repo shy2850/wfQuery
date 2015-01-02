@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>//demo/03.option.html</title>
+    <script src="../js/wfQuery.js?debug=&_t=1420203676008"></script>
+	<!-- <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script> -->
+    <style>
+    pre.code{background: #d2d2d2;padding: 4px;}
+    </style>
+</head>
+<body>
+<a href="../index.html">返回首页</a>
+
+<h2>支持的方法</h2>
+<ul id="list">
+   <li>测试0 html &amp; text </li> 
+   <li>测试1 </li> 
+   <li>测试2 </li> 
+   <li>测试3 </li> 
+   <li>测试4 <a href="">a标签 </a> <input type="button" value="button"> <span style="background:#06f">span</span> </li> 
+   <li>测试5 </li> 
+</ul>
+<button class="html">html()</button>
+<button class="text">text()</button>
+<button class="eq">eq(2)</button>
+<button class="append">append()</button>
+<button class="prepend">prepend()</button>
+<button class="before">before()</button>
+<button class="after">after()</button>
+<button class="empty">empty()</button>
+<button class="html-in">html(input)</button>
+<button class="text-in">text(input)</button>
+
+<style>/*
+
+Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org>
+
+*/
+
+pre code {
+  display: block; padding: 0.5em;
+  background: #F0F0F0;
+}
+
+pre code,
+pre .ruby .subst,
+pre .tag .title,
+pre .lisp .title {
+  color: black;
+}
+
+pre .string,
+pre .title,
+pre .constant,
+pre .parent,
+pre .tag .value,
+pre .rules .value,
+pre .rules .value .number,
+pre .preprocessor,
+pre .ruby .symbol,
+pre .ruby .symbol .string,
+pre .ruby .symbol .keyword,
+pre .ruby .symbol .keymethods,
+pre .instancevar,
+pre .aggregate,
+pre .template_tag,
+pre .django .variable,
+pre .smalltalk .class,
+pre .addition,
+pre .flow,
+pre .stream,
+pre .bash .variable,
+pre .apache .tag,
+pre .apache .cbracket,
+pre .tex .command,
+pre .tex .special,
+pre .erlang_repl .function_or_atom {
+  color: #800;
+}
+
+pre .comment,
+pre .annotation,
+pre .template_comment,
+pre .diff .header,
+pre .chunk {
+  color: #888;
+}
+
+pre .number,
+pre .date,
+pre .regexp,
+pre .literal,
+pre .smalltalk .symbol,
+pre .smalltalk .char,
+pre .go .constant,
+pre .change {
+  color: #080;
+}
+
+pre .label,
+pre .javadoc,
+pre .ruby .string,
+pre .decorator,
+pre .filter .argument,
+pre .localvars,
+pre .array,
+pre .attr_selector,
+pre .important,
+pre .pseudo,
+pre .pi,
+pre .doctype,
+pre .deletion,
+pre .envvar,
+pre .shebang,
+pre .apache .sqbracket,
+pre .nginx .built_in,
+pre .tex .formula,
+pre .erlang_repl .reserved,
+pre .input_number {
+  color: #88F
+}
+
+pre .css .tag,
+pre .javadoctag,
+pre .phpdoc,
+pre .yardoctag {
+  font-weight: bold;
+}
+
+pre .keyword,
+pre .id,
+pre .phpdoc,
+pre .title,
+pre .built_in,
+pre .aggregate,
+pre .smalltalk .class,
+pre .winutils,
+pre .bash .variable,
+pre .apache .tag,
+pre .go .typename,
+pre .tex .command {
+  font-weight: bold;
+}
+
+pre .nginx .built_in {
+  font-weight: normal;
+}
+
+pre .xml .css,
+pre .xml .javascript,
+pre .xml .vbscript,
+pre .tex .formula {
+  opacity: 0.5;
+}
+</style><pre class="code">
+<span class="keyword">var</span> <span class="keyword">list</span> = $(<span class="string">"#list"</span>), 
+    first = <span class="keyword">list</span>.children().first(),
+    bef_aft = <span class="keyword">list</span>.children().eq(<span class="number">3</span>),
+    emp = <span class="keyword">list</span>.children().eq(<span class="number">4</span>);
+
+$(<span class="string">'.html'</span>).on(<span class="string">'click'</span>,<span class="keyword">function</span>(){ alert( first.html() ); });   
+$(<span class="string">'.text'</span>).on(<span class="string">'click'</span>,<span class="keyword">function</span>(){ alert( first.text() ); });   
+$(<span class="string">'.eq'</span>).on(<span class="string">'click'</span>,<span class="keyword">function</span>(){ alert( <span class="keyword">list</span>.children().eq(<span class="number">2</span>).text() ); });   
+$(<span class="string">'.after'</span>).on(<span class="string">'click'</span>,<span class="keyword">function</span>(){ bef_aft.append( <span class="string">'&lt;li>new appender &lt;a href="javascript:;" class="del">删除&lt;/a>&lt;/li>'</span> ) });   
+$(<span class="string">'.before'</span>).on(<span class="string">'click'</span>,<span class="keyword">function</span>(){ bef_aft.before( <span class="string">'&lt;li>new appender &lt;a href="javascript:;" class="del">删除&lt;/a>&lt;/li>'</span> ) });   
+$(<span class="string">'.append'</span>).on(<span class="string">'click'</span>,<span class="keyword">function</span>(){ <span class="keyword">list</span>.append( <span class="string">'&lt;li>new appender &lt;a href="javascript:;" class="del">删除&lt;/a>&lt;/li>'</span> ) });   
+$(<span class="string">'.prepend'</span>).on(<span class="string">'click'</span>,<span class="keyword">function</span>(){ <span class="keyword">list</span>.prepend( <span class="string">'&lt;li>new appender &lt;a href="javascript:;" class="del">删除&lt;/a>&lt;/li>'</span> ) });   
+$(document).on(<span class="string">'click'</span>,<span class="string">'.del'</span>,<span class="keyword">function</span>(){ $(<span class="keyword">this</span>).<span class="keyword">parent</span>().remove() });
+
+$(<span class="string">'.empty'</span>).on(<span class="string">'click'</span>,<span class="keyword">function</span>(){ emp.<span class="keyword">empty</span>(); });
+$(<span class="string">'.html-in'</span>).on(<span class="string">'click'</span>,<span class="keyword">function</span>(){ emp.html( prompt(<span class="string">'html 输入: '</span>) ); });   
+$(<span class="string">'.text-in'</span>).on(<span class="string">'click'</span>,<span class="keyword">function</span>(){ emp.text( prompt(<span class="string">'text 输入: '</span>) ); });
+
+</pre><script class="code">
+var list = $("#list"), 
+    first = list.children().first(),
+    bef_aft = list.children().eq(3),
+    emp = list.children().eq(4);
+
+$('.html').on('click',function(){ alert( first.html() ); });   
+$('.text').on('click',function(){ alert( first.text() ); });   
+$('.eq').on('click',function(){ alert( list.children().eq(2).text() ); });   
+$('.after').on('click',function(){ bef_aft.append( '<li>new appender <a href="javascript:;" class="del">删除</a></li>' ) });   
+$('.before').on('click',function(){ bef_aft.before( '<li>new appender <a href="javascript:;" class="del">删除</a></li>' ) });   
+$('.append').on('click',function(){ list.append( '<li>new appender <a href="javascript:;" class="del">删除</a></li>' ) });   
+$('.prepend').on('click',function(){ list.prepend( '<li>new appender <a href="javascript:;" class="del">删除</a></li>' ) });   
+$(document).on('click','.del',function(){ $(this).parent().remove() });
+
+$('.empty').on('click',function(){ emp.empty(); });
+$('.html-in').on('click',function(){ emp.html( prompt('html 输入: ') ); });   
+$('.text-in').on('click',function(){ emp.text( prompt('text 输入: ') ); });
+
+</script>
+
+<a href="https://github.com/shy2850/wfQuery.git" target="_"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>
+</body>
+</html>

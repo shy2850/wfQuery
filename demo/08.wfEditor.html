@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>//demo/08.wfEditor.html</title>
+    <script src="../js/wfQuery.js?debug=&_t=1420203676024"></script>
+	<!-- <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script> -->
+    <style>
+    pre.code{background: #d2d2d2;padding: 4px;}
+    </style>
+</head>
+<body>
+<a href="../index.html">返回首页</a>
+
+	<link rel="stylesheet" href="//apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="//apps.bdimg.com/libs/fontawesome/4.2.0/css/font-awesome.min.css">
+	<style>
+		body {
+			background-color: #666;
+		}
+		.content {
+			margin: 100px;
+			background: #fff;
+			padding-bottom: 30px;
+			border-radius: 5px;
+		}
+
+		#editor, #code{
+			resize:vertical; 
+			overflow:auto; 
+			border:1px solid silver; 
+			min-height: 400px;
+			box-shadow: inset 0 0 10px silver;
+			padding: 1em;
+		}
+	</style>
+	<div class="content">
+        <div class="container-fluid">
+        	<div id='pad-wrapper'>
+				<div id="editparent">
+					<div id='editControls' class='span9' style=' padding:5px;'>
+						<div class='btn-group'>
+							<a class='btn' data-role='undo' href='javascript:;'><i class='fa fa-undo'></i></a>
+							<a class='btn' data-role='redo' href='javascript:;'><i class='fa fa-repeat'></i></a>
+						</div>
+						<div class='btn-group'>
+							<a class='btn' data-role='bold' href='javascript:;'><b>Bold</b></a>
+							<a class='btn' data-role='italic' href='javascript:;'><em>Italic</em></a>
+							<a class='btn' data-role='underline' href='javascript:;'><u><b>U</b></u></a>
+							<a class='btn' data-role='strikeThrough' href='javascript:;'><strike>abc</strike></a>
+						</div>
+						<div class='btn-group'>
+							<a class='btn' data-role='justifyLeft' href='javascript:;'><i class='fa fa-align-left'></i></a>
+							<a class='btn' data-role='justifyCenter' href='javascript:;'><i class='fa fa-align-center'></i></a>
+							<a class='btn' data-role='justifyRight' href='javascript:;'><i class='fa fa-align-right'></i></a>
+							<a class='btn' data-role='justifyFull' href='javascript:;'><i class='fa fa-align-justify'></i></a>
+						</div>
+						<div class='btn-group'>
+							<a class='btn' data-role='indent' href='javascript:;'><i class='fa fa-indent'></i></a>
+							<a class='btn' data-role='outdent' href='javascript:;'><i class='fa fa-outdent'></i></a>
+						</div>
+						<div class='btn-group'>
+							<a class='btn' data-role='insertUnorderedList' href='javascript:;'><i class='fa fa-list-ul'></i></a>
+							<a class='btn' data-role='insertOrderedList' href='javascript:;'><i class='fa fa-list-ol'></i></a>
+						</div>
+						<div class='btn-group'>
+							<a class='btn' data-role='h1' href='javascript:;'>h<sup>1</sup></a>
+							<a class='btn' data-role='h2' href='javascript:;'>h<sup>2</sup></a>
+							<a class='btn' data-role='p' href='javascript:;'>p</a>
+						</div>
+						<div class='btn-group'>
+							<a class='btn' data-role='subscript' href='javascript:;'><i class='fa fa-subscript'></i></a>
+							<a class='btn' data-role='superscript' href='javascript:;'><i class='fa fa-superscript'></i></a>
+						</div>
+						<div class='btn-group'>
+							<a class='btn' data-role='code' href='javascript:;'><i class='fa fa-code'></i></a>
+						</div>
+					</div>
+					<div id='editor' class='span9' style='' contenteditable>
+						<h1>简单的富文本编辑器！</h1>
+					</div>
+					<div id='code' class='span9' style='display:none;'></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		var editor = $("#editor"), code = $("#code");	
+		$('#editControls a').on("click", function(e) {
+			var role = $(this).data('role');
+			switch( role ) {
+				case 'h1':
+				case 'h2':
+				case 'p':
+					document.execCommand('formatBlock', false, '<' + role + '>');
+					break;
+				case 'code':
+					code.toggle().text( editor.toggle().html() );
+					break;
+				default:
+					document.execCommand(role, false, null);
+					break;
+			}
+		});
+	</script>
+
+
+<a href="https://github.com/shy2850/wfQuery.git" target="_"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>
+</body>
+</html>
