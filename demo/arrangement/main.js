@@ -1,11 +1,4 @@
-require.config({
-    baseUrl: "",
-    paths: {
-        //wf: "http://shy2850.github.io/wfQuery/js/wfQuery"
-        wf: "../js/wfQuery"
-    }
-});
-require(["wf"],function($){
+(function($){
     var main = $("#main-screen"), 
         files = $("#files"), 
         form = document.createElement("form"),
@@ -168,7 +161,4 @@ require(["wf"],function($){
             }
         }
     });
-
-
-    
-});
+})(wfQuery);
