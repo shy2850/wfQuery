@@ -5,14 +5,24 @@
         holder = $('<div class="edit-holder" style="display:none" tabindex="2" title="1.拖拽改变图片位置;\n2.滚轮改变图片大小;\n3.del/backspace键删除;\n4.点击select调整大小。"></div>');
 
     holder.html( ''
-        +'<select>'
+        +'<label>大小:</label><select name="size">'
         +'    <option value="size-1-1">1:1</option>'
         +'    <option value="size-1_5-1">1.5:1</option>'
         +'    <option value="size-2-2">2:2</option>'
+        +'    <option value="size-3-1">3:1</option>'
         +'    <option value="size-3-2" selected>3:2[默认]</option>'
         +'    <option value="size-3-3">3:3</option>'
         +'    <option value="size-6-4">6:4</option>'
-        +'</select>');
+        +'</select>'
+        /*+'<br />'
+        +'<label>偏移:</label><select name="margin">'
+        +'    <option value="">[复位]</option>'
+        +'    <option value="margin-1">1</option>'
+        +'    <option value="margin-2">2</option>'
+        +'    <option value="margin-3">3</option>'
+        +'    <option value="margin-4">4</option>'
+        +'</select>'*/
+    );
     $(document.body).append(holder);
 
     $(document).on("dragenter dragover drop dragleave", function(e){  
@@ -27,6 +37,7 @@
                 return false;
             }
             //FileReader 添加img
+            continue;
             (function(f){
                 var reader = new FileReader();   
                 reader.onload = function(e){  
@@ -47,7 +58,7 @@
             success:function(res){
                 console.log( "文件上传完成。" );
                 res.forEach(function(t){
-                   main.append( $('<li class="item"><img src="images/'+t.file.name+'" alt="'+t.file.name+'" /></li>') ); 
+                   main.append( $('<li class="item"><img src="arrangement/images/'+t.file.name+'" alt="'+t.file.name+'" /></li>') ); 
                 });
             },
             onprocess: function(e){
@@ -75,12 +86,16 @@
     //定义单个item操作: 关联holder
     var holderElement = null;
     holder.refresh = function(){
+        holder.css({
+            marginTop: window.scrollY
+        });
         holderElement && holder.css(holderElement.parentNode.getBoundingClientRect()).show().trigger("focus");
     };
     $(window).on("resize",holder.refresh);
     main.on("dblclick",".item",function(e){
         holderElement = this.children[0];
-        sizeSelect.val(holderElement.size || "size-3-2");
+        var size = holderElement.parentNode.className.match(/size[\-\w]+/);
+        sizeSelect.val( size ? size[0] : "size-3-2");
         holder.refresh();
     }).on("click",".item",function(e){
         holder.hide();holderElement = null;
@@ -90,10 +105,15 @@
     });
 
     //修改大小
-    var sizeSelect = holder.children('select');
+    var sizeSelect = holder.children('select[name=size]');
     sizeSelect.on("change",function(e){
         holderElement.parentNode.className = "item " + this.value;
-        holderElement.size = this.value;
+        holder.refresh();
+    });
+    //修改偏移
+    var marginSelect = holder.children('select[name=margin]');
+    marginSelect.on("change",function(e){
+        holderElement.parentNode.classList.add( this.value );
         holder.refresh();
     });
     //删除图片
