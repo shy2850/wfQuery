@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>//demo/09.chatRoom.html</title>
-    <script src="../js/wfQuery.js?debug=&_t=1420263983095"></script>
+    <script src="../js/wfQuery.js?debug=&_t=1420285543253"></script>
 	<!-- <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script> -->
     <style>
     pre.code{background: #d2d2d2;padding: 4px;}
@@ -45,7 +45,7 @@
 		$("#msg").val("");
 		$.jsonp(root,data,function(d){
 			console.log( '发送成功！' );
-			$("#msg").focus();
+			$("#msg").trigger("focus");
 		});
 	});
 
@@ -57,7 +57,7 @@
 		},function(d){
 			time = d.time
 			d.msgList.forEach(function(m){
-				chat.append( $('<li></li>').text(m.name+":"+m.msg) );
+				chat.prepend( $('<li></li>').text(m.name+":"+m.msg) );
 			});
 			window.get();
 		});
