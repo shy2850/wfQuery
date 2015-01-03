@@ -32,7 +32,7 @@ $belong[layout.html]
 		$("#msg").val("");
 		$.jsonp(root,data,function(d){
 			console.log( '发送成功！' );
-			$("#msg").focus();
+			$("#msg").trigger("focus");
 		});
 	});
 
@@ -44,7 +44,7 @@ $belong[layout.html]
 		},function(d){
 			time = d.time
 			d.msgList.forEach(function(m){
-				chat.append( $('<li></li>').text(m.name+":"+m.msg) );
+				chat.prepend( $('<li></li>').text(m.name+":"+m.msg) );
 			});
 			window.get();
 		});
