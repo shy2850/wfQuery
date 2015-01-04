@@ -36,8 +36,8 @@
                 alert( "文件必须为图片" );
                 return false;
             }
+            //continue;
             //FileReader 添加img
-            continue;
             (function(f){
                 var reader = new FileReader();   
                 reader.onload = function(e){  
