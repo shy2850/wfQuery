@@ -1,0 +1,52 @@
+$belong[layout.html]
+<script src="js/handlebars.min.js"></script>
+<script src="js/template-init.js"></script>
+<style>
+    .pager{
+        line-height: 30px;
+    }
+    .pager span, .pager a{
+        padding: 4px 6px;
+        margin: 0 8px;
+        cursor: pointer;
+    }
+    .pager .pagination-curr{
+        background: #f26c4f;
+        color: #fff;
+    }
+    li a{
+        float: left;
+        width: 300px;
+    }
+    li{
+        clear: left;
+        list-style: none;
+    }
+</style>
+
+    <h2>template-init支持</h2>
+
+    <div class="pager"></div>
+    <ul id="list">
+    </ul>
+    <div class="pager"></div>
+
+<script type="html/template" id="tmpl" data-target="#list" data-pagination=".pager" data-url="data/tmpl({{pageNo}}).json">
+{{#with data}}
+    {{#each itemList}}
+        <li>
+            <a href="{{url}}" target="_blank">{{name}}</a> 
+            <span>创建日期： <i>{{createDate}}</i></span>
+        </li>
+    {{/each}}
+    <span class="currentPage">{{pageNo}}</span>
+    <span class="totalPage">{{totalPage}}</span>
+{{/with}}
+</script>
+
+<script class="code">
+TemplateInit.refresh({
+    tmpl: "#tmpl",
+    page:{size:'pageSize',to:'pageNo'}
+});
+</script>

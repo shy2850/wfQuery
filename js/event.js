@@ -1,21 +1,18 @@
     
     wfQuery.fn.extend({
         on: function(options, selector, fn, fn2){
-            var eventTypes = (options + "").match(/\w+/g) || [];
+            var f = fn,
+                eventTypes = (options + "").match(/\w+/g) || [];
             
             if( !eventTypes.length ){
                 return this;
             }
 
             if( typeof selector === "function" ){
-                fn = selector;
+                f = selector;
                 selector = null;
-            }
-
-            return this.cross_each(eventTypes, function(dom, eventType){
-                dom["wf_"+eventType] = dom["wf_"+eventType] || [];
-                dom["wf_"+eventType].push(fn);
-                dom.addEventListener(eventType, selector ? function(e){
+            }else{
+                f = function(e){
                     var tar = wfQuery( e.target ), par = tar.parents(selector);
                     if( tar.filter(selector).length ){
                         fn.call( tar[0], e );
@@ -24,10 +21,15 @@
                     }else if(typeof fn2 === "function"){
                         fn2.call( this, e );
                     }
-                } : fn ,false);
+                };
+            }
+
+            return this.cross_each(eventTypes, function(dom, eventType){
+                dom["wf_"+eventType] = dom["wf_"+eventType] || [];
+                dom["wf_"+eventType].push(f);
+                dom.addEventListener(eventType, f ,false);
                 if( dom.cloneNode && dom.cloneNode.list instanceof Array && dom.cloneNode.list.length ){
-                    console.log( dom.cloneNode.list );
-                    dom.cloneNode.list.on( options, selector, fn, fn2 );
+                    dom.cloneNode.list.on( options, selector, f, fn2 );
                 }
             });
         },
@@ -36,15 +38,19 @@
         **/
         off: function(eventType){
             return this.each(function(){
-                delete this["wf_"+eventType];
-                this.removeEventListener( eventType );
+                var  _t = this,
+                    allEvent = _t["wf_"+eventType] || [];
+                allEvent.forEach(function(ev){
+                    _t.removeEventListener( eventType, ev, false);
+                });
+                delete _t["wf_"+eventType];
             });
         },
         trigger: function(eventType){
             var agu = arguments; 
             return this.each(function(){
                 var _t = this, cbks = _t["wf_"+eventType] || [];
-                if( _t[eventType] ){
+                if( document.createElement(_t.tagName)[eventType] ){
                     _t[eventType]();
                 }else{
                     cbks.forEach(function(fn){
