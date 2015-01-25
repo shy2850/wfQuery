@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>//demo/06.data.html</title>
-    <script src="../js/wfQuery.js?debug=&_t=1422166111025"></script>
+	<title>//demo/11.template-init.html</title>
+    <script src="../js/wfQuery.js?debug=&_t=1422166111083"></script>
 	<!-- 
     <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script> 
     <script>wfQuery = jQuery</script>
@@ -15,11 +15,50 @@
 <body>
 <a href="../index.html">返回首页</a>
 
-<h2>数据绑定支持</h2>
+<script src="js/handlebars.min.js"></script>
+<script src="js/template-init.js"></script>
+<style>
+    .pager{
+        line-height: 30px;
+    }
+    .pager span, .pager a{
+        padding: 4px 6px;
+        margin: 0 8px;
+        cursor: pointer;
+    }
+    .pager .pagination-curr{
+        background: #f26c4f;
+        color: #fff;
+    }
+    li a{
+        float: left;
+        width: 400px;
+    }
+    li{
+        clear: left;
+        list-style: none;
+    }
+</style>
 
-<ul id="list">
-    <li><input type="text" id="email" class="first" data-url="http://github.com" data-valid="{required:true,type:'email'}"></li>
-</ul>
+    <h2>template-init支持</h2>
+
+    <div class="pager"></div>
+    <ul id="list">
+    </ul>
+    <div class="pager"></div>
+
+<script type="html/template" id="tmpl" data-target="#list" data-pagination=".pager" data-url="data/tmpl({{pageNo}}).json">
+{{#with data}}
+    {{#each itemList}}
+        <li>
+            <a href="{{url}}" target="_blank">{{name}}</a> 
+            <span>创建日期： <i>{{createDate}}</i></span>
+        </li>
+    {{/each}}
+    <span class="currentPage">{{pageNo}}</span>
+    <span class="totalPage">{{totalPage}}</span>
+{{/with}}
+</script>
 
 <style>/*
 
@@ -143,21 +182,15 @@ pre .tex .formula {
   opacity: 0.5;
 }
 </style><pre class="code">
-
-console.log( $(<span class="string">"#list > li > input"</span>).first().data(<span class="string">"valid"</span>) );
-
-$(<span class="string">"#email"</span>).data(<span class="string">"valid"</span>,{date: +<span class="keyword">new</span> Date});
-
-console.log( $(<span class="string">".first"</span>).data(<span class="string">"valid"</span>) );
-
+TemplateInit.refresh({
+    tmpl: "#tmpl",
+    page:{size:'pageSize',to:'pageNo'}
+});
 </pre><script class="code">
-
-console.log( $("#list > li > input").first().data("valid") );
-
-$("#email").data("valid",{date: +new Date});
-
-console.log( $(".first").data("valid") );
-
+TemplateInit.refresh({
+    tmpl: "#tmpl",
+    page:{size:'pageSize',to:'pageNo'}
+});
 </script>
 <a href="https://github.com/shy2850/wfQuery.git" target="_"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>
 </body>
