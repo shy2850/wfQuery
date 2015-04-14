@@ -12,7 +12,7 @@
                 response.end(  __p );
             }else{
                 files.map(function(file){
-                    if( file.match(/\.html$/) ){
+                    if( file.match(/^\d+\./) ){
                         __p += '<a href="demo/'+file+'">'+file+'</a>';
                     }
                 });
