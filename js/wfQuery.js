@@ -12,34 +12,34 @@
     };
 
     /*初始化方法*/
-    $include[js/init.js]
+    $include[init.js]
 
     /*extend方法定义*/
-    $include[js/extend.js]
+    $include[extend.js]
 
     /*最常用的基本工具*/
-    $include[js/util.js]
+    $include[util.js]
 
 	/*原型基础方法*/
-    $include[js/base.js]
+    $include[base.js]
 
     /*查询相关方法*/
-    $include[js/query.js]
+    $include[query.js]
 
     /*DOM操作相关方法*/
-    $include[js/dom.js]
+    $include[dom.js]
 
     /*属性操作相关方法*/
-    $include[js/attr.js]
+    $include[attr.js]
 
     /*css操作相关方法*/
-    $include[js/css.js]
+    $include[css.js]
 
     /*事件操作相关方法*/
-    $include[js/event.js]
+    $include[event.js]
 
     /*ajax*/
-    $include[js/ajax.js]
+    $include[ajax.js]
 
     return wfQuery;
 }));
