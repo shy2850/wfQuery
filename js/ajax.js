@@ -74,6 +74,7 @@
             }
             xhr.open(type, opt.url, opt.async);
             opt.cache || xhr.setRequestHeader("Cache-Control","no-cache");
+            type === "POST" || xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
             xhr.send(data);
         },
         jsonp: function(url, data, callback){

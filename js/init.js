@@ -18,10 +18,6 @@
             }else{
                 return new init( context.querySelectorAll(selector) );              
             }
-        }else if( /\[object\s(HTML|XML)/.test(type) && selector.nodeType || type === "[object global]" ){
-            this.length = 1; 
-            this[0] = selector;
-            return this;
         }else if( "[object HTMLCollection]" === type || "[object NodeList]" === type || "[object Array]" === type ){
             this.length = selector.length;
             for (var i = 0; i < selector.length; i++) {
@@ -30,6 +26,10 @@
             return this;
         }else if( wfQuery.isFunction( selector ) ){
             selector(wfQuery);
+        }else{
+            this.length = 1; 
+            this[0] = selector;
+            return this;
         }
 
     };
