@@ -72,10 +72,15 @@
             }else{
                 data = wfQuery.param( opt.data );
             }
-            xhr.open(type, opt.url, opt.async);
-            opt.cache || xhr.setRequestHeader("Cache-Control","no-cache");
-            type === "POST" || xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-            xhr.send(data);
+            if( type === "POST" ){
+                xhr.open(type, opt.url, opt.async);
+                xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+                xhr.send(data);
+            }else{
+                xhr.open(type, opt.url.match(/\?/) ? (opt.url + "&" + data) : ( opt.url + "?" + data ), opt.async);
+                opt.cache || xhr.setRequestHeader("Cache-Control","no-cache");
+                xhr.send();
+            }
         },
         jsonp: function(url, data, callback){
             if( wfQuery.isFunction(data) ){
