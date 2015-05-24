@@ -22,6 +22,8 @@ http.createServer(function (req, resp){
         var name = trim( decodeURIComponent(res.name) ),
             phone = trim( decodeURIComponent(res.phone) ),
             car = trim( decodeURIComponent(res.car) ),
+            sheng = trim( decodeURIComponent(res.sheng) ),
+            city = trim( decodeURIComponent(res.city) ),
             time = +new Date;
 
         res.success = true;
@@ -30,20 +32,25 @@ http.createServer(function (req, resp){
         }else if( res.call_list_length ){
             res.callback = "show_order_num";
             res.length = Object.keys(list).length;
-        }else if( name && phone && car ){
+        }else if( name && phone && car && sheng && city ){
+            res.success = false;
             if( list[ phone ] ){
-                res.success = false;
-                res.error = "该手机号码已经注册";
+                res.error = "该电话号码已经注册";
+            }else if( !/^\d{7,11}$/.test(phone) ){
+                res.error = "电话号码需要是7~11位纯数字";
             }else{
+                res.success = true;
                 list[ phone ] = {
                     name: name,
                     car: car,
+                    sheng: sheng,
+                    city: city,
                     time: time
                 };
             }
         }else{
             res.success = false;
-            res.error = "请填写姓名和电话并选择车系！";
+            res.error = "请填写姓名和电话并选择车系以及地区和经销商！";
         }
         out( res, resp );
     }
