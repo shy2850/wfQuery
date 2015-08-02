@@ -15,11 +15,11 @@
                 f = function(e){
                     var tar = wfQuery( e.target ), par = tar.parents(selector);
                     if( tar.filter(selector).length ){
-                        fn.call( tar[0], e );
+                        return fn.call( tar[0], e );
                     }else if( par.length ){
-                        fn.call( par[0], e );
+                        return fn.call( par[0], e );
                     }else if(typeof fn2 === "function"){
-                        fn2.call( this, e );
+                        return fn2.call( this, e );
                     }
                 };
             }
