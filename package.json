@@ -1,6 +1,6 @@
 {
   "name": "wfquery",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "like jQuery but just for new browser ",
   "main": "js/wfQuery.js",
   "scripts": {

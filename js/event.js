@@ -13,13 +13,17 @@
                 selector = null;
             }else{
                 f = function(e){
-                    var tar = wfQuery( e.target ), par = tar.parents(selector);
+                    var tar = wfQuery( e.target ), par = tar.parents(selector), ret;
                     if( tar.filter(selector).length ){
-                        return fn.call( tar[0], e );
+                        ret = fn.call( tar[0], e );
                     }else if( par.length ){
-                        return fn.call( par[0], e );
+                        ret = fn.call( par[0], e );
                     }else if(typeof fn2 === "function"){
-                        return fn2.call( this, e );
+                        ret = fn2.call( this, e );
+                    }
+                    if( false === ret ){
+                        e.preventDefault();
+                        e.stopPropagation();
                     }
                 };
             }
