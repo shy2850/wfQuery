@@ -9,7 +9,13 @@
             }
 
             if( typeof selector === "function" ){
-                f = selector;
+                var cbk = selector;
+                f = function(e){
+                    if( false === cbk.call(this,e) ){
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
+                };
                 selector = null;
             }else{
                 f = function(e){
