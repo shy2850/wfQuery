@@ -74,7 +74,7 @@
             }
             if( type === "POST" ){
                 xhr.open(type, opt.url, opt.async);
-                xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+                (typeof opt.data === "string") && xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
                 xhr.send(data);
             }else{
                 xhr.open(type, opt.url.match(/\?/) ? (opt.url + "&" + data) : ( opt.url + "?" + data ), opt.async);

@@ -96,9 +96,6 @@ $("#form0").on("submit",function(e){
         url: "/upload?target=demo/data/upload.json&uploadUrl=demo/data/",
         type: "post",
         form: this,
-        data:{
-            axx: $("#axx")[0].fileList
-        },
         success: function( json ){
             console.log( json );
         },
