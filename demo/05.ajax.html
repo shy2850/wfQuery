@@ -73,6 +73,8 @@ $belong[layout.html]
     </div>  
 </form>
 
+<input type="file" name="axx" id="axx">
+
 <script class="code">
 /*该方法执行f2e-server指定服务器支持*/
 $.jsonp('data/jsonp.js',{a:3},function(d){
@@ -90,11 +92,13 @@ $.ajax({
 
 $("#form0").on("submit",function(e){
     /*该方法执行需要f2e-server服务器支持*/
-    return false;
     $.ajax({
         url: "/upload?target=demo/data/upload.json&uploadUrl=demo/data/",
         type: "post",
         form: this,
+        data:{
+            axx: $("#file")[0].fileList
+        },
         success: function( json ){
             console.log( json );
         },
