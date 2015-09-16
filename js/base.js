@@ -1,66 +1,82 @@
-    
-    wfQuery.fn.extend({
-        each: function(fn){
-            this.forEach(function(el,i){
-                fn.call(el,i,el);
+wfQuery.fn.extend({
+        each: function (fn) {
+            this.forEach(function (el, i) {
+                fn.call(el, i, el);
             });
             return this;
         },
+
         /**
-        * @description 交叉循环, 将 ele转化成wfQuery对象后, 做笛卡尔积循环 
-        * @param {wfQuery} ele
-        * @param {Function} fn( dom, el )
-        */
-        cross_each: function(ele, fn){
-            var ele = wfQuery(ele);
-            return this.each(function(){
-                var _t = this;
-                ele.forEach(function(el){
-                    fn( _t, el );
+         * 两个wfQuery对象进行笛卡尔交叉循环，执行fn。
+         *
+         * @param {wfQuery} ele wfQuery对象或者选择器
+         * @param {Function} fn 交叉循环时执行的方法
+         *          fn(that,other) that:当前循环元素， other: ele循环项
+         * @return {wfQuery} 返回原wfQuery链式对象
+         */
+        crossEach: function (ele, fn) {
+            var $ele = wfQuery(ele);
+            return this.each(function () {
+                var $t = this;
+                $ele.forEach(function (el) {
+                    fn($t, el);
                 });
             });
         },
+
         /**
-        * @description 例如 attr/data/css 等类似方法的公用方法
-        * @param {String} name 
-        * @param {String} value
-        * @param {Function} get
-        * @param {Function} set
-        */
-        _attr: function(name, value, get, set){
-            var _this = this;
-            if( typeof name === "string" && typeof value !== "undefined" ){
+         * 特殊属性设置方法，用于attr、css、data等方法。
+         *
+         * @private
+         *
+         * @param {string} name 属性key
+         * @param {Object} value 属性value
+         * @param {Function} get get方法
+         * @param {Function} set set方法
+         *
+         * @return {wfQuery} 返回原wfQuery链式对象
+         */
+        _attr: function (name, value, get, set) {
+            var $this = this;
+            if (typeof name === 'string' && typeof value !== 'undefined') {
                 var o = {};
                 o[name] = value;
                 return this._attr(o, null, get, set);
-            }else if( typeof name === "object" ){
-                for(var i in name){
-                    (function(n,v){
-                        _this.each(function(){
-                            set.call(this, n, v );
-                        });
-                    })(i,name[i]);
+            }
+            if (typeof name === 'object') {
+                for (var i in name) {
+                    if (name.hasOwnProperty(i)) {
+                        (function (n, v) {
+                            $this.each(function () {
+                                set.call(this, n, v);
+                            });
+                        })(i, name[i]);
+                    }
                 }
                 return this;
-            }else{
-                return this.length ? get.call(this[0], name) : null;
             }
+            return this.length ? get.call(this[0], name) : null;
         },
+
         /**
-        * @description 例如 html/text/val 等类似方法的公用方法
-        * @param {String} name 
-        * @param {String} value
-        */
-        _get_set: function(name,value){
-            if( !this.length ){
-            }else if(typeof value === "undefined"){
+         *
+         * DOM直接属性设置方法，用于html、text等方法。
+         *
+         * @private
+         * @param {string} name 属性key
+         * @param {Object} value 属性value
+         *
+         * @return {wfQuery} 返回原wfQuery链式对象
+         */
+        _getSet: function (name, value) {
+            if (!this.length) {
+                return;
+            }
+            if (typeof value === 'undefined') {
                 return this[0][name];
-            }else{
-                return this.each(function(){
-                    this[name] = value;
-                });
-            } 
+            }
+            return this.each(function () {
+                this[name] = value;
+            });
         }
-
     });
-

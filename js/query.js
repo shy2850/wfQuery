@@ -1,103 +1,130 @@
-    var p = document.createElement('p'), w3cMatches = ["matchesSelector","webkitMatchesSelector","msMatchesSelector","mozMatchesSelector","oMatchesSelector"].filter(function(i){
+var p = document.createElement('p');
+
+    /**
+     *
+     * 兼容性的 matchesSelector 获取
+     * @private
+     * @type {Function}
+     *
+     */
+    var w3cMatches = [
+        'matchesSelector',
+        'webkitMatchesSelector',
+        'msMatchesSelector',
+        'mozMatchesSelector',
+        'oMatchesSelector'
+    ].filter(function (i) {
         return p[i];
     })[0];
     wfQuery.fn.extend({
-        /**
-         * @description  quick-get functions
-        **/
-        first: function(){
-            return wfQuery( this[0] );
+        first: function () {
+            return wfQuery(this[0]);
         },
-        eq: function(i){
-            return wfQuery( this[ (this.length+i) % this.length ] );
+        eq: function (i) {
+            return wfQuery(this[(this.length + i) % this.length]);
         },
-        index: function(){
+        index: function () {
             return this.parent().children().indexOf(this[0]);
         },
-        last: function(){
-            return wfQuery( this[this.length-1] );
+        last: function () {
+            return wfQuery(this[this.length - 1]);
         },
-        next: function(){
-            return wfQuery( !this[0] ? null : this[0].nextElementSibling );
+        next: function () {
+            return wfQuery(!this[0] ? null : this[0].nextElementSibling);
         },
-        prev: function(){
-            return wfQuery( !this[0] ? null : this[0].previousElementSibling );
+        prev: function () {
+            return wfQuery(!this[0] ? null : this[0].previousElementSibling);
         },
-        parent: function(){
-            return wfQuery( !this[0] ? null : this[0].parentNode );
+        parent: function () {
+            return wfQuery(!this[0] ? null : this[0].parentNode);
         },
 
         /**
-         * @description parents 处理第一个元素的的父标签列表
-         * @param {String} filter 
-         * @param {HTMLElement} root 
-        **/
-        parents: function(filter, root){
-            var _parents = [], tmp = this[0];
+         * 获取dom父级标签列表。
+         *
+         * @param {string} filter 通过选择器过滤选择结果
+         * @param {Element} root 父级列表根节点范围
+         * @return {wfQuery} 返回过滤后的wfQuery链式对象
+         */
+        parents: function (filter, root) {
+            var $parents = [];
+            var tmp = this[0];
             root = root || document;
-            while( tmp && tmp != root && (tmp = tmp.parentNode) ){
-                _parents.push( tmp );
+            while (tmp && tmp !== root && (tmp = tmp.parentNode)) {
+                $parents.push(tmp);
             }
-            return wfQuery(_parents).filter(filter);
+            return wfQuery($parents).filter(filter);
         },
+
         /**
-         * @description  with muti-selectors
-        **/
-        filter: function(match){
+         * 基于当前wfQuery对象dom列表进行的matchesSelector过滤。
+         *
+         * @param {string} match 通过选择器过滤选择结果
+         * @return {wfQuery} 返回过滤后的wfQuery链式对象
+         */
+        filter: function (match) {
             var tar = [];
-            if( !match ){
+            if (!match) {
                 return this;
-            }else if( typeof match === "function"){   /*原生filter保留*/
-                tar = [].filter.call(this, match);
-            }else{
-                this.each( function(){
-                    var _t = this;
-                    if( _t[w3cMatches] && _t[w3cMatches](match) ){
-                        tar.push( _t );
-                    }
-                } );
             }
-            return wfQuery( tar );
+            /* 原生filter保留 */
+            else if (typeof match === 'function') {
+                tar = [].filter.call(this, match);
+            }
+            else {
+                this.each(function () {
+                    var $t = this;
+                    if ($t[w3cMatches] && $t[w3cMatches](match)) {
+                        tar.push($t);
+                    }
+                });
+            }
+            return wfQuery(tar);
         },
-        not: function(no){
-            var _this = this;
-            return wfQuery( [].filter.call(_this,function(dom){
+        not: function (no) {
+            var $this = this;
+            return wfQuery([].filter.call($this, function (dom) {
                 var flag;
-                try{
+                try {
                     flag = dom[w3cMatches] && dom[w3cMatches](no);
-                }catch(e){
+                }
+                catch(e) {
                     flag = dom === wfQuery(no)[0];
                 }
                 return !flag;
-            }) );
+            }));
         },
-        siblings: function(filter){
+        siblings: function (filter) {
             return this.parent().children(filter).not(this);
         },
-        nextAll: function(filter){
-            var all = []
-            this.each(function(){
-                var children = $(this).parent().children(), i = children.indexOf(this);
-                all = all.concat( children.slice(i+1) );
+        nextAll: function (filter) {
+            var all = [];
+            this.each(function () {
+                var children = $(this).parent().children();
+                var i = children.indexOf(this);
+                all = all.concat(children.slice(i + 1));
             });
-            return wfQuery( all ).filter(filter);
+            return wfQuery(all).filter(filter);
         },
-        find: function(filter){
-            var _children = [];
-            this.each(function(){
-                _children = [].concat.apply(_children, wfQuery( this.querySelectorAll(filter) ) );
+        find: function (filter) {
+            var $children = [];
+            this.each(function () {
+                $children = [].concat.apply($children, wfQuery(this.querySelectorAll(filter)));
             });
-            return wfQuery( _children );
+            return wfQuery($children);
         },
-        children: function(filter){
-            var _children = [];
-            this.each(function(){
-                var _t = this, children = _t.children;
-                if( !children ){
-                    children = [].filter.call(_t.childNodes, function(el){return !!el.tagName});
+        children: function (filter) {
+            var $children = [];
+            this.each(function () {
+                var $t = this;
+                var children = $t.children;
+                if (!children) {
+                    children = [].filter.call($t.childNodes, function (el) {
+                        return !!el.tagName;
+                    });
                 }
-                _children = [].concat.apply(_children, wfQuery(children) );
+                $children = [].concat.apply($children, wfQuery(children));
             });
-            return wfQuery( _children ).filter(filter);
+            return wfQuery($children).filter(filter);
         }
     });

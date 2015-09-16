@@ -18,8 +18,18 @@
     }
 }(this, function (require) {
     var doc = window.document;
+
+    /**
+     *  like jQuery extends Array
+     *
+     * @exports wfQuery
+     * @extends Array
+     * @param {string} selector 选择器可以是：css选择器、html片段或者DOMCollection等
+     * @param {string} context 使用css选择器时包含标签
+     * @return {wfQuery}
+     */
     var wfQuery = function (selector, context) {
-        return new wfQuery.fn.init(selector, context);
+        return new wfQuery.fn.Init(selector, context);
     };
 
      /*初始化方法*/

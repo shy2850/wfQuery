@@ -59,6 +59,47 @@ require(["../js/wfQuery"], function ($) {
         assert.ok( $('#myForm').data().init === true, JSON.stringify($('#myForm').data()) );
     });
 
+    QUnit.module('CSS测试');
+    QUnit.test('css', function (assert) {
+        $('#main h2').css({
+            transition: 'line-height 2s ease-out'
+        }).css({
+            lineHeight: '100px'
+        });
+        assert.ok( $('#main h2').css('lineHeight') === '30px', $('#main h2').css('lineHeight') );
+        setTimeout(function(){
+            assert.ok( $('#main h2').css('lineHeight') === '100px', $('#main h2').css('lineHeight') );
+            $('#main h2').css({
+                lineHeight: '30px'
+            });
+        },2100);
+    });
+
+    QUnit.module('事件测试');
+    QUnit.test('event', function (assert) {
+        var i = 0;
+        $('#main p').on('click', function(e){
+            i++;
+        }).trigger('click');
+        assert.ok( i === $('#main p').length, i );
+
+        $('#main p').first().trigger('click').trigger('click').trigger('click');
+        assert.ok( i === $('#main p').length + 3, 'plus trigger' );
+        $('#main p').off('click');
+        $('#main p').trigger('click').trigger('click').trigger('click');
+        assert.ok( i === $('#main p').length + 3, 'off click' );
+
+        for (var j = 0; j <= $('#qunit-tests').children().length; j++) {
+            (function(j){
+                setTimeout(function(){
+                    var li = $('#qunit-tests').children().eq(j);
+                    location.hash = '#' + li.attr('id');
+                    li.find('.module-name').trigger('click');
+                },1000*j);
+            })(j)
+        };
+    });
+
     QUnit.module('Ajax');
     QUnit.test('ajax', function (assert) {
         $.ajax({
