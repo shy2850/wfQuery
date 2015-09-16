@@ -1,17 +1,28 @@
-;(function (root, factory) {
-    if (typeof define === "function" && define.amd) {
+/**
+ * @file  jQuery-API 简单实现, gzip < 4k 方便移动端调用
+ *         1. 基于Array.prototype
+ *         2. 选择器直接使用 querySelectorAll
+ *         3. 事件绑定仅支持 on/off/trigger, 支持代理(阻止事件冒泡)
+ *         4. 不支持 animate 相关
+ *         5. Ajax支持基于ajax2.0的文件上传和进度设置
+ * @author shiyangyang(shiyangyang@baidu.com)
+ * @namespace wfquery
+ */
+(function (root, factory) {
+    if (typeof define === 'function' && define.amd) {
         define(factory);
-    } else {
+    }
+    else {
         root.wfQuery = factory();
         window.$ = window.$ || root.wfQuery;
     }
-}(this, function(require) {
-    var doc = window.document,
-    wfQuery = function( selector, context ) {
-    	return new wfQuery.fn.init( selector, context );
+}(this, function (require) {
+    var doc = window.document;
+    var wfQuery = function (selector, context) {
+        return new wfQuery.fn.init(selector, context);
     };
 
-    /*初始化方法*/
+     /*初始化方法*/
     $include[init.js]
 
     /*extend方法定义*/
@@ -20,7 +31,7 @@
     /*最常用的基本工具*/
     $include[util.js]
 
-	/*原型基础方法*/
+    /*原型基础方法*/
     $include[base.js]
 
     /*查询相关方法*/

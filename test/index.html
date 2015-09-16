@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>wfQuery test</title>
+    <link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.19.0.css">
+</head>
+<body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+    
+    <div id="main">
+        <h2>title</h2>
+        <p>p1</p>
+        <p id="p2">p2</p>
+        <ul>
+            <li>列表1</li>
+            <li>列表2</li>
+            <li>列表3</li>
+            <li>列表4</li>
+        </ul>
+        <div>
+            <p id="p3">p3</p>
+            <ol>
+                <li>项目1</li>
+                <li>项目2</li>
+            </ol>
+        </div>
+    </div>
+
+    <form action="data/data.json" method="post" id="myForm" data-init="true" data-valid='{"required":true, "index":2}'>
+        <input type="text" name="a" value="1" placeholder="a:">
+        <br>
+        <input type="text" name="b" value="2" placeholder="b:">
+        <br>
+        <input type="checkbox" name="c" id="c-1" value="3" checked="checked"><label for="c-1">3</label>
+        <input type="checkbox" name="c" id="c-2" value="4" checked="checked"><label for="c-2">4</label>
+        <br>
+        <input type="submit" value="submit">
+    </form>
+
+    <script src="http://code.jquery.com/qunit/qunit-1.19.0.js"></script>
+    <script src="http://apps.bdimg.com/libs/require.js/2.1.11/require.min.js" data-main="wfQueryTest.js"></script>
+</body>
+</html>

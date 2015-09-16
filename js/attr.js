@@ -20,7 +20,7 @@
                         }).map(function(i){ 
                             var value = i.value;
                             try{
-                                value = new Function( "use strict; \n return " + value )();
+                                value = JSON.parse(value);
                             }catch(e){
                             }
                             return {name: i.name.split("-")[1], value: value}; 
