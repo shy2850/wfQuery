@@ -10,7 +10,7 @@
             if (typeof obj !== 'object' || obj.nodeType || obj === obj.window) {
                 return false;
             }
-            if (obj.constructor && !Object.prototype.call(obj.constructor.prototype, 'isPrototypeOf')) {
+            if (obj.constructor && !Object.prototype.hasOwnProperty.call(obj.constructor.prototype, 'isPrototypeOf')) {
                 return false;
             }
             return true;

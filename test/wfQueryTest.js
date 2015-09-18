@@ -1,5 +1,5 @@
-require(["../js/wfQuery"], function ($) {
-    var search = "a=1&b=2&c=3&c=4";
+require(['../js/wfQuery'], function ($) {
+    var search = 'a=1&b=2&c=3&c=4';
     var serializeArray = [
         {name:'a',value:'1'},
         {name:'b',value:'2'},
@@ -39,7 +39,14 @@ require(["../js/wfQuery"], function ($) {
 
     QUnit.module('工具测试');
     QUnit.test('util', function (assert) {
+        var base = {a:1,b:[1,2,3],d:{d1:1,d2:2}};
+        
+        var result1 = $.extend( true, base, {b:[2,5]}, {c:3}, {c:4,d:{d3:3}}, {c:6,a:7} );
+        assert.ok( base === result1, 'base === extend()' );
+        assert.ok( result1.b.join(',') === '2,5,3', 'clone in deep: '+JSON.stringify(result1) );
 
+        var result2 = $.extend( base, {b:2}, {c:3}, {c:4,d:5}, {c:6,a:7} );
+        assert.ok( result2.d === 5, 'clone simple: ' + JSON.stringify(result2) );
 
         assert.ok( $.param(serializeArray) === search, $.param(serializeArray) );
         assert.ok( $.param(dataObj) === search, $.param(dataObj) );
@@ -88,7 +95,7 @@ require(["../js/wfQuery"], function ($) {
         $('#main p').off('click');
         $('#main p').trigger('click').trigger('click').trigger('click');
         assert.ok( i === $('#main p').length + 3, 'off click' );
-
+        
         for (var j = 0; j <= $('#qunit-tests').children().length; j++) {
             (function(j){
                 setTimeout(function(){
