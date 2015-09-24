@@ -59,28 +59,79 @@
                 }
             });
         },
+
+        /**
+         * 为wfQuery对象数组每一个元素设置文本内容
+         *
+         * @param {string} txt 需要设置的文本
+         * @return {wfQuery} 返回原wfQuery对象
+         */
         text: function (txt) {
             return this._getSet('textContent', txt);
         },
+
+        /**
+         * 为wfQuery对象数组每一个元素设置innerHTML
+         *
+         * @param {string} html 需要设置的html字符串
+         * @return {wfQuery} 返回原wfQuery对象
+         */
         html: function (html) {
             return this._getSet('innerHTML', html);
         },
+
+        /**
+         * 为wfQuery对象数组每一个元素设置value
+         *
+         * @param {string} value 需要设置的value
+         * @return {wfQuery} 返回原wfQuery对象
+         */
         val: function (value) {
             return this._getSet('value', value);
         },
+
+        /**
+         * 为wfQuery对象数组每一个元素增加一个 className
+         *
+         * @param {string} className 需要设置的className
+         * @return {wfQuery} 返回原wfQuery对象
+         */
         addClass: function (className) {
             return this.each(function () {
                 this.classList.add(className);
             });
         },
+
+        /**
+         * 为wfQuery对象数组每一个元素删除一个 className
+         *
+         * @param {string} className 需要删除的className
+         * @return {wfQuery} 返回原wfQuery对象
+         */
         removeClass: function (className) {
             return this.each(function () {
                 this.classList.remove(className);
             });
         },
+
+        /**
+         * 判断wfQuery对象数组是不是有元素含有指定className
+         *
+         * @param {string} className 需要查找的 className
+         * @return {boolean} 返回是否找到
+         */
         hasClass: function (className) {
             return !!this.filter('.' + className).length;
         },
+
+        /**
+         * 依次判断wfQuery对象数组每一个元素是否含有指定的 className
+         *      有：则删除
+         *      无：则添加
+         *
+         * @param {string} className 需要添加或者删除的className
+         * @return {wfQuery} 返回原wfQuery对象
+         */
         toggleClass: function (className) {
             return this.each(function () {
                 var list = this.classList;

@@ -18,6 +18,7 @@
     }
 }(this, function (require) {
     var doc = window.document;
+    var pto = Object.prototype;
 
     /**
      *  like jQuery extends Array

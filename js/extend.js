@@ -3,8 +3,8 @@
      * 这里第一个对象以下称为：待扩展对象
      *         后续对象称为：待合并对象
      *
-     * @param {?boolean} deep 是否深度扩展, 默认不深度扩展, 首个参数为true进行深度扩展
-     * @param {...Object} o 可变参数，长度不为零。
+     * @param {boolean} isDeep 是否深度扩展, 默认不深度扩展, 首个参数为true进行深度扩展
+     * @param {Object} obj 可变参数，长度不为零。
      *          长度为1时： 待扩展对象默认为执行方法的从属对象 wfQuery 或 wfQuery.fn
      *          长度为2+时： 第一个对象为待扩展对象, 从后面开始依次扩展属性到待扩展对象
      *              如： var base = {a:1,b:[1,2,3],d:{d1:1,d2:2}};
@@ -14,30 +14,32 @@
      *                  返回值 = base = {a:7,b:[2,5,3],c:6,d:{d1:1,d2:2,d3:3}};
      * @return {Object} 待扩展对象
      */
-    wfQuery.extend = wfQuery.fn.extend = function () {
-        var options;
-        var name;
-        var src;
-        var copy;
-        var copyIsArray;
-        var clone;
-        var target = arguments[0] || {};
-        var i = 1;
+    wfQuery.extend = wfQuery.fn.extend = function (isDeep, obj) {
+        var target = isDeep || {};
+        // 根据首个参数不同值，确定待合并对象组循环起始参数位置
+        var objIndex = 1;
         var length = arguments.length;
         var deep = false;
         if (typeof target === 'boolean') {
             deep = target;
-            target = arguments[i] || {};
-            i++;
+            target = arguments[objIndex] || {};
+            objIndex++;
         }
         if (typeof target !== 'object' && !wfQuery.isFunction(target)) {
             target = {};
         }
-        if (i === length) {
+        if (objIndex === length) {
             target = this;
-            i--;
+            objIndex--;
         }
-        for (; i < length; i++) {
+
+        var name;
+        var options;
+        var src;
+        var copy;
+        var copyIsArray;
+        var clone;
+        for (var i = objIndex; i < length; i++) {
             if ((options = arguments[i])) {
                 for (name in options) {
                     if (!options.hasOwnProperty(name)) {

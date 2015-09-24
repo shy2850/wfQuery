@@ -73,11 +73,11 @@ require(['../js/wfQuery'], function ($) {
         }).css({
             lineHeight: '100px'
         });
-        assert.ok( $('#main h2').css('lineHeight') === '30px', $('#main h2').css('lineHeight') );
+        assert.ok( $('#main h2').css('lineHeight') === 30, $('#main h2').css('lineHeight') );
         setTimeout(function(){
-            assert.ok( $('#main h2').css('lineHeight') === '100px', $('#main h2').css('lineHeight') );
+            assert.ok( $('#main h2').css('lineHeight') === 100, $('#main h2').css('lineHeight') );
             $('#main h2').css({
-                lineHeight: '30px'
+                lineHeight: 30
             });
         },2100);
     });
