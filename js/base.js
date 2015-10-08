@@ -1,4 +1,9 @@
-wfQuery.fn.extend({
+    /**
+     * @file  wfQuery基础原型方法
+     * @author shiyangyang(shiyangyang@baidu.com)
+     * @namespace wfquery/base
+     */
+    wfQuery.fn.extend({
         each: function (fn) {
             this.forEach(function (el, i) {
                 fn.call(el, i, el);
@@ -38,6 +43,14 @@ wfQuery.fn.extend({
          */
         _attr: function (name, value, get, set) {
             var $this = this;
+            var eachKV = function (n, v) {
+                var eachSet = function () {
+                    if (wfQuery.isFunction(set)) {
+                        set.call(this, n, v);
+                    }
+                };
+                $this.each(eachSet);
+            };
             if (typeof name === 'string' && typeof value !== 'undefined') {
                 var o = {};
                 o[name] = value;
@@ -46,11 +59,7 @@ wfQuery.fn.extend({
             if (typeof name === 'object') {
                 for (var i in name) {
                     if (name.hasOwnProperty(i)) {
-                        (function (n, v) {
-                            $this.each(function () {
-                                set.call(this, n, v);
-                            });
-                        })(i, name[i]);
+                        eachKV(i, name[i]);
                     }
                 }
                 return this;

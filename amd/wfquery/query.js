@@ -1,8 +1,10 @@
-    /**
-     * @file  dom查询相关各种方法
-     * @author shiyangyang(shiyangyang@baidu.com)
-     * @namespace wfquery/query
-     */
+/**
+ * @file  dom查询相关各种方法
+ * @author shiyangyang(shiyangyang@baidu.com)
+ * @namespace wfquery/query
+ */
+define('wfquery/query', function () {
+    var wfQuery = require('wfquery');
     var p = document.createElement('p');
 
     /**
@@ -211,3 +213,4 @@
             return wfQuery($children).filter(filter);
         }
     });
+});

@@ -1,8 +1,10 @@
-    /**
-     * @file  常用的dom操作添加、删除、前置、后置等
-     * @author shiyangyang(shiyangyang@baidu.com)
-     * @namespace wfquery/dom
-     */
+/**
+ * @file  常用的dom操作添加、删除、前置、后置等
+ * @author shiyangyang(shiyangyang@baidu.com)
+ * @namespace wfquery/dom
+ */
+define('wfquery/dom', function () {
+    var wfQuery = require('wfquery');
     wfQuery.fn.extend({
 
         /**
@@ -98,3 +100,4 @@
             }));
         }
     });
+});

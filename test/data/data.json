@@ -1,1 +1,1 @@
-<%=JSON.stringify(request.post || request.data)%>
+<%=JSON.stringify(request.post||request.data)%>

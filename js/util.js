@@ -1,3 +1,8 @@
+    /**
+     * @file  基本数据操作相关方法, 核心依赖
+     * @author shiyangyang(shiyangyang@baidu.com)
+     * @namespace wfquery/ajax
+     */
     wfQuery.extend({
 
         /**
@@ -46,19 +51,21 @@
         obj2array: function (dataObj) {
             var res = [];
             for (var key in dataObj) {
-                if (wfQuery.isArray(dataObj[key])) {
-                    dataObj[key].forEach(function (el) {
+                if (dataObj.hasOwnProperty(key)) {
+                    if (wfQuery.isArray(dataObj[key])) {
+                        for (var i = 0; i < dataObj[key].length; i++) {
+                            res.push({
+                                name: key,
+                                value: dataObj[key][i]
+                            });
+                        }
+                    }
+                    else {
                         res.push({
                             name: key,
-                            value: el
+                            value: dataObj[key]
                         });
-                    });
-                }
-                else {
-                    res.push({
-                        name: key,
-                        value: dataObj[key]
-                    });
+                    }
                 }
             }
             return res;
@@ -72,7 +79,7 @@
          */
         array2obj: function (serializeArr) {
             var res = {};
-            serializeArr.forEach(function (i) {
+            var setResToArr = function (i) {
                 if (wfQuery.isArray(res[i.name])) {
                     res[i.name].push(i.value);
                 }
@@ -82,7 +89,8 @@
                 else {
                     res[i.name] = i.value;
                 }
-            });
+            };
+            serializeArr.forEach(setResToArr);
             return res;
         },
 
@@ -113,49 +121,5 @@
                 }
                 return encodeURIComponent(item.name) + '=' + encodeURIComponent(item.value);
             }).join('&').replace(/%20/g, '+');
-        }
-    });
-    wfQuery.fn.extend({
-
-        /**
-         * 将一个表单内的elements值转化成一个序列化数组。
-         * this 必须是一个form， 否则返回空数组 []
-         *
-         * @return {Array} 序列化数组
-         */
-        serializeArray: function () {
-            var form = this[0];
-            var res = [];
-            if (form && form.tagName.toUpperCase() === 'FORM') {
-                [].map.call(form.elements, function (inp) {
-                    if (!inp.name || inp.disabled) {
-                        return;
-                    }
-                    switch (inp.type) {
-                        case 'radio':
-                        case 'checkbox':
-                            if (!inp.checked) {
-                                return;
-                            }
-                        case 'input':
-                        default:
-                            res.push({
-                                name: inp.name,
-                                value: inp.value
-                            });
-                    }
-                });
-            }
-            return res;
-        },
-
-        /**
-         * 将一个表单内的elements值转化成一个序列化字符串。
-         * this 必须是一个form， 否则返回 ''
-         *
-         * @return {string} 序列化字符串
-         */
-        serialize: function () {
-            return wfQuery.param(this.serializeArray());
         }
     });

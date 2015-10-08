@@ -1,4 +1,4 @@
-require(['../js/wfQuery'], function ($) {
+require(['../wfQuery'], function ($) {
     var search = 'a=1&b=2&c=3&c=4';
     var serializeArray = [
         {name:'a',value:'1'},

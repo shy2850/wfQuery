@@ -7,7 +7,7 @@
 <%
     return function(){
         var fs = require("fs");
-        fs.readdir(request.util.conf.root+"/demo/",function(error,files){ 
+        fs.readdir(request.util.conf.root+request.$.title.replace('/index.html','')+"/demo/",function(error,files){ 
             if(error){
                 response.end(  __p );
             }else{
