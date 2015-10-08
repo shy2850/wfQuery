@@ -1,1 +1,365 @@
-!function(t){function e(t,e,n){e=n||e;var a=e?"<option value=''>"+e+"</option>":"<option value=''>请选择</option>";if(!t)return a;var r=a;for(i in t)if("string"==typeof t[i]||"number"==typeof t[i])r+="<option value='"+t[i]+"'>"+i+"</option>";else{var s=i,l=i,o=i.split("_");2===o.length&&(s=o[0],l=o[1]),r+="<option value='"+l+"'>"+s+"</option>"}return r}function n(t,e){function i(t,e,i,n){var a=0,r={},s=n?parseInt(n):9999;switch(e){case 0:case 2:case 4:case 6:case 7:case 9:case 11:a=31;break;case 3:case 5:case 8:case 10:a=30;break;case 1:a=t%4==0&&t%100!=0||t%400==0?29:28;break;default:a=0}a=a>s?s:a;for(var l=i;a>=l;l++)r[l+"日"]=t+"-"+(e+1)+"-"+l;return r}var n={};e=e||new Date;for(var a=e.getFullYear();a>=t.getFullYear();a--){for(var r={},s=a==t.getFullYear()?t.getMonth():0,l=a==e.getFullYear()?e.getMonth():11,o=s;l>=o;o++){var h=a==t.getFullYear()&&o==t.getMonth()?t.getDate():1,c=a==e.getFullYear()&&o==e.getMonth()?e.getDate():31;r[o+1+"月_"+a+"-"+(o+1)]=i(a,o,h,c)}n[a+"年"]=r}return n}var a={options:{o:null,selectors:null,selectorModel:{},next:t("<span></span>"),withDefault:"请选择",hiddenEmpty:!0,brancheValue:!1,devide:"_",chainSpliter:"$",chainFirst:"$$"},_create:function(i,n){var a=this,r=t.extend(a.options,i),s=r.withDefault,l=r.chainSpliter,o=r.hiddenEmpty,h=r.next,c=r.brancheValue,p=r.o,u={},v={};p&&(this._reverseMap(p,"",u,v),this._sumSelectors(u),n.each(function(){var i=0;t(this).hide().after(h&&h instanceof t&&1===h.length?r.next.clone().removeAttr("id"):t("<span></span>"));for(var n=t(this).next().html("");i<a.options.selectors.length;){var f=t("<select>"+e(null,s,a.options.selectors[i].defaultOption)+"</select>").attr(a.options.selectors[i]);n.append(f),i++}var d=t(this),g=(t(this).val(),n.children().first());g.html(e(p,s,g.attr("defaultOption"))),t(this).data("selectData",{o:p,valueMap:u,optionMap:v,withDefault:s,chainSpliter:l,hiddenEmpty:o}),n.on("change","select",function(){var i=t(this).next();t(this).nextAll().each(function(){t(this).html(e(null,s,t(this).attr("defaultOption")))}),a.options.hiddenEmpty&&(t(this).nextAll().hide(),t(this).val()&&v[t(this).val()]&&t(this).next().show()),i.length&&i.html(e(v[t(this).val()],s,i.attr("defaultOption"))),d.val(t(this).val()).attr("value",t(this).val()).change(),!c&&v[t(this).val()]&&d.val("").attr("value","").change()}),t(this).selectValue(t(this).val())}))},_sumSelectors:function(t){var e=this.options,i=e.selectors,n=e.selectorModel;if(i&&i.length);else{var a=0;for(key in t){var r=t[key].split(e.chainSpliter).length;r>a&&(a=r)}e.selectors=new Array;for(var s=0;a-2>s;s++)e.selectors[s]=n}},_reverseMap:function(t,e,n,a){var e=e||"",n=n||{},a=a||{},r=e.split(this.options.chainSpliter).pop();t instanceof Array&&(t=a[r]=this._arrayToJson(a[r],this.options.devide));for(i in t)if("string"==typeof t[i]||"number"==typeof t[i])n[t[i]]=e+this.options.chainSpliter+t[i]+this.options.chainSpliter+i,n[this.options.chainFirst]=n[this.options.chainFirst]||n[t[i]];else{var s=i,l=i.split(this.options.devide);2===l.length?(n[l[1]]=e+this.options.chainSpliter+l[1]+this.options.chainSpliter+l[0],s=l[1],a[s]=t[i]):a[i]=t[i],this._reverseMap(t[i],e+this.options.chainSpliter+s,n,a)}},_arrayToJson:function(t,e){var i={};for(var n in t)if("string"==typeof t[n]){var a=t[n].split(e);a.push(a[0]),i[a[0]]=a[1]}return i}};t.fn.extend({selectors:function(t){return t.beginDate&&(t.o=t.o||n(t.beginDate,t.endDate)),a._create(t,this),this},selectValue:function(i){return void 0===i?t(this).val():(t(this).val(i).attr("value",i),t(this).each(function(){var n=t(this),a=n.data("selectData");if(a){var r=(a.o,a.valueMap),s=a.optionMap;withDefault=a.withDefault,hiddenEmpty=a.hiddenEmpty,chainSpliter=a.chainSpliter;var l=n.next().children().first(),o="";i&&r[i]?o=r[i]:l.children().removeAttr("selected").first().attr("selected",!0).select();var h=o.split(chainSpliter);l.children("option[value='"+(h[1]||"")+"']").attr("selected",!0),n.next().children().each(function(i){if(next=t(this).next().show(),next.length){next.html(e(s[h[i+1]],withDefault,next.attr("defaultOption"))),hiddenEmpty&&1===next.children().length&&next.hide();try{next.children("option[value='"+(h[i+2]||"")+"']").attr("selected",!0)}catch(n){}}})}}))}})}(wfQuery);
+/**
+ * @description  基于jQuery UI的input转联动下拉框
+ * @author yangyang.shiyy@alibaba-inc.com
+ */
+(function($){
+	
+	/**
+	 * @description 创建下拉框选项专用方案,拼接生成html字符串
+	 * @param {Object}o ： 当前映射对象列表
+	 * @param {String}withDefault : 使用的默认选项
+	 * @returns {String} 表示创建options的字符串 
+	 */
+	function createOptions(o,withDefault,defaultOption){
+		
+		withDefault = defaultOption || withDefault;
+		
+		var defaultOpt = withDefault ? "<option value=''>"+withDefault+"</option>" : "<option value=''>请选择</option>";
+		if(!o)return defaultOpt;
+		var str = defaultOpt;
+		for(i in o){
+			if(typeof o[i] === 'string' || typeof o[i] === 'number'){
+				str += "<option value='"+o[i]+"'>"+i+"</option>"; 
+			}else{
+				var show = i, value = i, split = i.split('_');
+				if(split.length === 2){
+					show = split[0];
+					value= split[1];
+				}
+				str += "<option value='"+value+"'>"+show+"</option>";
+			}
+		}
+		return str;
+	}
+
+	/**
+	 * 拼装年月日组合下拉框数据源
+	 * @param beginDate:{year:2000,month:1,day:1}
+	 * @param endDate : {year:2012,month:7,day:2}
+	 */
+	function dateMap(beginDate,endDate){
+	    var fullYearMap = {};
+	    endDate = endDate || new Date();
+	    for(var year = endDate.getFullYear(); year >=  beginDate.getFullYear() ; year--){
+	        var yearMap = {},
+	            beginMonth = (year == beginDate.getFullYear() ) ? beginDate.getMonth() : 0,
+	            endMonth = (year == endDate.getFullYear()) ? endDate.getMonth() : 11;
+	        for(var month = beginMonth; month <= endMonth; month++){
+	            var beginDay = (year == beginDate.getFullYear() && month == beginDate.getMonth()) ? beginDate.getDate() : 1,
+	                endDay = (year == endDate.getFullYear() && month == endDate.getMonth()) ? endDate.getDate() : 31;
+	            yearMap[(month+1)+"月_"+year+"-"+(month+1)] = dayOfMonth(year,month,beginDay,endDay);
+	        }
+	        fullYearMap[year+"年"] = yearMap;
+	    }
+
+	    function dayOfMonth(year,month,dayMin,dayMax){
+	        var length = 0, result = {}, maxDay = dayMax ? parseInt(dayMax) : 9999, minDay = dayMin || 1;
+	        switch(month){
+	            case 0:
+	            case 2:
+	            case 4:
+	            case 6:
+	            case 7:
+	            case 9:
+	            case 11: length = 31;break;
+	            case 3:
+	            case 5:
+	            case 8:
+	            case 10: length = 30;break;
+	            case 1: length = (year%4 == 0 && year%100 != 0 || year%400==0) ? 29 : 28;break;
+	            default: length = 0;
+	        }
+	        length = length > maxDay ? maxDay : length;
+	        for(var i=dayMin; i<= length; i++){
+	            result[i+"日"] = year+"-"+(month+1)+"-"+i;
+	        }
+	        return result;
+	    }
+
+	    return fullYearMap;
+	};
+	
+	
+	var fnOption = {
+		options : {
+			/**
+			 * @type ：Object
+			 * 基础数据：未定义时将报错。
+			 */
+			o : null,
+			/**
+			 * @type ：Array
+			 * 定义多级下拉框的属性，将通过jQuery().attr()赋值。
+			 * 注意：定义当前数组的长度为多级下拉框数目
+			 */
+			selectors : null,	
+			/**
+			 * 定义多级下拉框的属性，将通过jQuery().attr()赋值。
+			 * 以当前属性模板设置所有select具有相同的属性，selectors未定义时可用。
+			 */
+			selectorModel : {}, 
+			/**
+			 * 下拉框组所在的标签会直接跟在被隐藏的input后面
+			 */
+			next: $("<span></span>"),
+			/**
+			 * 每个下拉框中option的默认值
+			 */
+			withDefault : "请选择",
+			/**
+			 * 是否设置，next下拉框元素为空时的隐藏
+			 */
+			hiddenEmpty : true,
+			/**
+			 * 是否设置非叶子节点的值的有效性
+			 */
+			brancheValue: false,
+			/**
+			 * 在基础json中用于在key中分割当前下拉框显示内容和值的分隔符
+			 */
+			devide : '_',
+			/**
+			 * 值索引表中value前缀的分隔符，用来通过一个最终结果值设置多级下拉框选中状态
+			 */
+			chainSpliter: '$',
+			/**
+			 * 值索引表中第一个叶子节点的key，用于作为默认项
+			 */
+			chainFirst:"$$"
+		},
+		
+		_create : function(options,element){
+			var $this = this,
+				config = $.extend($this.options,options) ,
+				withDefault = config.withDefault,
+				chainSpliter = config.chainSpliter,
+				hiddenEmpty = config.hiddenEmpty,
+				next = config.next,
+				brancheValue = config.brancheValue,
+				o = config.o,
+				valueMap = {},
+				optionMap = {};
+			if(!o)return;
+			
+			this._reverseMap(o,"",valueMap,optionMap);
+			this._sumSelectors(valueMap);
+			
+			element.each(function(){
+				var i = 0;
+				$(this).hide().after( (next && (next instanceof $) && next.length === 1) ? config.next.clone().removeAttr("id") : $("<span></span>"));
+				var span = $(this).next().html("");
+				
+				while(i < $this.options.selectors.length){
+					var selector = $("<select>"+createOptions(null,withDefault,$this.options.selectors[i]['defaultOption'])+"</select>").attr($this.options.selectors[i]);
+					span.append(selector);
+					i++;
+				}
+				
+				var input = $(this),
+					value = $(this).val();
+				
+				
+				var first = span.children().first();
+				
+				first.html(createOptions(o,withDefault,first.attr('defaultOption')));
+				
+				//参数绑定到jQueryDom元素上面，供selectValue使用
+				$(this).data("selectData",{
+					"o" : o,
+					"valueMap" : valueMap,
+					"optionMap" : optionMap,
+					"withDefault" : withDefault,
+					"chainSpliter" : chainSpliter,
+					"hiddenEmpty" : hiddenEmpty
+				});
+				
+				//初始化select事件
+				span.on('change','select',function(){
+					
+					var next = $(this).next();
+					$(this).nextAll().each(function(){
+						$(this).html(createOptions(null,withDefault,$(this).attr('defaultOption')));
+					});
+					
+					//需要隐藏空值下拉框的情况
+					if($this.options.hiddenEmpty){
+						$(this).nextAll().hide();
+						if($(this).val() && optionMap[$(this).val()]){
+							//alert($(this).next().length);
+							$(this).next().show();
+						}
+					}
+					
+					if(next.length){
+						next.html(createOptions(optionMap[$(this).val()],withDefault,next.attr('defaultOption')));
+					}
+					
+					input.val($(this).val()).attr('value',$(this).val()).change();
+					
+					if(!brancheValue && optionMap[$(this).val()]){
+						input.val("").attr('value','').change();
+					}
+				});
+				
+				//初始化默认值
+				$(this).selectValue($(this).val());
+				
+			});
+			
+		},
+		
+		/**
+		 * @description 获取值索引表中的最长索引，selectors数组存在时失效
+		 */
+		_sumSelectors: function(valueMap){
+			var config = this.options,
+				selectors = config.selectors,
+				selectorModel = config.selectorModel;
+			if(selectors && selectors.length){
+				
+			}else{
+				var maxLength = 0;
+				for(key in valueMap){
+					var len = valueMap[key].split(config.chainSpliter).length;
+					if(maxLength < len){
+						maxLength = len;
+					}
+				}
+				
+				config.selectors = new Array();
+				
+				for ( var i = 0; i < maxLength-2; i++ ) {
+					config.selectors[i] = selectorModel;
+				}
+				
+			}
+			
+			
+		},	
+		
+		/**
+		 * 递归创建值索引表valueMap和 下拉选项索引表optionMap
+		 */
+		_reverseMap : function (o,prefix,valueMap,optionMap){
+			
+			var prefix = prefix || "",
+			valueMap = valueMap || {},
+			optionMap = optionMap || {},
+			parent = prefix.split(this.options.chainSpliter).pop();
+
+			if(o instanceof Array){
+				o = optionMap[parent] = this._arrayToJson(optionMap[parent], this.options.devide);
+			}
+			
+			for(i in o){
+				
+				if(typeof o[i] === 'string' || typeof o[i] === 'number'){
+					valueMap[o[i]] = prefix+this.options.chainSpliter+o[i]+this.options.chainSpliter+i;
+					valueMap[this.options.chainFirst] = valueMap[this.options.chainFirst] || valueMap[o[i]];
+				}else{
+					var t = i;
+
+					var split = i.split(this.options.devide);
+					if(split.length === 2){
+						valueMap[split[1]] = prefix+this.options.chainSpliter+split[1]+this.options.chainSpliter+split[0];
+						t = split[1];
+						optionMap[t] = o[i];
+					}else{
+						optionMap[i] = o[i];
+					}
+					this._reverseMap(o[i],prefix+this.options.chainSpliter+t,valueMap,optionMap);
+				}
+				
+			}
+			
+		},
+		
+		_arrayToJson : function(arr, devide){
+			var obj = {};
+			for ( var i in arr) {
+				if(typeof arr[i] === "string"){
+					var split = arr[i].split(devide);
+					split.push(split[0]);
+					obj[split[0]] = split[1];
+				}
+			}
+			return obj;
+		}
+
+	};
+	
+	$.fn.extend({
+		selectors : function(o){
+			if( o.beginDate ){
+				//如果给出开始日期,不给数据源, 当作日期下拉框处理
+				o.o = o.o || dateMap(o.beginDate,o.endDate); 
+			}
+			fnOption._create(o,this);
+			return this;
+		},
+		/**
+		 * ①将当前input设置value
+		 * ②设置下拉框值
+		 * ③不会触发下拉框的change事件
+		 */
+		selectValue : function(val){
+			
+			if(val === undefined){
+				return $(this).val();
+			}else{
+				$(this).val(val).attr('value',val);
+				return $(this).each(function(){
+					var $this = $(this);
+					var data = $this.data("selectData");
+				    if(!data){
+				    	return;
+				    }
+					var	o = data.o,
+						valueMap = data.valueMap,
+						optionMap = data.optionMap;
+						withDefault = data.withDefault,
+						hiddenEmpty = data.hiddenEmpty,
+						chainSpliter = data.chainSpliter;
+					
+					var first = $this.next().children().first();
+					
+					//获取填充路径
+					var keyMap = "";
+					if(val && valueMap[val]){
+						keyMap = valueMap[val];
+					}else{
+						first.children().removeAttr('selected').first().attr('selected',true).select();
+					}
+					
+					var keyArr = keyMap.split(chainSpliter);
+					
+					//选中第一个层option
+					first.children("option[value='"+(keyArr[1]||'')+"']").attr("selected",true);
+					$this.next().children().each(function(i){
+						//依次选中各个select的option
+						next = $(this).next().show();
+						if(next.length){
+							next.html(createOptions(optionMap[keyArr[i+1]],withDefault,next.attr('defaultOption')));
+							if(hiddenEmpty){
+								if(next.children().length === 1){
+									next.hide();
+								}
+							}
+							try{
+								next.children("option[value='"+(keyArr[i+2]||'')+"']").attr("selected",true);
+							}catch(e){
+								//TODO
+							} 
+						}
+					});
+					
+					
+				});
+			}
+			
+				
+			
+		}
+	});
+	
+})(wfQuery);

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>/github/wfQuery//demo/04.require.html</title>
+    <title>/github/wfQuery///demo/04.require.html</title>
     <script src="http://apps.bdimg.com/libs/require.js/2.1.11/require.min.js"></script>
     <style>
     pre.code{background: #d2d2d2;padding: 4px;}
@@ -155,7 +155,7 @@ pre .tex .formula {
   opacity: 0.5;
 }
 </style><pre class="code">
-<span class="keyword">require</span>([<span class="string">'../js/wfQuery'</span>],<span class="keyword">function</span>($){
+<span class="keyword">require</span>([<span class="string">'../wfQuery'</span>],<span class="keyword">function</span>($){
     $.fn.Select = <span class="keyword">function</span>(){
         <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>(){
             <span class="keyword">var</span> select = <span class="keyword">this</span>, index = select.children[select.selectedIndex];
@@ -187,7 +187,7 @@ pre .tex .formula {
     });
 });
 </pre><script class="code">
-require(['../js/wfQuery'],function($){
+require(['../wfQuery'],function($){
     $.fn.Select = function(){
         return this.each(function(){
             var select = this, index = select.children[select.selectedIndex];

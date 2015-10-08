@@ -1,8 +1,11 @@
-    /**
-     * @file  css方法设置和获取style, 简单 show/hide 方法
-     * @author shiyangyang(shiyangyang@baidu.com)
-     * @namespace wfquery/css
-     */
+/**
+ * @file  css方法设置和获取style, 简单 show/hide 方法
+ * @author shiyangyang(shiyangyang@baidu.com)
+ * @namespace wfquery/css
+ */
+define('wfquery/css', function () {
+    var wfQuery = require('wfquery');
+    var pto = Object.prototype;
     wfQuery.fn.extend({
 
         /**
@@ -62,3 +65,4 @@
             });
         }
     });
+});

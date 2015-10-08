@@ -1,1 +1,70 @@
-wfQuery.extend=wfQuery.fn.extend=function(){var e,r,n,t,u,f,i=arguments[0]||{},y=1,a=arguments.length,o=!1;for("boolean"==typeof i&&(o=i,i=arguments[y]||{},y++),"object"==typeof i||wfQuery.isFunction(i)||(i={}),y===a&&(i=this,y--);a>y;y++)if(null!=(e=arguments[y]))for(r in e)n=i[r],t=e[r],i!==t&&(o&&t&&(wfQuery.isPlainObject(t)||(u=wfQuery.isArray(t)))?(u?(u=!1,f=n&&wfQuery.isArray(n)?n:[]):f=n&&wfQuery.isPlainObject(n)?n:{},i[r]=wfQuery.extend(o,f,t)):void 0!==t&&(i[r]=t));return i};
+    /**
+     * 将两个或更多对象的内容合并到第一个对象。
+     * 这里第一个对象以下称为：待扩展对象
+     *         后续对象称为：待合并对象
+     *
+     * @param {boolean} isDeep 是否深度扩展, 默认不深度扩展, 首个参数为true进行深度扩展
+     * @param {Object} obj 可变参数，长度不为零。
+     *          长度为1时： 待扩展对象默认为执行方法的从属对象 wfQuery 或 wfQuery.fn
+     *          长度为2+时： 第一个对象为待扩展对象, 从后面开始依次扩展属性到待扩展对象
+     *              如： var base = {a:1,b:[1,2,3],d:{d1:1,d2:2}};
+     *                  extend( base, {b:2}, {c:3}, {c:4,d:5}, {c:6,a:7} );
+     *                  返回值 = base = {a:7,b:2,c:6,d:5};
+     *                  extend( true, base, {b:[2,5]}, {c:3}, {c:4,d:{d3:3}}, {c:6,a:7} );
+     *                  返回值 = base = {a:7,b:[2,5,3],c:6,d:{d1:1,d2:2,d3:3}};
+     * @return {Object} 待扩展对象
+     */
+    wfQuery.extend = wfQuery.fn.extend = function (isDeep, obj) {
+        var target = isDeep || {};
+        // 根据首个参数不同值，确定待合并对象组循环起始参数位置
+        var objIndex = 1;
+        var length = arguments.length;
+        var deep = false;
+        if (typeof target === 'boolean') {
+            deep = target;
+            target = arguments[objIndex] || {};
+            objIndex++;
+        }
+        if (typeof target !== 'object' && !wfQuery.isFunction(target)) {
+            target = {};
+        }
+        if (objIndex === length) {
+            target = this;
+            objIndex--;
+        }
+
+        var name;
+        var options;
+        var src;
+        var copy;
+        var copyIsArray;
+        var clone;
+        for (var i = objIndex; i < length; i++) {
+            if ((options = arguments[i])) {
+                for (name in options) {
+                    if (!options.hasOwnProperty(name)) {
+                        break;
+                    }
+                    src = target[name];
+                    copy = options[name];
+                    if (target === copy) {
+                        continue;
+                    }
+                    if (deep && copy && (wfQuery.isPlainObject(copy) || (copyIsArray = wfQuery.isArray(copy)))) {
+                        if (copyIsArray) {
+                            copyIsArray = false;
+                            clone = src && wfQuery.isArray(src) ? src : [];
+                        }
+                        else {
+                            clone = src && wfQuery.isPlainObject(src) ? src : {};
+                        }
+                        target[name] = wfQuery.extend(deep, clone, copy);
+                    }
+                    else if (copy !== undefined) {
+                        target[name] = copy;
+                    }
+                }
+            }
+        }
+        return target;
+    };

@@ -1,8 +1,10 @@
-    /**
-     * @file  on/off/trigger 方法, on支持代理, off只能按照事件类型取消绑定
-     * @author shiyangyang(shiyangyang@baidu.com)
-     * @namespace wfquery/event
-     */
+/**
+ * @file  on/off/trigger 方法, on支持代理, off只能按照事件类型取消绑定
+ * @author shiyangyang(shiyangyang@baidu.com)
+ * @namespace wfquery/event
+ */
+define('wfquery/event', function () {
+    var wfQuery = require('wfquery');
     wfQuery.fn.extend({
 
         /**
@@ -99,3 +101,4 @@
             });
         }
     });
+});

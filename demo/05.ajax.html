@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>/github/wfQuery//demo/05.ajax.html</title>
-    <script src="../js/wfQuery.js?debug=&_t=1438487412228"></script>
+	<title>/github/wfQuery///demo/05.ajax.html</title>
+    <script src="../wfQuery.js?debug=&_t=1444307430750"></script>
 	<!-- 
     <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script> 
     <script>wfQuery = jQuery</script>
@@ -88,6 +88,8 @@
         </table>
     </div>  
 </form>
+
+<input type="file" name="axx" id="axx">
 
 <style>/*
 
@@ -238,7 +240,8 @@ $(<span class="string">"#form0"</span>).on(<span class="string">"submit"</span>,
             alert( <span class="string">'wrong'</span> )
         }
     });
-    e.preventDefault();
+    
+    <span class="keyword">return</span> <span class="keyword">false</span>;
 });
 
 
@@ -271,7 +274,8 @@ $("#form0").on("submit",function(e){
             alert( 'wrong' )
         }
     });
-    e.preventDefault();
+    
+    return false;
 });
 
 

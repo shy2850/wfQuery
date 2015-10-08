@@ -1,8 +1,11 @@
-    /**
-     * @file  Ajax支持基于ajax2.0的文件上传和进度设置
-     * @author shiyangyang(shiyangyang@baidu.com)
-     * @namespace wfquery/ajax
-     */
+/**
+ * @file  Ajax支持基于ajax2.0的文件上传和进度设置
+ * @author shiyangyang(shiyangyang@baidu.com)
+ * @namespace wfquery/ajax
+ */
+define('wfquery/ajax', function () {
+    var wfQuery = require('wfquery');
+    var doc = window.document;
     wfQuery.extend({
 
         /**
@@ -159,3 +162,4 @@
             });
         };
     });
+});

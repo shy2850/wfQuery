@@ -1,8 +1,10 @@
-    /**
-     * @file  html/text/className/attribute/data 相关设置
-     * @author shiyangyang(shiyangyang@baidu.com)
-     * @namespace wfquery/attr
-     */
+/**
+ * @file  html/text/className/attribute/data 相关设置
+ * @author shiyangyang(shiyangyang@baidu.com)
+ * @namespace wfquery/attr
+ */
+define('wfquery/attr', function () {
+    var wfQuery = require('wfquery');
     var cache = {};
     var $$n = 0;
     wfQuery.fn.extend({
@@ -144,3 +146,4 @@
             });
         }
     });
+});

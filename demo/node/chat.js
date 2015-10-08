@@ -1,1 +1,81 @@
-function out(e,t){t.end((e.callback||"callback")+"("+JSON.stringify(e)+");")}function saveMsg(e){mtime=e.time=+new Date,list.push({name:e.name,msg:e.msg,time:mtime})}function saveList(){if(mtime===stime);else{stime=mtime;for(var e,t=0;list.length>100;)e=list.splice(0,100),fs.writeFile("data/"+stime+"-"+t++ +".json",JSON.stringify(e,null,4));fs.writeFile("data.json",JSON.stringify(list,null,4))}setTimeout(saveList,12e4)}var fs=require("fs"),http=require("http"),url=require("url"),querystring=require("querystring"),list=JSON.parse(fs.readFileSync("data.json","utf-8")),ctime=+new Date,mtime=ctime,stime=mtime;http.createServer(function(e,t){function i(){m.time!=mtime?(m.msgList=list.filter(function(e){return e.time>m.time}),m.time=mtime,out(m,t)):s>=60?(m.msgList=[],out(m,t)):(s++,setTimeout(i,500))}var s=0,m=querystring.parse(url.parse(e.url).query);if(t.writeHead(200,{"Content-Type":"application/javascript"}),m.name=m.name?m.name.trim():"(匿名)","/favicon.ico"===e.url.toString()){var r=new Date;r.setFullYear(r.getFullYear()+1),t.writeHead(200,{"Content-Type":"image/x-icon",Expires:r}),t.end("")}else m.time&&"POST"!==e.method&&m.method?"push"===m.method?(saveMsg(m),out(m,t)):"exit"===m.method?(m.msg="离开聊天室",saveMsg(m),out(m,t)):i():(m.msg=m.msg||"加入聊天室",m.msgList=[],saveMsg(m),out(m,t))}).listen(8973),saveList();
+var fs = require("fs"),
+	http = require("http"),
+	url = require("url"),
+	querystring = require("querystring");
+
+var list = JSON.parse( fs.readFileSync( "data.json", 'utf-8') ),
+	ctime = +new Date,	//初始时间
+	mtime = ctime,		//修改时间
+	stime = mtime;		//存储时间
+
+http.createServer(function (req, resp){
+	var repeat = 0,
+		res = querystring.parse( url.parse(req.url).query );
+		resp.writeHead(200, {"Content-Type": 'application/javascript'});
+	
+	res.name = res.name ? res.name.trim() : "(匿名)";
+	if(req.url.toString() === "/favicon.ico"){
+		var expires = new Date();
+        expires.setFullYear( expires.getFullYear() + 1 );
+		resp.writeHead(200, {"Content-Type": 'image/x-icon',"Expires": expires});
+		resp.end("");
+	}else if( !res.time || req.method === "POST" || !res.method ){ //不接收POST请求
+		res.msg = res.msg || "加入聊天室";
+		res.msgList = [];
+		saveMsg(res);
+		out(res,resp);
+	}else if( "push" === res.method ){
+		saveMsg(res);
+		out(res,resp);
+	}else if( "exit" === res.method ){
+		res.msg = "离开聊天室";
+		saveMsg(res);
+		out(res,resp);
+	}else{
+		getMsg();
+	}
+	function getMsg(){
+		if( res.time != mtime){
+			res.msgList = list.filter(function(m){
+				return m.time > res.time;
+			});
+			res.time = mtime;
+			out(res,resp);
+		}else if(repeat >= 60){
+			res.msgList = [];
+			out(res,resp);
+		}else{
+			repeat++;
+			setTimeout(getMsg,500);
+		}
+	}
+}).listen(8973);
+
+function out(res, resp){
+	resp.end( (res.callback || "callback") + '('+JSON.stringify(res)+');' );
+}
+
+function saveMsg(msg){
+	mtime = msg.time = +new Date;
+	list.push({
+		name: msg.name,
+		msg: msg.msg,
+		time: mtime
+	});
+}
+
+function saveList(){
+	if( mtime === stime ){
+		// 如果最新修改都已经保存,等待下次保存
+	}else{	//否则更新存储时间为最新修改时间
+		stime = mtime; 
+		var n = 0, tmp;
+		while(list.length > 100){
+			tmp = list.splice(0,100);
+			fs.writeFile( "data/"+stime+"-"+(n++)+".json", JSON.stringify(tmp,null,4) );
+		}
+		fs.writeFile( "data.json", JSON.stringify(list,null,4) );
+	}
+	setTimeout(saveList, 1000*60*2);
+}
+saveList();
