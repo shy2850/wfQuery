@@ -1,23 +1,86 @@
-<style>
-    h2{text-align: center;}
-    a{line-height: 30px; height: 30px; display: block; width: 500px; margin: 0 auto; text-align: center;}
-</style>
-<h2>wfQuery </h2>
-<a href="https://github.com/shy2850/wfQuery.git" target="_"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>
-<%
-    return function(){
-        var fs = require("fs");
-        fs.readdir(request.util.conf.root+request.$.title.replace('/index.html','')+"/demo/",function(error,files){ 
-            if(error){
-                response.end(  __p );
-            }else{
-                files.map(function(file){
-                    if( file.match(/^\d+\./) ){
-                        __p += '<a href="demo/'+file+'">'+file+'</a>';
-                    }
-                });
-                response.end(  __p );
-            }
-        });
-    };
-%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>wfQuery</title>
+    <style>
+        p,h2{text-align: center;}
+        ul{width: 500px;margin: 0 auto;position: relative; left: 100px;}
+        form span{color: #999; font-size: 12px;}
+        a{line-height: 30px; height: 30px; display: block; width: 500px; margin: 0 auto; text-align: center;}
+    </style>
+</head>
+<body>
+    <h2>wfQuery </h2>
+    <form action="wfQuery.js" target="_blank">
+        <ul>
+            <li>
+                <input type="checkbox" name="m" id="query" value="query">
+                <label for="query">query</label>
+                <span>包括first/last/prev/next/find/children/parent等</span>
+            </li>
+            <li>
+                <input type="checkbox" name="m" id="dom" value="dom">
+                <label for="dom">dom</label>
+                <span>包括append/prepend/before/after/remove等</span>
+            </li>
+            <li>
+                <input type="checkbox" name="m" id="event" value="evnet">
+                <label for="event">event</label>
+                <span>包括on/off/trigger等</span>
+            </li>
+            <li>
+                <input type="checkbox" name="m" id="css" value="css">
+                <label for="css">css</label>
+                <span>包括css/show/hide等,不含animate</span>
+            </li>
+            <li>
+                <input type="checkbox" name="m" id="attr" value="attr">
+                <label for="attr">attr</label>
+                <span>包括attr/addClass/removeClass/data等</span>
+            </li>
+            <li>
+                <input type="checkbox" name="m" id="serialize" value="serialize">
+                <label for="serialize">serialize</label>
+                <span>包括serialize/serializeArray等</span>
+            </li>
+            <li>
+                <input type="checkbox" name="m" id="ajax" value="ajax">
+                <label for="ajax">ajax</label>
+                <span>包括ajax/jsonp/get/post等</span>
+            </li>
+        </ul>
+        <p>
+            <input type="submit" value="下载wfQuery"> <span>不选即为下载全部</span>
+        </p>
+    </form>
+    <a href="https://github.com/shy2850/wfQuery.git" target="_"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>
+    <%
+        return function(){
+            var fs = require("fs");
+            var zlib = require("zlib");
+            fs.readdir(request.util.conf.root+request.$.title.replace('/index.html','')+"/demo/",function(error,files){ 
+                if(error){
+                }else{
+                    files.map(function(file){
+                        if( file.match(/^\d+\./) ){
+                            __p += '<a href="demo/'+file+'">'+file+'</a>';
+                        }
+                    });
+                }
+                __p += '</body>\n</html>';
+                if(response.gzip){
+                    zlib.gzip(__p, function(err, decoded){
+                        if(err){
+                            console.log( err );
+                        }
+                        response.end( decoded );
+                    });
+                }else{
+                    response.end(  __p );
+                }
+            });
+        };
+    %>
+</body>
+</html>

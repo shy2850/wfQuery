@@ -46,7 +46,7 @@ $include[js/base.js]
     var modules;
     if (typeof m !== 'undefined') {
         modules = {};
-        m.replace(/\w+/g, function (module) {
+        m.toString().replace(/\w+/g, function (module) {
             modules[module] = true;
         });
     }
