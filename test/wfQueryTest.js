@@ -96,15 +96,6 @@ require(['../wfQuery'], function ($) {
         $('#main p').trigger('click').trigger('click').trigger('click');
         assert.ok( i === $('#main p').length + 3, 'off click' );
         
-        for (var j = 0; j <= $('#qunit-tests').children().length; j++) {
-            (function(j){
-                setTimeout(function(){
-                    var li = $('#qunit-tests').children().eq(j);
-                    location.hash = '#' + li.attr('id');
-                    li.find('.module-name').trigger('click');
-                },1000*j);
-            })(j)
-        };
     });
 
     QUnit.module('Ajax');
