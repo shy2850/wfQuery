@@ -2,7 +2,7 @@
   "name": "wfquery",
   "version": "0.6.0",
   "description": "like jQuery but just for new browser ",
-  "main": "js/wfQuery.js",
+  "main": "wfQuery.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -20,5 +20,5 @@
   "bugs": {
     "url": "https://github.com/shy2850/wfQuery/issues"
   },
-  "homepage": "https://github.com/shy2850/wfQuery"
+  "homepage": "http://wfquery.top"
 }
