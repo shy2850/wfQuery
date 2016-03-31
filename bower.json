@@ -16,7 +16,6 @@
   "moduleType": [
     "amd"
   ],
-  "private": true,
   "ignore": [
     "**/.*",
     "node_modules",
@@ -25,6 +24,9 @@
     "test",
     "index.html",
     "README.md",
-    "wfQuery.js"
+    "f2e-conf.js",
+    "wfQuery.js",
+    "bower_components",
+    "tests"
   ]
 }
