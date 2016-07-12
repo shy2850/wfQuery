@@ -1,5 +1,6 @@
 {
   "name": "wfquery",
+  "version": "0.6.0",
   "description": "like jQuery but just for new browser",
   "main": "amd/wfquery.js",
   "authors": [
@@ -16,7 +17,6 @@
   "moduleType": [
     "amd"
   ],
-  "private": true,
   "ignore": [
     "**/.*",
     "node_modules",
@@ -25,6 +25,9 @@
     "test",
     "index.html",
     "README.md",
-    "wfQuery.js"
+    "f2e-conf.js",
+    "wfQuery.js",
+    "bower_components",
+    "tests"
   ]
 }
