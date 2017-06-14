@@ -1,9 +1,10 @@
 {
   "name": "wfquery",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "like jQuery but just for new browser ",
   "main": "wfQuery.js",
   "scripts": {
+    "start": "f2eserver start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

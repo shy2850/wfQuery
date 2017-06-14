@@ -1,6 +1,6 @@
 exports["localhost"] = {
     root: './',
-    welcome: 'index.html',
+    // welcome: 'index.html',
     cdn: true,
     debug: false,
     autoprefixer: true,
