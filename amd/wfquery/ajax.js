@@ -122,7 +122,7 @@ define('wfquery/ajax', function () {
                 callback = data;
                 data = {};
             }
-            var cbkName = 'wfQuery_' + +new Date();
+            var cbkName = 'wfQuery_' + +new Date() + '_' + (Math.random() * 1000 | 0);
             data.__t = +new Date();
             data.callback = cbkName;
             var $sc = doc.createElement('script');
