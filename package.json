@@ -1,10 +1,10 @@
 {
   "name": "wfquery",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "description": "like jQuery but just for new browser ",
   "main": "wfQuery.js",
   "scripts": {
-    "start": "f2eserver start",
+    "start": "./node_modules/.bin/f2eserver start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -21,5 +21,11 @@
   "bugs": {
     "url": "https://github.com/shy2850/wfQuery/issues"
   },
-  "homepage": "http://wfquery.top"
+  "homepage": "http://wfquery.top",
+  "devDependencies": {
+    "f2e-server": "^1.12.17"
+  },
+  "dependencies": {
+    "uglify-js": "^3.0.20"
+  }
 }

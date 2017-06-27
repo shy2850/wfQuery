@@ -128,12 +128,12 @@ define('wfquery/ajax', function () {
             var $sc = doc.createElement('script');
             var bdy = document.body;
             $sc.src = url + '?' + wfQuery.param(data);
-            bdy.appendChild($sc);
             window[cbkName] = callback || function () {};
             $sc.onload = function () {
                 delete window[cbkName];
                 bdy.removeChild($sc);
             };
+            bdy.appendChild($sc);
         }
     });
     (['get', 'post']).forEach(function (method) {
