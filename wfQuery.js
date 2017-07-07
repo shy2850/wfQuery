@@ -41,36 +41,19 @@ $include[js/util.js]
 
 $include[js/base.js]
 
-<%
-    var m = request.data.m;
-    var modules;
-    if (typeof m !== 'undefined') {
-        modules = {};
-        m.toString().replace(/\w+/g, function (module) {
-            modules[module] = true;
-        });
-    }
-%>
-<%if (!modules || modules['serialize']) {%>
 $include[js/serialize.js]
-<%}%>
-<%if (!modules || modules['query']) {%>
+
 $include[js/query.js]
-<%}%>
-<%if (!modules || modules['dom']) {%>
+
 $include[js/dom.js]
-<%}%>
-<%if (!modules || modules['attr']) {%>
+
 $include[js/attr.js]
-<%}%>
-<%if (!modules || modules['css']) {%>
+
 $include[js/css.js]
-<%}%>
-<%if (!modules || modules['event']) {%>
+
 $include[js/event.js]
-<%}%>
-<%if (!modules || modules['ajax']) {%>
+
 $include[js/ajax.js]
-<%}%>
+
     return wfQuery;
 }));

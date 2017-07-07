@@ -171,7 +171,7 @@ define('wfquery/query', function () {
         nextAll: function (filter) {
             var all = [];
             this.each(function () {
-                var children = $(this).parent().children();
+                var children = wfQuery(this).parent().children();
                 var i = children.indexOf(this);
                 all = all.concat(children.slice(i + 1));
             });

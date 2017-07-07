@@ -57,7 +57,7 @@ define('wfquery/attr', function () {
                 }
                 return name ? o[name] : o;
             }, function (n, v) {
-                var o = $(this).data();
+                var o = wfQuery(this).data();
                 if (v === 'undefined') {
                     delete o[n];
                 }
