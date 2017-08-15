@@ -9,4 +9,4 @@ like jQuery but just for HTML5 or
 下载 & CDN
 ===
 
-[http://wfquery.top](http://wfquery.top)
+[http://shy2850.github.io/wfQuery/](http://shy2850.github.io/wfQuery/)
