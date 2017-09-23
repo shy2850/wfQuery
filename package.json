@@ -1,6 +1,6 @@
 {
   "name": "wfquery",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "like jQuery but just for new browser ",
   "main": "wfQuery.js",
   "scripts": {
@@ -23,7 +23,6 @@
   },
   "homepage": "http://wfquery.top",
   "devDependencies": {
-    "f2e-server": "^2.3.3",
-    "lodash": "^4.17.4"
+    "f2e-server": "^2.5.5"
   }
 }
