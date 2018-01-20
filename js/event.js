@@ -51,8 +51,6 @@
                 };
             }
             return this.crossEach(eventTypes, function (dom, eventType) {
-                dom['wf_' + eventType] = dom['wf_' + eventType] || [];
-                dom['wf_' + eventType].push(f);
                 dom.addEventListener(eventType, f, false);
                 if (dom.cloneNode && dom.cloneNode.list instanceof Array && dom.cloneNode.list.length) {
                     dom.cloneNode.list.on(options, selector, f, fn2);
@@ -83,19 +81,11 @@
          * @param {string} eventType 事件类型，支持且仅支持单个类型的事件解绑
          * @return {wfQuery} 返回原wfQuery对象
          */
-        trigger: function (eventType) {
-            var agu = arguments;
+        trigger: function (eventType, e) {
             return this.each(function () {
                 var $t = this;
-                var cbks = $t['wf_' + eventType] || [];
-                if (document.createElement($t.tagName)[eventType]) {
-                    $t[eventType]();
-                }
-                else {
-                    cbks.forEach(function (fn) {
-                        fn.apply($t, agu);
-                    });
-                }
+                var eve = new CustomEvent(eventType, e)
+                $t.dispatchEvent(eve)
             });
         }
     });

@@ -1,11 +1,11 @@
 {
   "name": "wfquery",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "description": "like jQuery but just for new browser ",
   "main": "wfQuery.js",
   "scripts": {
-    "push": "./node_modules/.bin/f2e build && cd ../wfQuery-output && npm publish",
-    "start": "./node_modules/.bin/f2e start"
+    "push": "f2e build && cd ../wfQuery-output && npm publish",
+    "start": "f2e start"
   },
   "repository": {
     "type": "git",
@@ -23,6 +23,6 @@
   },
   "homepage": "http://wfquery.top",
   "devDependencies": {
-    "f2e-server": "^2.5.5"
+    "f2e-server": "^2.7.7"
   }
 }
